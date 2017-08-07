@@ -82,7 +82,7 @@ class VMD(ExternalInterface):
             # Set the selections
             ligand_sel_str = '"(chain $chain) and (not protein and not water) and not ((not element N C O P S Se Cl Br F) and mass > 16) and (not resname MSE)"'
             protein_near_lig_sel_str = '"(same residue as (protein within 8 of ((chain $chain) and (not protein and not water) and not ((not element N C O P S Se Cl Br F) and mass > 16) and (not resname MSE))))"'
-            metals_sel_str = '"(chain $chain) and (not element N C O P S Se Cl Br F) and (mass > 16) and (not resname MSE)"'
+            metals_sel_str = '"(chain $chain) and (not element N C O P S Se Cl Br F) and (mass > 16) and (not resname MET CYS MSE)"'
             protein_sel_str = '"chain $chain and (protein or resname MSE)"'
 
             # Load the PDB
@@ -110,7 +110,10 @@ class VMD(ExternalInterface):
 
             # Let's deal with ligands
             if my_operator.ligand_surface == True:
-                tcl_script = tcl_script + self.surf_code("ligand_surf", ligand_sel_str)
+                if my_operator.user_vmd_msms_representation == True:
+                    tcl_script = tcl_script + self.msms_code("ligand_msms", ligand_sel_str)
+                else:
+                    tcl_script = tcl_script + self.surf_code("ligand_surf", ligand_sel_str)
 
             if my_operator.ligand_sticks == True:
                 tcl_script = tcl_script + self.stick_code("ligand_sticks", ligand_sel_str)
@@ -123,7 +126,10 @@ class VMD(ExternalInterface):
 
             # Let's deal with interacting residues
             if my_operator.near_ligand_surface == True:
-                tcl_script = tcl_script + self.surf_code("interacting_surf", protein_near_lig_sel_str)
+                if my_operator.user_vmd_msms_representation == True:
+                    tcl_script = tcl_script + self.msms_code("interacting_msms", protein_near_lig_sel_str)
+                else:
+                    tcl_script = tcl_script + self.surf_code("interacting_surf", protein_near_lig_sel_str)
 
             if my_operator.near_ligand_sticks == True:
                 tcl_script = tcl_script + self.stick_code("interacting_sticks", protein_near_lig_sel_str)
@@ -136,7 +142,10 @@ class VMD(ExternalInterface):
             
             # Now deal with proteins
             if my_operator.protein_surface == True:
-                tcl_script = tcl_script + self.surf_code("protein_surf", protein_sel_str)
+                if my_operator.user_vmd_msms_representation == True:
+                    tcl_script = tcl_script + self.msms_code("protein_msms", protein_sel_str)
+                else:
+                    tcl_script = tcl_script + self.surf_code("protein_surf", protein_sel_str)
 
             if my_operator.protein_sticks == True:
                 tcl_script = tcl_script + self.stick_code("protein_sticks", protein_sel_str)
@@ -190,6 +199,11 @@ class VMD(ExternalInterface):
                 render Wavefront "''' + self.tmp_dir + os.sep + filename_id + '''_${chain}.obj"
             }
         '''
+
+    def msms_code(self, filename_id, selection):
+        return self.code_start(selection) + """
+            mol representation MSMS 1.500000 5.000000 0.000000 0.000000
+        """ + self.code_end(filename_id)
 
     def surf_code(self, filename_id, selection):
         return self.code_start(selection) + """

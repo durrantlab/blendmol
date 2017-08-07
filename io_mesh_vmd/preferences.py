@@ -38,6 +38,10 @@ class VMDAddonPreferences(AddonPreferences):
         name = "Prefer VMD", default = True,
         description = "Use VMD when loading PDB files. Determine based on extension otherwise.")
 
+    user_vmd_msms_representation = BoolProperty(
+        name = "Use MSMS for Surfaces", default = False,
+        description = "Use MSMS to render surfaces in VMD. Note that VMD doesn't include MSMS by default.")
+
     last_prefs = StringProperty(
         name = "last_prefs",
         default = "",
@@ -45,7 +49,7 @@ class VMDAddonPreferences(AddonPreferences):
     )
 
     def current_prefs_as_string(self):
-        return self.vmd_exec_path + " " + self.pymol_exec_path + " " + str(self.prefer_vmd)
+        return self.vmd_exec_path + " " + self.pymol_exec_path + " " + str(self.prefer_vmd) + " " + str(self.user_vmd_msms_representation)
 
     def draw(self, context):
         if self.last_prefs == "":
@@ -53,10 +57,35 @@ class VMDAddonPreferences(AddonPreferences):
             self.last_prefs = self.current_prefs_as_string()
         
         layout = self.layout
-        layout.label(text="Preferences for the Molecules In Blender plugin")
-        layout.prop(self, "vmd_exec_path")
-        layout.prop(self, "pymol_exec_path")
-        layout.prop(self, "prefer_vmd")
+        # layout.label(text="Preferences for the Molecules In Blender plugin")
+
+        # Note that below can be identical to what's in __init__.py.
+        exec_box = layout.box()
+        first_row = exec_box.row()
+        first_row.label(text="VMD-Specific Settings")
+        second_row = exec_box.row()
+        second_row.prop(self, "vmd_exec_path")
+        third_row = exec_box.row()
+        left_col = third_row.column()
+        left_col.prop(self, "prefer_vmd")
+        left_col.prop(self, "user_vmd_msms_representation")
+
+        exec_box = layout.box()
+        first_row = exec_box.row()
+        first_row.label(text="PyMol-Specific Settings")
+        second_row = exec_box.row()
+        second_row.prop(self, "pymol_exec_path")
+
+
+        # exec_box = layout.box()
+        # first_row = exec_box.row()
+        # first_row.label(text="VMD-Specific Settings")
+        # second_row = exec_box.row()
+
+        # layout.prop(self, "vmd_exec_path")
+        # layout.prop(self, "pymol_exec_path")
+        # layout.prop(self, "prefer_vmd")
+        # layout.prop(self, "user_vmd_msms_representation")
 
         new_prefs = self.current_prefs_as_string()
 

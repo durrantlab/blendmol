@@ -153,6 +153,11 @@ class ImportVMD(Operator, ImportHelper):
         default=True,
         description = "Use VMD when loading PDB files. Determine based on extension otherwise.")
 
+    user_vmd_msms_representation = BoolProperty(
+        name = "Use MSMS for Surfaces", 
+        default=False,
+        description = "Use MSMS to render surfaces in VMD. Note that VMD doesn't include MSMS by default.")
+
     first_draw = True
 
     def startup(self):
@@ -162,6 +167,7 @@ class ImportVMD(Operator, ImportHelper):
         self.vmd_exec_path = bpy.context.user_preferences.addons[__name__].preferences.vmd_exec_path
         self.pymol_exec_path = bpy.context.user_preferences.addons[__name__].preferences.pymol_exec_path
         self.prefer_vmd = bpy.context.user_preferences.addons[__name__].preferences.prefer_vmd
+        self.user_vmd_msms_representation = bpy.context.user_preferences.addons[__name__].preferences.user_vmd_msms_representation        
 
     def draw(self, context):
         layout = self.layout
@@ -226,14 +232,19 @@ class ImportVMD(Operator, ImportHelper):
         # Executable files
         exec_box = layout.box()
         first_row = exec_box.row()
-        first_row.label(text="Executable File Locations")
+        first_row.label(text="VMD-Specific Settings")
         second_row = exec_box.row()
-        # (data, property, text, text_ctxt, translate, icon, expand, slider, toggle, icon_only, event, full_event, emboss, index, icon_value)
         second_row.prop(self, "vmd_exec_path")
         third_row = exec_box.row()
-        third_row.prop(self, "pymol_exec_path")
-        fourth_row = exec_box.row()
-        fourth_row.prop(self, "prefer_vmd")
+        left_col = third_row.column()
+        left_col.prop(self, "prefer_vmd")
+        left_col.prop(self, "user_vmd_msms_representation")
+
+        exec_box = layout.box()
+        first_row = exec_box.row()
+        first_row.label(text="PyMol-Specific Settings")
+        second_row = exec_box.row()
+        second_row.prop(self, "pymol_exec_path")
 
     def execute(self, context):
         # self.report({"WARNING"}, "WARNING: This could take a bit...")
@@ -242,6 +253,7 @@ class ImportVMD(Operator, ImportHelper):
         bpy.context.user_preferences.addons[__name__].preferences.vmd_exec_path = self.vmd_exec_path
         bpy.context.user_preferences.addons[__name__].preferences.pymol_exec_path = self.pymol_exec_path
         bpy.context.user_preferences.addons[__name__].preferences.prefer_vmd = self.prefer_vmd
+        bpy.context.user_preferences.addons[__name__].preferences.user_vmd_msms_representation = self.user_vmd_msms_representation
         file_based_preferences.save_preferences_to_file()
 
         # If its a 4-letter code without a period in it, assume it's a PDB ID
