@@ -49,7 +49,7 @@ class VMD(ExternalInterface):
             ## Set transformation matrices to identity so that exported geometry
             ## is written in the original model coordinates rather than world or
             ## eye coordinates.
-            ##
+            ## Code provided by John Stone, personal communication.
             set identityvpts {
                 {{1.000000 0.000000 0.000000 0.000000}
                  {0.000000 1.000000 0.000000 0.000000}

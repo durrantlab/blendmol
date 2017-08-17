@@ -27,6 +27,7 @@ class VMDAddonPreferences(AddonPreferences):
         description = "The full path to the VMD executable file.",
         subtype="FILE_PATH"
     )
+
     pymol_exec_path = StringProperty(
         name = "PyMol",
         default = "/PATH/TO/PYMOL/EXECUTABLE", 

@@ -25,8 +25,9 @@ class ExternalInterface:
         existing_obj_names = set([obj.name for obj in bpy.data.objects])
         for filename in glob.glob(self.tmp_dir + "*.obj"):
             bpy.ops.import_scene.obj(filepath=filename)
-        for filename in glob.glob(self.tmp_dir + "*.wrl"):
-            bpy.ops.import_scene.obj(filepath=filename) WORK ON THIS
+        # for filename in glob.glob(self.tmp_dir + "*.wrl"):
+        #     bpy.ops.import_scene.obj(filepath=filename) 
+        print("WORK ON THIS ABOVE")
         new_obj_names = set([obj.name for obj in bpy.data.objects]) - existing_obj_names
 
         new_objs = [bpy.data.objects[obj_name] for obj_name in new_obj_names]
