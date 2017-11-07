@@ -63,6 +63,7 @@ from bpy.props import (
 
 # from . import import_pdb
 from .vmd import VMD
+from .pymol import PyMol
 from . import preferences
 from . import file_based_preferences
 
@@ -72,12 +73,12 @@ from . import file_based_preferences
 # This is the class for the file dialog of the importer.
 class ImportVMD(Operator, ImportHelper):
     bl_idname = "import_mesh.vmd_pymol"
-    bl_label  = "PDB/VMD/PyMol (*.pdb, *.vmd, *.???)"
+    bl_label  = "PDB/VMD/PyMol (*.pdb, *.vmd, *.pse)"
     bl_options = {'PRESET', 'UNDO'}
 
     filename_ext = ".pdb"
     filter_glob  = StringProperty(
-        default="*.pdb;*.vmd;*.tcl", 
+        default="*.pdb;*.vmd;*.tcl;*.pse", 
         options={'HIDDEN'},
     )
 
@@ -321,16 +322,23 @@ class ImportVMD(Operator, ImportHelper):
             new_obj_names = vmd.import_all_objs(self)
             vmd.del_tmp_dir()
 
-            #
             for obj_name in new_obj_names:
                 print(obj_name)
                 # Here process meshes to make better.
+        elif exec_to_use == "PYMOL":
+            pymol = PyMol()
+
+            pymol.make_tmp_dir()
+            # vmd.populate_tmp_dir(filepath_input)
+            pymol.make_vis_script(self)
+            pymol.run_external_program(pymol_exec_path)
+            new_obj_names = pymol.import_all_objs(self)
+            pymol.del_tmp_dir()
 
         if orig_path is not None:
             self.filepath = orig_path
 
         return {'FINISHED'}
-
 
 # The entry into the menu 'file -> import'
 def menu_func_import(self, context):

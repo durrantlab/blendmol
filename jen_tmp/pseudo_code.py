@@ -2,16 +2,20 @@ import pymol
 from pymol import cmd
 import os
 
+# Useful page: https://pymol.org/dokuwiki/doku.php?id=api:cmd:alpha
+# https://pymolwiki.org/index.php/Selection_Algebra
+
+# Use pymol -c option to run in headless mode.
+
 # Wait for pymol to be ready
 pymol.finish_launching()
 
 # Load the PDB file
-cmd.load("2hu4.pdb", "2HU4")
+# cmd.load("./tmp/shroom2-rock1.pdb", "2HU4")
+cmd.load("./1XDN.pdb", "2HU4")
 
 # Switch to the first frame
 cmd.frame(0)
-
-# Position camera
 
 # Make carbons gray
 cmd.color("silver", "(symbol c)", 1)
@@ -27,12 +31,23 @@ chains = cmd.get_chains(selection="(all)", state=0, quiet=1)
 # Define some selections
 all_protein_sel = "resn ala+arg+asn+asp+asx+cys+gln+glu+glx+gly+his+hsp+hyp+ile+leu+lys+met+pca+phe+pro+ser+thr+trp+tyr+val"
 water_sel = "resn wat+hoh+h2o+tip+tip3"
+metals_sel = "symbol " + "+".join(["fe", "ag", "co", "cu", "ca", "zn", "mg", "ni", "mn", "au"])
 
 # Functions to render different representations
 def render_setup(selection, representation):
     cmd.hide("(all)")
     cmd.show_as(representation, "(" + selection + ")")
-    cmd.refresh()
+
+    # Make sure the camera is set to a neutral position/orientation, so mesh
+    # matches pdb coordinates.
+    cmd.set_view([ 1.0,   0.0,   0.0,
+                   0.0,   1.0,   0.0,
+                   0.0,   0.0,   1.0,
+                   0.0,   0.0,   0.0,
+                   0.0,   0.0,   0.0,
+                   40.0, 100.0, -20.0])
+    
+    # cmd.refresh()
 
 def render_surf(selection, filename):
     render_setup(selection, "surface")
@@ -120,8 +135,6 @@ for chain in chains:
 
     # Save the protein of this chain using VDW representation (1.0 * van der
     # waals radius)
-    some_code_to_save_to_obj_file(filename="metals_" + chain + ".wrl")
+    render_vdw(metals_sel, "metals_" + chain + ".wrl")
 
-
-
-# cmd.quit()
+cmd.quit()
