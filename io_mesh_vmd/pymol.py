@@ -4,42 +4,26 @@ import re
 import glob
 
 class PyMol(ExternalInterface):
-    def __init__(self):
-        pass
-
-    def populate_tmp_dir(self, filename):
-        # No need to copy any files
-        pass
-
-        # ext = self.get_ext(filename)
-
-        # # It's vmd. Create the input script
-        # if ext == ".PDB":
-        #     # It's a pdb file
-        #     open(self.tmp_dir + "vmd.vmd",'w').write(
-        #         open(self.script_dir + "pdb.vmd.template", 'r').read().replace(
-        #             "{PDB_FILENAME}", filename
-        #         ).replace(
-        #             "{OUTPUT_DIR}", self.tmp_dir
-        #         )
-        #     )
-        # else:
-        #     # It must be a tcl or state file
-        #     open(self.tmp_dir + "vmd.vmd",'w').write(
-        #         "cd " + os.path.dirname(filename) + "\n" +
-        #         open(filename, 'r').read() + "\n" +
-        #         open(self.script_dir + "vmd.vmd.template", 'r').read().replace(
-        #             "{OUTPUT_DIR}", self.tmp_dir
-        #         )
-        #     )
+    """
+    A class to get 3D models using PyMol.
+    """
 
     def make_vis_script(self, my_operator):
+        """
+        Make the visualization script to pass to PyMol, and save it to the
+        temporary directory.
+
+        :param ??? my_operator: The operator, used to access user-parameter
+                    variables.
+        """
+
         python_script = """
                 import pymol
                 from pymol import cmd
                 import os
 
-                # Useful page: https://pymol.org/dokuwiki/doku.php?id=api:cmd:alpha
+                # Useful page: 
+                #    https://pymol.org/dokuwiki/doku.php?id=api:cmd:alpha
                 # https://pymolwiki.org/index.php/Selection_Algebra
 
                 # Use pymol -c option to run in headless mode.
@@ -86,7 +70,9 @@ class PyMol(ExternalInterface):
                 # Define some selections
                 all_protein_sel = "resn ala+arg+asn+asp+asx+cys+gln+glu+glx+gly+his+hsp+hyp+ile+leu+lys+met+pca+phe+pro+ser+thr+trp+tyr+val"
                 water_sel = "resn wat+hoh+h2o+tip+tip3"
-                all_metals_sel = "symbol " + "+".join(["fe", "ag", "co", "cu", "ca", "zn", "mg", "ni", "mn", "au"])
+                all_metals_sel = "symbol " + "+".join(["fe", "ag", "co", "cu",
+                                                       "ca", "zn", "mg", "ni",
+                                                       "mn", "au"])
 
                 # Functions to render different representations
                 def render_setup(selection, representation):
@@ -114,7 +100,7 @@ class PyMol(ExternalInterface):
                 # For each chain, separate meshes
                 for chain in [c for c in chains if c != ""]:
                     ligand_sel = "(chain " + chain + ") and (not " + all_protein_sel + " and not " + water_sel + ") and not (not symbol h+he+li+be+b+c+n+o+f+ne+na+mg+al+si+p+s+se+cl+br+f) and (not resn mse)"
-                    surrounding_residues_sel = "byres ((" + all_protein_sel + ") within 8 of (" + ligand_sel + "))"
+                    nearby_resi_sel = "byres ((" + all_protein_sel + ") within 8 of (" + ligand_sel + "))"
                     protein_sel = "(chain " + chain + ") and (" + all_protein_sel + ",mse)"
                     metals_sel = "(chain " + chain + ") and (" + all_metals_sel + ")"
             """
@@ -134,6 +120,7 @@ class PyMol(ExternalInterface):
                     render_sticks(ligand_sel, "ligand_sticks_" + chain + ".wrl")
                 """
 
+            # PyMol doesn't support this.
             # if my_operator.ligand_balls == True:
             #     python_script = python_script + self.balls_code("ligand_balls", ligand_sel_str)
 
@@ -149,15 +136,16 @@ class PyMol(ExternalInterface):
                 python_script = python_script + """
                     # Save the surrounding residues of this chain using
                     # surface representation
-                    render_surf(surrounding_residues_sel, "interacting_surf_" + chain + ".wrl")
+                    render_surf(nearby_resi_sel, "interacting_surf_" + chain + ".wrl")
                 """
 
             if my_operator.near_ligand_sticks == True:
                 python_script = python_script + """
                     # Save the surrounding residues of this chain using sticks representation
-                    render_sticks(surrounding_residues_sel, "interacting_sticks_" + chain + ".wrl")
+                    render_sticks(nearby_resi_sel, "interacting_sticks_" + chain + ".wrl")
                 """
 
+            # PyMol doesn't support this.
             # if my_operator.near_ligand_balls == True:
             #     python_script = python_script + self.balls_code("interacting_balls", protein_near_lig_sel_str)
 
@@ -165,7 +153,7 @@ class PyMol(ExternalInterface):
                 python_script = python_script + """
                     # Save the surrounding residues of this chain using VDW
                     # representation (1.0 * van der waals radius)
-                    render_vdw(surrounding_residues_sel, "interacting_vdw_" + chain + ".wrl")
+                    render_vdw(nearby_resi_sel, "interacting_vdw_" + chain + ".wrl")
                 """
             
             # Now deal with proteins
@@ -181,6 +169,7 @@ class PyMol(ExternalInterface):
                     render_sticks(protein_sel, "protein_sticks_" + chain + ".wrl")
                 """
 
+            # PyMol doesn't support this.
             # if my_operator.protein_balls == True:
             #     python_script = python_script + self.balls_code("protein_balls", protein_sel_str)
 
@@ -228,16 +217,12 @@ class PyMol(ExternalInterface):
         open(self.tmp_dir + "render.py", 'w').write(python_script)
 
     def run_external_program(self, exec_path):
-        # Execute VMD to generate the obj files
+        """
+        Runs the VMD executable.
+
+        :param str exec_path: The path to the executable.
+        """
+
+        # Execute PyMol to generate the obj files
         cmd = '"' + exec_path + '"' + " -c " + self.tmp_dir + "render.py"
         os.system(cmd)
-
-        # import pdb; pdb.set_trace()
-
-        # Edit obj files to get better names
-        # nm = re.compile("vmd_mol\d*_rep\d*")
-        # for filename in glob.glob(self.tmp_dir + "*.wrl"):
-        #     filename_txt = os.path.basename(filename).replace(".wrl", "")
-        #     obj_content = open(filename,'r').read()
-        #     obj_content = nm.sub(filename_txt, obj_content)
-        #     open(filename, 'w').write(obj_content)

@@ -1,37 +1,25 @@
 # ##### BEGIN GPL LICENSE BLOCK #####
 #
-#  This program is free software; you can redistribute it and/or
-#  modify it under the terms of the GNU General Public License
-#  as published by the Free Software Foundation; either version 2
-#  of the License, or (at your option) any later version.
+#  This program is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU General Public License as published by the Free
+#  Software Foundation; either version 2 of the License, or (at your option)
+#  any later version.
 #
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  GNU General Public License for more details.
+#  This program is distributed in the hope that it will be useful, but WITHOUT
+#  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+#  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+#  more details.
 #
-#  You should have received a copy of the GNU General Public License
-#  along with this program; if not, write to the Free Software Foundation,
-#  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#  You should have received a copy of the GNU General Public License along
+#  with this program; if not, write to the Free Software Foundation, Inc., 51
+#  Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # ##### END GPL LICENSE BLOCK #####
 
 #
+#  Authors           : Jacob Durrant (durrantj@pitt.edu), ...
 #
-#  Authors           : Clemens Barth (Blendphys@root-1.de), ...
-#
-#  Homepage(Wiki)    : http://development.root-1.de/Atomic_Blender.php
-#
-#  Start of project              : 2011-08-31 by Clemens Barth
-#  First publication in Blender  : 2011-11-11
-#  Last modified                 : 2014-08-19
-#
-#  Acknowledgements
-#  ================
-#  Blender: ideasman, meta_androcto, truman, kilon, CoDEmanX, dairin0d, PKHG,
-#           Valter, ...
-#  Other  : Frank Palmino
-#
+#  Homepage          : http://development.root-1.de/Atomic_Blender.php
 #
 
 bl_info = {
@@ -39,8 +27,9 @@ bl_info = {
     "description": "Importing PDB and State Files from VMD and PyMol",
     "author": "Jacob Durrant",
     "version": (1, 0),
-    "blender": (2, 78, 0),
-    "location": "File -> Import -> PDB/VMD/PyMol (*.pdb, *.vmd, *.???)",
+    "blender": (2, 79, 0),
+    "location": ("File -> Import -> PDB/VMD/PyMol (*.pdb, *.vmd, *.tcl, "
+                 "*.pse)"),
     "warning": "",
     "wiki_url": "",
     "category": "Import-Export",
@@ -61,20 +50,21 @@ from bpy.props import (
         FloatProperty,
         )
 
-# from . import import_pdb
-from .vmd import VMD
-from .pymol import PyMol
-from . import preferences
-from . import file_based_preferences
+from .VMD import VMD
+from .PyMol import PyMol
+from . import Preferences
+from . import FileBasedPreferences
 
-# -----------------------------------------------------------------------------
-#                                                                           GUI
-
-# This is the class for the file dialog of the importer.
 class ImportVMD(Operator, ImportHelper):
+    """
+    Class for the importer file dialog.
+    """
+
     bl_idname = "import_mesh.vmd_pymol"
-    bl_label  = "PDB/VMD/PyMol (*.pdb, *.vmd, *.pse)"
+    bl_label  = "PDB/VMD/PyMol (*.pdb, *.vmd, *.tcl, *.pse)"
     bl_options = {'PRESET', 'UNDO'}
+
+    # Define plugin variables
 
     filename_ext = ".pdb"
     filter_glob  = StringProperty(
@@ -133,44 +123,59 @@ class ImportVMD(Operator, ImportHelper):
         description = "Remove duplicate vertices from the meshes?")
     nanometers = BoolProperty(
         name = "Use nm, not Å?", default=True,
-        description = "Use units of nanometers instead of the default Angstroms?")
+        
+        description = ("Use units of nanometers instead of the default "
+                       "Angstroms?")
+    )
 
     vmd_exec_path = StringProperty(
         name = "VMD",
         default = "/PATH/TO/VMD/EXECUTABLE", 
-        # default = bpy.context.user_preferences.addons[__name__].preferences.vmd_exec_path,
         description = "The full path to the VMD executable file.",
-        # subtype="FILE_PATH"
     )
     pymol_exec_path = StringProperty(
         name = "PyMol",
         default = "/PATH/TO/PYMOL/EXECUTABLE", 
         description = "The full path to the PyMol executable file.",
-        # subtype="FILE_PATH"
     )
 
     prefer_vmd = BoolProperty(
         name = "Prefer VMD", 
         default=True,
-        description = "Use VMD when loading PDB files. Determine based on extension otherwise.")
+        description = ("Use VMD when loading PDB files. Determine based on "
+                       "extension otherwise.")
+    )
 
-    user_vmd_msms_representation = BoolProperty(
+    vmd_msms_repr = BoolProperty(
         name = "Use MSMS for Surfaces", 
         default=False,
-        description = "Use MSMS to render surfaces in VMD. Note that VMD doesn't include MSMS by default.")
+        description = ("Use MSMS to render surfaces in VMD. Note that VMD "
+                       "doesn't include MSMS by default.")
+    )
 
     first_draw = True
 
     def startup(self):
-        prefs = file_based_preferences.load_preferences_from_file()
+        """
+        Sets initial user preferences, loading from a file if necessary.
+        """
+
+        prefs = FileBasedPreferences.load_preferences_from_file()
 
         # Set the preferences 
-        self.vmd_exec_path = bpy.context.user_preferences.addons[__name__].preferences.vmd_exec_path
-        self.pymol_exec_path = bpy.context.user_preferences.addons[__name__].preferences.pymol_exec_path
-        self.prefer_vmd = bpy.context.user_preferences.addons[__name__].preferences.prefer_vmd
-        self.user_vmd_msms_representation = bpy.context.user_preferences.addons[__name__].preferences.user_vmd_msms_representation        
+        addon_prefs = bpy.context.user_preferences.addons[__name__].preferences
+        self.vmd_exec_path = addon_prefs.vmd_exec_path
+        self.pymol_exec_path = addon_prefs.pymol_exec_path
+        self.prefer_vmd = addon_prefs.prefer_vmd
+        self.vmd_msms_repr = addon_prefs.vmd_msms_repr
 
     def draw(self, context):
+        """
+        Draw the user interface in the import dialog.
+    
+        :param ??? context: The context.
+        """
+
         layout = self.layout
 
         if self.first_draw:
@@ -239,7 +244,7 @@ class ImportVMD(Operator, ImportHelper):
         third_row = exec_box.row()
         left_col = third_row.column()
         left_col.prop(self, "prefer_vmd")
-        left_col.prop(self, "user_vmd_msms_representation")
+        left_col.prop(self, "vmd_msms_repr")
 
         exec_box = layout.box()
         first_row = exec_box.row()
@@ -248,21 +253,27 @@ class ImportVMD(Operator, ImportHelper):
         second_row.prop(self, "pymol_exec_path")
 
     def execute(self, context):
-        # self.report({"WARNING"}, "WARNING: This could take a bit...")
+        """
+        Code to run when the user pressed the import button.
+    
+        :param ??? context: The context.
+        """
 
         # Save changes to user preferences
-        bpy.context.user_preferences.addons[__name__].preferences.vmd_exec_path = self.vmd_exec_path
-        bpy.context.user_preferences.addons[__name__].preferences.pymol_exec_path = self.pymol_exec_path
-        bpy.context.user_preferences.addons[__name__].preferences.prefer_vmd = self.prefer_vmd
-        bpy.context.user_preferences.addons[__name__].preferences.user_vmd_msms_representation = self.user_vmd_msms_representation
-        file_based_preferences.save_preferences_to_file()
+        user_prefs = bpy.context.user_preferences.addons[__name__].preferences
+        user_prefs.vmd_exec_path = self.vmd_exec_path
+        user_prefs.pymol_exec_path = self.pymol_exec_path
+        user_prefs.prefer_vmd = self.prefer_vmd
+        user_prefs.vmd_msms_repr = self.vmd_msms_repr
+        FileBasedPreferences.save_preferences_to_file()
 
         # If its a 4-letter code without a period in it, assume it's a PDB ID
-        possible_pdb_id = os.path.basename(self.filepath).upper()
+        pdb_id = os.path.basename(self.filepath).upper()
         orig_path = None
-        if len(possible_pdb_id) == 4 and not "." in possible_pdb_id:
+        if len(pdb_id) == 4 and not "." in pdb_id:
             _, pdb_filename = tempfile.mkstemp(suffix='.pdb')
-            with urllib.request.urlopen("https://files.rcsb.org/view/" + possible_pdb_id + ".pdb") as response:
+            url = "https://files.rcsb.org/view/" + pdb_id + ".pdb"
+            with urllib.request.urlopen(url) as response:
                 open(pdb_filename, 'wb').write(response.read())
                 orig_path = self.filepath
                 self.filepath = pdb_filename
@@ -272,17 +283,23 @@ class ImportVMD(Operator, ImportHelper):
 
         # First, verify that file exists
         if not os.path.exists(self.filepath):
-            self.report({"ERROR"}, os.path.basename(self.filepath) + " does not exist!")
+            self.report(
+                {"ERROR"}, 
+                os.path.basename(self.filepath) + " does not exist!"
+            )
             return {'CANCELLED'}
 
         # If no good executable specified, throw an error.
-        vmd_exec_path = self.vmd_exec_path #.decode('string_escape')
-        pymol_exec_path = self.pymol_exec_path #.decode('string_escape')
+        vmd_exec_path = self.vmd_exec_path
+        pymol_exec_path = self.pymol_exec_path
 
         vmd_path_exists = os.path.exists(vmd_exec_path)
         pymol_path_exists = os.path.exists(pymol_exec_path)
         if not vmd_path_exists and not pymol_path_exists:
-            self.report({"ERROR"}, "Neither the VMD nor the PyMol executable paths exist!")
+            self.report(
+                {"ERROR"}, 
+                "Neither the VMD nor the PyMol executable paths exist!"
+            )
             return {'CANCELLED'}
 
         # Determine which executable to use (VMD vs. PyMol).
@@ -301,38 +318,51 @@ class ImportVMD(Operator, ImportHelper):
             if vmd_path_exists:
                 exec_to_use = "VMD"
             else:
-                self.report({"ERROR"}, "Only VMD can load files of type \"" + ext.lower() + "\", but the specified VMD path does not exist.")
+                self.report(
+                    {"ERROR"}, 
+                    (
+                        'Only VMD can load files of type "' + ext.lower() +
+                        '", but the specified VMD path does not exist.'
+                    )
+                )
                 return {'CANCELLED'}
         else: 
             # PyMol files
             if pymol_path_exists:
                 exec_to_use = "PYMOL"
             else:
-                self.report({"ERROR"}, "Only PyMol can load files of type \"" + ext.lower() + "\", but the specified PyMol path does not exist.")
+                self.report(
+                    {"ERROR"},
+                    (
+                        'Only PyMol can load files of type "' + ext.lower() +
+                        '", but the specified PyMol path does not exist.'
+                    )
+                )
                 return {'CANCELLED'}
 
         tmp_dir = tempfile.mkdtemp() + os.sep
-        script_dir = os.path.dirname(os.path.realpath(__file__)) + os.sep + "scripts" + os.sep
+        script_dir = (
+            os.path.dirname(os.path.realpath(__file__)) +
+            os.sep + "scripts" + os.sep
+        )
         if exec_to_use == "VMD":
             vmd = VMD()
             vmd.make_tmp_dir()
-            # vmd.populate_tmp_dir(filepath_input)
             vmd.make_vis_script(self)
             vmd.run_external_program(vmd_exec_path)
-            new_obj_names = vmd.import_all_objs(self)
+            new_obj_names = vmd.import_all_mesh_files(self)
             vmd.del_tmp_dir()
 
-            for obj_name in new_obj_names:
-                print(obj_name)
-                # Here process meshes to make better.
+            # for obj_name in new_obj_names:
+            #     print(obj_name)
+            #     # Here process meshes to make better.
         elif exec_to_use == "PYMOL":
             pymol = PyMol()
 
             pymol.make_tmp_dir()
-            # vmd.populate_tmp_dir(filepath_input)
             pymol.make_vis_script(self)
             pymol.run_external_program(pymol_exec_path)
-            new_obj_names = pymol.import_all_objs(self)
+            new_obj_names = pymol.import_all_mesh_files(self)
             pymol.del_tmp_dir()
 
         if orig_path is not None:
@@ -340,19 +370,35 @@ class ImportVMD(Operator, ImportHelper):
 
         return {'FINISHED'}
 
-# The entry into the menu 'file -> import'
 def menu_func_import(self, context):
-    self.layout.operator(ImportVMD.bl_idname, text="PDB/VMD/PyMol (*.pdb, *.vmd, *.???)")
+    """
+    The entry into the menu 'file -> import'
+
+    :param ??? context: The context.
+    """
+
+    self.layout.operator(
+        ImportVMD.bl_idname, 
+        text="PDB/VMD/PyMol (*.pdb, *.vmd, *.tcl, *.pse)"
+    )
 
 def register():
+    """
+    Register the plugin.
+    """
+
     bpy.utils.register_module(__name__)
     bpy.types.INFO_MT_file_import.append(menu_func_import)
-    preferences.register()
+    Preferences.register()
 
 def unregister():
+    """
+    Unregister the plugin.
+    """
+
     bpy.utils.unregister_module(__name__)
     bpy.types.INFO_MT_file_import.remove(menu_func_import)
-    preferences.unregister()
+    Preferences.unregister()
 
 if __name__ == "__main__":
     register()

@@ -6,22 +6,57 @@ import bpy
 import mathutils
 
 class ExternalInterface:
-    def make_tmp_dir(self):
-        self.tmp_dir = tempfile.mkdtemp() + os.sep
-        self.script_dir = os.path.dirname(os.path.realpath(__file__)) + os.sep + "scripts" + os.sep
+    """
+    A class for managing how the program interfaces with external rendering
+    programs (VMD, PyMol).
+    """
 
-    def populate_tmp_dir(self, ext, filename):
-        pass
+    def make_tmp_dir(self):
+        """
+        Make a temporary directory.
+        """
+
+        self.tmp_dir = tempfile.mkdtemp() + os.sep
+        self.script_dir = (
+            os.path.dirname(os.path.realpath(__file__)) + os.sep +
+            "scripts" + os.sep
+        )
 
     def get_ext(self, filename):
+        """
+        Given a filename, get the extension.
+    
+        :param str filename: The filename.
+
+        :returns: The extension.
+        :rtype: :class:`str`
+        """
+
         _, ext = os.path.splitext(filename)
         ext = ext.upper()
         return ext
 
     def run_external_program(self, exec_path):
+        """
+        Runs the executable. This will be overwritten by child classes.
+
+        :param str exec_path: The path to the executable.
+        """
+
         pass
 
-    def import_all_objs(self, my_operator):
+    def import_all_mesh_files(self, my_operator):
+        """
+        Import all the meshes produced by the external visualization program
+        (VMD or PyMol), saved to the temporary directory.
+
+        :param ??? my_operator: The operator, used to access user-parameter
+                    variables.
+
+        :returns: List of the names of the added meshes.
+        :rtype: :class:`str[]`
+        """
+
         try: bpy.ops.object.mode_set(mode = 'OBJECT')
         except: pass
 
@@ -29,36 +64,43 @@ class ExternalInterface:
 
         # Import the objs, keeping track of existing ones
         orig_existing_obj_names = set([obj.name for obj in bpy.data.objects])
-        for filename in glob.glob(self.tmp_dir + "*.obj") + glob.glob(self.tmp_dir + "*.wrl"):
+        mask1 = self.tmp_dir + "*.obj"
+        mask2 = self.tmp_dir + "*.wrl"
+        for filename in glob.glob(mask1) + glob.glob(mask2):
             print("Importing " + filename + "...")
 
             # Keep track of existing objects.
-            existing_obj_names_tmp = set([obj.name for obj in bpy.data.objects])
+            exist_obj_names_tmp = set([obj.name for obj in bpy.data.objects])
 
             # Load in new objects.
             if filename.upper().endswith(".OBJ"):
                 bpy.ops.import_scene.obj(filepath=filename)
-                initial_rotation = (90, 0, 0)  # Not sure why OBJ imported from VMD are rotated.
+                # Not sure why OBJ imported from VMD are rotated.
+                initial_rotation = (90, 0, 0)
             else:
                 bpy.ops.import_scene.x3d(filepath=filename)
-                initial_rotation = (270, 0, 180)  # Not sure why WRL imported from PyMol are rotated.
+                # Not sure why WRL imported from PyMol are rotated.
+                initial_rotation = (270, 0, 180)
 
             # Get new objects.
-            new_obj_names_tmp = set([obj.name for obj in bpy.data.objects]) - existing_obj_names_tmp
-            new_objs_tmp = [bpy.data.objects[obj_name] for obj_name in new_obj_names_tmp if bpy.data.objects[obj_name].type == "MESH"]
+            new_obj_names_tmp = set([
+                obj.name for obj in bpy.data.objects
+            ]) - exist_obj_names_tmp
+
+            new_objs_tmp = [bpy.data.objects[obj_name] 
+                            for obj_name in new_obj_names_tmp 
+                            if bpy.data.objects[obj_name].type == "MESH"]
             meshes_to_join[filename] = new_objs_tmp
 
-            # Rename the joined object
-            # print(new_obj_names_tmp)
-
-            # import pdb; pdb.set_trace()
-
-            # print([o.name for o in new_objs_tmp])
-
-        new_obj_names = set([obj.name for obj in bpy.data.objects]) - orig_existing_obj_names
+        # Get a list of the names of objects just added.
+        new_obj_names = set([
+            obj.name for obj in bpy.data.objects
+        ]) - orig_existing_obj_names
 
         # Keep the ones that are meshes
-        new_objs = [bpy.data.objects[obj_name] for obj_name in new_obj_names if bpy.data.objects[obj_name].type == "MESH"]
+        new_objs = [bpy.data.objects[obj_name] 
+                    for obj_name in new_obj_names 
+                    if bpy.data.objects[obj_name].type == "MESH"]
 
         # Delete the ones that aren't meshes
         # See https://blender.stackexchange.com/questions/27234/python-how-to-completely-remove-an-object
@@ -75,7 +117,9 @@ class ExternalInterface:
             bpy.ops.object.select_all(action='DESELECT')
             bpy.context.scene.objects.active = obj
             obj.select = True
-            bpy.ops.object.transform_apply(location=False, scale=False, rotation=True)
+            bpy.ops.object.transform_apply(
+                location=False, scale=False, rotation=True
+            )
 
         # Join some of the objects
         for filename in meshes_to_join.keys():
@@ -86,14 +130,13 @@ class ExternalInterface:
                     obj.select = True
                 bpy.context.scene.objects.active = objs_to_merge[0]
                 bpy.ops.object.join()
-            objs_to_merge[0].name = "MIB__" + os.path.basename(filename)
+            objs_to_merge[0].name = "MIB__" + os.path.basename(filename)[:-4]
 
         # Make sure origins of all new meshes is 0, 0, 0
         # See https://blender.stackexchange.com/questions/35825/changing-object-origin-to-arbitrary-point-without-origin-set
         # new_origin = mathutils.Vector((0, 0, 0))
         for obj in bpy.data.objects:
             if obj.name.startswith("MIB__"):
-                print("UUU", obj.name)
                 loc = obj.location
                 obj.data.transform(mathutils.Matrix.Translation(loc))
                 obj.matrix_world.translation -= loc
@@ -102,11 +145,15 @@ class ExternalInterface:
         # Reset rotation. Weird that this is imported wrong...
         for obj in new_objs:
             for i in range(3):
-                obj.rotation_euler[i] = obj.rotation_euler[i] - initial_rotation[i] / 180 * 3.14159265358979323846
+                obj.rotation_euler[i] = (
+                    obj.rotation_euler[i] - initial_rotation[i] / 180 * 3.1416
+                )
             bpy.ops.object.select_all(action='DESELECT')
             bpy.context.scene.objects.active = obj
             obj.select = True
-            bpy.ops.object.transform_apply(location=False, scale=False, rotation=True)
+            bpy.ops.object.transform_apply(
+                location=False, scale=False, rotation=True
+            )
 
         # Scale 0.1. VMD output is huge. So units are nm, not Angstroms.
         # Scale to nanometers if necessary.
@@ -138,9 +185,21 @@ class ExternalInterface:
         return new_obj_names
 
     def del_tmp_dir(self):
-        # Delete tmp directory.
+        """
+        Delete tmp directory.
+        """
+
         shutil.rmtree(self.tmp_dir)
 
     def make_vis_script(self, my_operator):
+        """
+        Make the visualization script to pass to the executable program, and
+        save it to the temporary directory. The definition will be overwritten
+        in the child classes.
+
+        :param ??? my_operator: The operator, used to access user-parameter
+                    variables.
+        """
+
         pass
 
