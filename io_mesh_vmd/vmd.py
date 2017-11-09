@@ -244,6 +244,15 @@ class VMD(ExternalInterface):
         open(self.tmp_dir + "vmd.vmd", 'w').write(tcl_script)
         
     def code_start(self, selection):
+        """
+        TCL code to run before rendering a representation.
+    
+        :param str selection: The selection string.
+
+        :returns: The TCL code.
+        :rtype: :class:`str`
+        """
+
         return '''
             set sel [atomselect top ''' + selection + ''']
             if {[$sel num] > 0} {
@@ -252,6 +261,15 @@ class VMD(ExternalInterface):
         '''
     
     def code_end(self, filename_id):
+        """
+        TCL code to render a representation.
+    
+        :param str filename_id: The filename id to use when saving.
+
+        :returns: The TCL code.
+        :rtype: :class:`str`
+        """
+
         return '''
                 mol addrep top
                 render Wavefront "''' + self.tmp_dir + os.sep + filename_id + '''_${chain}.obj"
@@ -259,31 +277,97 @@ class VMD(ExternalInterface):
         '''
 
     def msms_code(self, filename_id, selection):
+        """
+        TCL code to render a MSMS representation and save it as an OBJ file.
+    
+        :param str filename_id: The filename id to use when saving.
+
+        :param str selection: The selection string.
+
+        :returns: TCL code.
+        :rtype: :class:`str`
+        """
+
         return self.code_start(selection) + """
             mol representation MSMS 1.500000 5.000000 0.000000 0.000000
         """ + self.code_end(filename_id)
 
     def surf_code(self, filename_id, selection):
+        """
+        TCL code to render a surf representation and save it as an OBJ file.
+    
+        :param str filename_id: The filename id to use when saving.
+
+        :param str selection: The selection string.
+
+        :returns: TCL code.
+        :rtype: :class:`str`
+        """
+
         return self.code_start(selection) + """
             mol representation Surf 1.400000 0.000000
         """ + self.code_end(filename_id)
 
     def stick_code(self, filename_id, selection):
+        """
+        TCL code to render a stick representation  and save it as an OBJ file.
+    
+        :param str filename_id: The filename id to use when saving.
+
+        :param str selection: The selection string.
+
+        :returns: TCL code.
+        :rtype: :class:`str`
+        """
+
         return self.code_start(selection) + """
             mol representation Licorice 0.300000 20.000000 20.000000
         """ + self.code_end(filename_id)
     
     def balls_code(self, filename_id, selection):
+        """
+        TCL code to render a balls representation and save it as an OBJ file.
+    
+        :param str filename_id: The filename id to use when saving.
+
+        :param str selection: The selection string.
+
+        :returns: TCL code.
+        :rtype: :class:`str`
+        """
+
         return self.code_start(selection) + """
             mol representation VDW 0.2000000 12.000000
         """ + self.code_end(filename_id)
 
     def vdw_code(self, filename_id, selection):
+        """
+        TCL code to render a VDW representation and save it as an OBJ file.
+    
+        :param str filename_id: The filename id to use when saving.
+
+        :param str selection: The selection string.
+
+        :returns: TCL code.
+        :rtype: :class:`str`
+        """
+
         return self.code_start(selection) + """
             mol representation VDW 1.0000000 12.000000
         """ + self.code_end(filename_id)
 
     def ribbon_code(self, filename_id, selection):
+        """
+        TCL code to render a ribbon representation and save it as an OBJ file.
+    
+        :param str filename_id: The filename id to use when saving.
+
+        :param str selection: The selection string.
+
+        :returns: TCL code.
+        :rtype: :class:`str`
+        """
+
         return self.code_start(selection) + """
             mol representation NewCartoon 0.300000 10.000000 4.100000 0
         """ + self.code_end(filename_id)

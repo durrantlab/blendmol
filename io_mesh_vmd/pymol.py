@@ -200,8 +200,14 @@ class PyMol(ExternalInterface):
                 # Switch to the first frame
                 cmd.frame(0)
 
+                # Load the PSE file
+                cmd.load("''' + filename + '''")
+
+                # Reset the camera
+                reset_camera()
+
                 # Save scene
-                cmd.save("''' + os.path.dirname(filename) + os.sep + '''user_defined.wrl")
+                cmd.save("''' + self.tmp_dir + '''user_defined.wrl")
             '''
 
         python_script = python_script + """
@@ -225,4 +231,5 @@ class PyMol(ExternalInterface):
 
         # Execute PyMol to generate the obj files
         cmd = '"' + exec_path + '"' + " -c " + self.tmp_dir + "render.py"
+        print(cmd)
         os.system(cmd)
