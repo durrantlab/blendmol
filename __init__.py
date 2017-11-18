@@ -140,10 +140,11 @@ class ImportVMD(Operator, ImportHelper):
     )
 
     prefer_vmd = BoolProperty(
-        name = "Prefer VMD", 
+        name = "Prefer VMD Over PyMol", 
         default=True,
-        description = ("Use VMD when loading PDB files. Determine based on "
-                       "extension otherwise.")
+        description = ("Use VMD when loading PDB files, not PyMol. For other "
+                       "files, the program will be determined by the file "
+                       "extension.")
     )
 
     vmd_msms_repr = BoolProperty(
@@ -169,6 +170,10 @@ class ImportVMD(Operator, ImportHelper):
         self.prefer_vmd = addon_prefs.prefer_vmd
         self.vmd_msms_repr = addon_prefs.vmd_msms_repr
 
+    def add_instruction_line(self, row, text, height=0.6):
+        row.scale_y = height
+        row.label(text=text)
+
     def draw(self, context):
         """
         Draw the user interface in the import dialog.
@@ -182,6 +187,11 @@ class ImportVMD(Operator, ImportHelper):
             self.first_draw = False
             self.startup()
 
+        # Intro message
+        intro_box = layout.box()
+        first_row = intro_box.row()
+        first_row.label(text="Notes on usage below...")
+        
         # How to represent proteins
         protein_box = layout.box()
         first_row = protein_box.row()
@@ -251,6 +261,45 @@ class ImportVMD(Operator, ImportHelper):
         first_row.label(text="PyMol-Specific Settings")
         second_row = exec_box.row()
         second_row.prop(self, "pymol_exec_path")
+
+        # Instructions
+        instruction_box = layout.box()
+        self.add_instruction_line(instruction_box.row(), "Notes on Use")
+
+        self.add_instruction_line(instruction_box.row(), "", 0.01)
+
+        self.add_instruction_line(instruction_box.row(), "Select files or type a 4-letter")
+        self.add_instruction_line(instruction_box.row(), "PDB ID to download.")
+
+        self.add_instruction_line(instruction_box.row(), "", 0.01)
+
+        self.add_instruction_line(instruction_box.row(), "To create the meshes, you must")
+        self.add_instruction_line(instruction_box.row(), "specify the absolute (full)")
+        self.add_instruction_line(instruction_box.row(), "paths to the VMD and/or PyMol")
+        self.add_instruction_line(instruction_box.row(), "executables.")
+
+        self.add_instruction_line(instruction_box.row(), "", 0.01)
+
+        self.add_instruction_line(instruction_box.row(), "Both VMD and PyMol can load PDB")
+        self.add_instruction_line(instruction_box.row(), 'files. Check "Prefer VMD Over')
+        self.add_instruction_line(instruction_box.row(), 'PyMol" to use VMD. For other')
+        self.add_instruction_line(instruction_box.row(), 'files, the program will be')
+        self.add_instruction_line(instruction_box.row(), 'determined by the file')
+        self.add_instruction_line(instruction_box.row(), 'extension.')
+
+        self.add_instruction_line(instruction_box.row(), "", 0.01)
+
+        self.add_instruction_line(instruction_box.row(), "By default, VMD renders surfaces")
+        self.add_instruction_line(instruction_box.row(), "with the Surf representation.")
+        self.add_instruction_line(instruction_box.row(), 'Check "Use MSMS for Surfaces" if')
+        self.add_instruction_line(instruction_box.row(), 'you have installed the MSMS')
+        self.add_instruction_line(instruction_box.row(), 'renderer.')
+
+        self.add_instruction_line(instruction_box.row(), "", 0.01)
+
+        self.add_instruction_line(instruction_box.row(), "It can take some time to create")
+        self.add_instruction_line(instruction_box.row(), "and load the meshes.")
+
 
     def execute(self, context):
         """

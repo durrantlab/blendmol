@@ -39,12 +39,10 @@ class VMDAddonPreferences(AddonPreferences):
     )
 
     prefer_vmd = BoolProperty(
-        name = "Prefer VMD", default = True,
-        
-        description = (
-            "Use VMD when loading PDB files. Determine based on "
-            "extension otherwise."
-        )        
+        name = "Prefer VMD Over PyMol", default = True,
+        description = ("Use VMD when loading PDB files, not PyMol. For other "
+                       "files, the program will be determined by the file "
+                       "extension.")
     )
 
     vmd_msms_repr = BoolProperty(
