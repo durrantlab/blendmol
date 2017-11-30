@@ -160,31 +160,31 @@ class PyMol(ExternalInterface):
             if my_operator.protein_surface == True:
                 python_script = python_script + """
                     # Save the protein of this chain using surface representation
-                    render_surf(protein_nuc_sel, "protein_surf_" + chain + ".wrl")
+                    render_surf(protein_nuc_sel, "protein_nucleic_surf_" + chain + ".wrl")
                 """
 
             if my_operator.protein_sticks == True:
                 python_script = python_script + """
                     # Save the protein of this chain using sticks representation
-                    render_sticks(protein_nuc_sel, "protein_sticks_" + chain + ".wrl")
+                    render_sticks(protein_nuc_sel, "protein_nucleic_sticks_" + chain + ".wrl")
                 """
 
             # PyMol doesn't support this.
             # if my_operator.protein_balls == True:
-            #     python_script = python_script + self.balls_code("protein_balls", protein_nuc_sel_str)
+            #     python_script = python_script + self.balls_code("protein_nucleic_balls", protein_nuc_sel_str)
 
             if my_operator.protein_vdw == True:
                 python_script = python_script + """
                     # Save the protein of this chain using VDW representation
                     # (1.0 * van der waals radius)
-                    render_vdw(protein_nuc_sel, "protein_vdw_" + chain + ".wrl")
+                    render_vdw(protein_nuc_sel, "protein_nucleic_vdw_" + chain + ".wrl")
                 """
 
             if my_operator.protein_ribbon == True:
                 python_script = python_script + """
                     # Save the protein of this chain using ribbon
                     # representation
-                    render_cartoon(protein_nuc_sel, "protein_ribbon_" + chain + ".wrl")
+                    render_cartoon(protein_nuc_sel, "protein_nucleic_ribbon_" + chain + ".wrl")
                 """
 
             # Metals
