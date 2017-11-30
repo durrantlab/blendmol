@@ -68,7 +68,7 @@ class PyMol(ExternalInterface):
                 chains = cmd.get_chains(selection="(all)", state=0, quiet=1)
 
                 # Define some selections
-                all_protein_sel = "resn ala+arg+asn+asp+asx+cys+gln+glu+glx+gly+his+hsp+hyp+ile+leu+lys+met+pca+phe+pro+ser+thr+trp+tyr+val"
+                all_protein_nuc_sel = "resn ala+arg+asn+asp+asx+cys+gln+glu+glx+gly+his+hsp+hyp+ile+leu+lys+met+pca+phe+pro+ser+thr+trp+tyr+val+dg+dc+dt+da+g+c+t+a+u+rg+rc+rt+ra+ru"
                 water_sel = "resn wat+hoh+h2o+tip+tip3"
                 all_metals_sel = "symbol " + "+".join(["fe", "ag", "co", "cu",
                                                        "ca", "zn", "mg", "ni",
@@ -99,9 +99,9 @@ class PyMol(ExternalInterface):
                     
                 # For each chain, separate meshes
                 for chain in [c for c in chains if c != ""]:
-                    ligand_sel = "(chain " + chain + ") and (not " + all_protein_sel + " and not " + water_sel + ") and not (not symbol h+he+li+be+b+c+n+o+f+ne+na+mg+al+si+p+s+se+cl+br+f) and (not resn mse)"
-                    nearby_resi_sel = "byres ((" + all_protein_sel + ") within 8 of (" + ligand_sel + "))"
-                    protein_sel = "(chain " + chain + ") and (" + all_protein_sel + ",mse)"
+                    ligand_sel = "(chain " + chain + ") and (not " + all_protein_nuc_sel + " and not " + water_sel + ") and not (not symbol h+he+li+be+b+c+n+o+f+ne+na+mg+al+si+p+s+se+cl+br+f) and (not resn mse)"
+                    nearby_resi_sel = "byres ((" + all_protein_nuc_sel + ") within 8 of (" + ligand_sel + "))"
+                    protein_nuc_sel = "(chain " + chain + ") and (" + all_protein_nuc_sel + ",mse)"
                     metals_sel = "(chain " + chain + ") and (" + all_metals_sel + ")"
             """
 
@@ -160,31 +160,31 @@ class PyMol(ExternalInterface):
             if my_operator.protein_surface == True:
                 python_script = python_script + """
                     # Save the protein of this chain using surface representation
-                    render_surf(protein_sel, "protein_surf_" + chain + ".wrl")
+                    render_surf(protein_nuc_sel, "protein_surf_" + chain + ".wrl")
                 """
 
             if my_operator.protein_sticks == True:
                 python_script = python_script + """
                     # Save the protein of this chain using sticks representation
-                    render_sticks(protein_sel, "protein_sticks_" + chain + ".wrl")
+                    render_sticks(protein_nuc_sel, "protein_sticks_" + chain + ".wrl")
                 """
 
             # PyMol doesn't support this.
             # if my_operator.protein_balls == True:
-            #     python_script = python_script + self.balls_code("protein_balls", protein_sel_str)
+            #     python_script = python_script + self.balls_code("protein_balls", protein_nuc_sel_str)
 
             if my_operator.protein_vdw == True:
                 python_script = python_script + """
                     # Save the protein of this chain using VDW representation
                     # (1.0 * van der waals radius)
-                    render_vdw(protein_sel, "protein_vdw_" + chain + ".wrl")
+                    render_vdw(protein_nuc_sel, "protein_vdw_" + chain + ".wrl")
                 """
 
             if my_operator.protein_ribbon == True:
                 python_script = python_script + """
                     # Save the protein of this chain using ribbon
                     # representation
-                    render_cartoon(protein_sel, "protein_ribbon_" + chain + ".wrl")
+                    render_cartoon(protein_nuc_sel, "protein_ribbon_" + chain + ".wrl")
                 """
 
             # Metals

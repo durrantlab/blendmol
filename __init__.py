@@ -195,7 +195,7 @@ class ImportVMD(Operator, ImportHelper):
         # How to represent proteins
         protein_box = layout.box()
         first_row = protein_box.row()
-        first_row.label(text="Protein from PDBs")
+        first_row.label(text="Protein/Nucleic from PDBs")
         second_row = protein_box.row()
         left_col = second_row.column()
         left_col.prop(self, "protein_surface")

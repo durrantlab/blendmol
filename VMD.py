@@ -65,14 +65,14 @@ class VMD(ExternalInterface):
             # Set the selections
             
             ligand_sel_str = (
-                '"(chain $chain) and (not protein and not water) and not ' +
+                '"(chain $chain) and (not protein and not nucleic and not water) and not ' +
                 '((not element N C O P S Se Cl Br F) and mass > 16) and ' +
                 '(not resname MSE)"'
             )
             
             protein_near_lig_sel_str = (
-                '"(same residue as (protein within 8 of ((chain $chain) ' +
-                'and (not protein and not water) and not ((not element N C ' +
+                '"(same residue as ((protein or nucleic) within 8 of ((chain $chain) ' +
+                'and (not protein and not nucleic and not water) and not ((not element N C ' +
                 'O P S Se Cl Br F) and mass > 16) and (not resname MSE))))"'
             )
 
@@ -81,7 +81,7 @@ class VMD(ExternalInterface):
                 'and (mass > 16) and (not resname MET CYS MSE)"'
             )
 
-            protein_sel_str = '"chain $chain and (protein or resname MSE)"'
+            protein_nuc_sel_str = '"chain $chain and (protein or nucleic or resname MSE)"'
 
             # Load the PDB
             tcl_script = tcl_script + """
@@ -183,35 +183,35 @@ class VMD(ExternalInterface):
                 if my_operator.vmd_msms_repr == True:
                     tcl_script = (
                         tcl_script +
-                        self.msms_code("protein_msms", protein_sel_str)
+                        self.msms_code("protein_msms", protein_nuc_sel_str)
                     )
                 else:
                     tcl_script = (
                         tcl_script +
-                        self.surf_code("protein_surf", protein_sel_str)
+                        self.surf_code("protein_surf", protein_nuc_sel_str)
                     )
 
             if my_operator.protein_sticks == True:
                 tcl_script = (
                     tcl_script +
-                    self.stick_code("protein_sticks", protein_sel_str)
+                    self.stick_code("protein_sticks", protein_nuc_sel_str)
                 )
 
             if my_operator.protein_balls == True:
                 tcl_script = (
                     tcl_script +
-                    self.balls_code("protein_balls", protein_sel_str)
+                    self.balls_code("protein_balls", protein_nuc_sel_str)
                 )
 
             if my_operator.protein_vdw == True:
                 tcl_script = (
-                    tcl_script + self.vdw_code("protein_vdw", protein_sel_str)
+                    tcl_script + self.vdw_code("protein_vdw", protein_nuc_sel_str)
                 )
 
             if my_operator.protein_ribbon == True:
                 tcl_script = (
                     tcl_script +
-                    self.ribbon_code("protein_ribbon", protein_sel_str)
+                    self.ribbon_code("protein_ribbon", protein_nuc_sel_str)
                 )
 
             # Metals
