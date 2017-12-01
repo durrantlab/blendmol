@@ -130,7 +130,13 @@ class ExternalInterface:
                     obj.select = True
                 bpy.context.scene.objects.active = objs_to_merge[0]
                 bpy.ops.object.join()
-            objs_to_merge[0].name = "MIB__" + os.path.basename(filename)[:-4]
+            
+            if len(objs_to_merge) > 0:
+                objs_to_merge[0].name = "MIB__" + os.path.basename(filename)[:-4]
+            else:
+                # Sometimes PyMol (at least) doesn't save a file at all,
+                # perhaps because the selection was empty?
+                pass
 
         # Make sure origins of all new meshes is 0, 0, 0
         # See https://blender.stackexchange.com/questions/35825/changing-object-origin-to-arbitrary-point-without-origin-set
