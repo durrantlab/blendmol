@@ -23,13 +23,13 @@
 #
 
 bl_info = {
-    "name": "Molecules In Blender - PDB/VMD/PyMol",
-    "description": "Importing PDB and State Files from VMD and PyMol",
+    "name": "BlendMol - PDB/VMD/PyMol",
+    "description": "Import PDB (.pdb), VMD state files (.vmd), and PyMol session files (.pse)",
     "author": "Jacob Durrant",
     "version": (1, 0),
     "blender": (2, 79, 0),
-    "location": ("File -> Import -> PDB/VMD/PyMol (*.pdb, *.vmd, *.tcl, "
-                 "*.pse)"),
+    "location": ("File -> Import -> PDB/VMD/PyMol (.pdb, .vmd, .tcl, "
+                 ".pse)"),
     "warning": "",
     "wiki_url": "",
     "category": "Import-Export",
@@ -61,7 +61,7 @@ class ImportVMD(Operator, ImportHelper):
     """
 
     bl_idname = "import_mesh.vmd_pymol"
-    bl_label  = "PDB/VMD/PyMol (*.pdb, *.vmd, *.tcl, *.pse)"
+    bl_label  = "Import PDB/VMD/TCL/PSE"
     bl_options = {'PRESET', 'UNDO'}
 
     # Define plugin variables
@@ -140,7 +140,7 @@ class ImportVMD(Operator, ImportHelper):
     )
 
     prefer_vmd = BoolProperty(
-        name = "Prefer VMD Over PyMol", 
+        name = "Prefer VMD Over PyMol for PDB", 
         default=True,
         description = ("Use VMD when loading PDB files, not PyMol. For other "
                        "files, the program will be determined by the file "
@@ -282,9 +282,9 @@ class ImportVMD(Operator, ImportHelper):
 
         self.add_instruction_line(instruction_box.row(), "Both VMD and PyMol can load PDB")
         self.add_instruction_line(instruction_box.row(), 'files. Check "Prefer VMD Over')
-        self.add_instruction_line(instruction_box.row(), 'PyMol" to use VMD. For other')
-        self.add_instruction_line(instruction_box.row(), 'files, the program will be')
-        self.add_instruction_line(instruction_box.row(), 'determined by the file')
+        self.add_instruction_line(instruction_box.row(), 'PyMol for PDB" to use VMD. For')
+        self.add_instruction_line(instruction_box.row(), 'other files, the program will')
+        self.add_instruction_line(instruction_box.row(), 'be determined by the file')
         self.add_instruction_line(instruction_box.row(), 'extension.')
 
         self.add_instruction_line(instruction_box.row(), "", 0.01)
@@ -428,7 +428,7 @@ def menu_func_import(self, context):
 
     self.layout.operator(
         ImportVMD.bl_idname, 
-        text="PDB/VMD/PyMol (*.pdb, *.vmd, *.tcl, *.pse)"
+        text="PDB/VMD/PyMol (.pdb, .vmd, .tcl, .pse)"
     )
 
 def register():

@@ -1,10 +1,10 @@
 bl_info = {
-    "name": "Molecules In Blender Preferences",
+    "name": "BlendMol Preferences",
     "author": "Jacob Durrant",
     "version": (1, 0),
     "blender": (2, 79, 0),
-    "location": "SpaceBar Search -> Molecules In Blender Preferences",
-    "description": "Preferences for the Molecules In Blender Plugin",
+    "location": "SpaceBar Search -> BlendMol Preferences",
+    "description": "Preferences for the BlendMol Plugin",
     "warning": "",
     "wiki_url": "",
     "tracker_url": "",
@@ -25,21 +25,21 @@ class VMDAddonPreferences(AddonPreferences):
     bl_idname = __package__
 
     vmd_exec_path = StringProperty(
-        name = "VMD",
-        default = "/PATH/TO/VMD/EXECUTABLE", 
+        name = "VMD executable path",
+        default = "/FULL/PATH/TO/VMD/EXECUTABLE", 
         description = "The full path to the VMD executable file.",
         subtype="FILE_PATH"
     )
 
     pymol_exec_path = StringProperty(
-        name = "PyMol",
-        default = "/PATH/TO/PYMOL/EXECUTABLE", 
+        name = "PyMol executable path",
+        default = "/FULL/PATH/TO/PYMOL/EXECUTABLE", 
         description = "The full path to the PyMol executable file.",
         subtype="FILE_PATH"
     )
 
     prefer_vmd = BoolProperty(
-        name = "Prefer VMD Over PyMol", default = True,
+        name = "Prefer VMD Over PyMol for PDB", default = True,
         description = ("Use VMD when loading PDB files, not PyMol. For other "
                        "files, the program will be determined by the file "
                        "extension.")

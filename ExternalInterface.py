@@ -175,7 +175,13 @@ class ExternalInterface:
                     bpy.ops.object.select_all(action='DESELECT')
                     bpy.context.scene.objects.active = obj
                     obj.select = True
+
+                    # try:
                     bpy.ops.object.mode_set(mode = 'EDIT')
+                    # except:
+                        # Must already be in EDIT mode.
+                        # pass
+
                     bpy.ops.mesh.select_all(action = 'SELECT')
                     
                     # Remove doubles. Note that doesn't always fully work with

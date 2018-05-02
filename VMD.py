@@ -262,6 +262,7 @@ class VMD(ExternalInterface):
         """
 
         return '''
+            puts ''' + selection + '''
             set sel [atomselect top ''' + selection + ''']
             if {[$sel num] > 0} {
                 mol delrep 0 top
