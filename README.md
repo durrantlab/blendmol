@@ -40,5 +40,5 @@ BlendMol installation within Blender is the same as with any Blender plugin:
 Authors and Contacts
 ====================
 
-Pyrite was produced by Jacob Durrant
+Pyrite was created by Jacob Durrant
 ([durrantj@pitt.edu](mailto:durrantj@pitt.edu)).
