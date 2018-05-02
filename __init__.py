@@ -17,9 +17,9 @@
 # ##### END GPL LICENSE BLOCK #####
 
 #
-#  Authors           : Jacob Durrant (durrantj@pitt.edu), ...
+#  Authors           : Jacob Durrant (durrantj@pitt.edu).
 #
-#  Homepage          : http://development.root-1.de/Atomic_Blender.php
+#  Homepage          : http://durrantlab.com
 #
 
 bl_info = {
@@ -35,7 +35,6 @@ bl_info = {
     "category": "Import-Export",
 }
 
-
 import tempfile
 import os
 import urllib.request
@@ -43,12 +42,12 @@ import bpy
 from bpy.types import Operator
 from bpy_extras.io_utils import ImportHelper, ExportHelper
 from bpy.props import (
-        StringProperty,
-        BoolProperty,
-        EnumProperty,
-        IntProperty,
-        FloatProperty,
-        )
+    StringProperty,
+    BoolProperty,
+    EnumProperty,
+    IntProperty,
+    FloatProperty,
+)
 
 from .VMD import VMD
 from .PyMol import PyMol
@@ -171,18 +170,27 @@ class ImportVMD(Operator, ImportHelper):
         self.vmd_msms_repr = addon_prefs.vmd_msms_repr
 
     def add_instruction_line(self, row, text, height=0.6):
+        """
+        Adds a line to the instruction paragraph (user interface, UI).
+    
+        :param ??? row: The UI row.
+        :param str text: The text to add.
+        :param float height: The line height. Defaults to 0.6.
+        """
+
         row.scale_y = height
         row.label(text=text)
 
     def draw(self, context):
         """
-        Draw the user interface in the import dialog.
-    
+        Layout (draw) the user interface in the appropriate import dialog.
+
         :param ??? context: The context.
         """
 
         layout = self.layout
 
+        # If it's the first draw, also set the user preferences.
         if self.first_draw:
             self.first_draw = False
             self.startup()
@@ -268,43 +276,63 @@ class ImportVMD(Operator, ImportHelper):
 
         self.add_instruction_line(instruction_box.row(), "", 0.01)
 
-        self.add_instruction_line(instruction_box.row(), "Select files or type a 4-letter")
-        self.add_instruction_line(instruction_box.row(), "PDB ID to download.")
+        lines = [
+            "Select files or type a 4-letter",
+            "PDB ID to download."
+        ]
+        for line in lines:
+            self.add_instruction_line(instruction_box.row(), line)
 
         self.add_instruction_line(instruction_box.row(), "", 0.01)
 
-        self.add_instruction_line(instruction_box.row(), "To create the meshes, you must")
-        self.add_instruction_line(instruction_box.row(), "specify the absolute (full)")
-        self.add_instruction_line(instruction_box.row(), "paths to the VMD and/or PyMol")
-        self.add_instruction_line(instruction_box.row(), "executables.")
+        lines = [
+            "To create the meshes, you must",
+            "specify the absolute (full)",
+            "paths to the VMD and/or PyMol",
+            "executables."
+        ]
+        for line in lines:
+            self.add_instruction_line(instruction_box.row(), line)
 
         self.add_instruction_line(instruction_box.row(), "", 0.01)
 
-        self.add_instruction_line(instruction_box.row(), "Both VMD and PyMol can load PDB")
-        self.add_instruction_line(instruction_box.row(), 'files. Check "Prefer VMD Over')
-        self.add_instruction_line(instruction_box.row(), 'PyMol for PDB" to use VMD. For')
-        self.add_instruction_line(instruction_box.row(), 'other files, the program will')
-        self.add_instruction_line(instruction_box.row(), 'be determined by the file')
-        self.add_instruction_line(instruction_box.row(), 'extension.')
+        lines = [
+            "Both VMD and PyMol can load PDB",
+            'files. Check "Prefer VMD Over',
+            'PyMol for PDB" to use VMD. For',
+            'other files, the program will',
+            'be determined by the file',
+            'extension.'
+        ]
+        for line in lines:
+            self.add_instruction_line(instruction_box.row(), line)
 
         self.add_instruction_line(instruction_box.row(), "", 0.01)
 
-        self.add_instruction_line(instruction_box.row(), "By default, VMD renders surfaces")
-        self.add_instruction_line(instruction_box.row(), "with the Surf representation.")
-        self.add_instruction_line(instruction_box.row(), 'Check "Use MSMS for Surfaces" if')
-        self.add_instruction_line(instruction_box.row(), 'you have installed the MSMS')
-        self.add_instruction_line(instruction_box.row(), 'renderer.')
+        lines = [
+            "By default, VMD renders surfaces",
+            "with the Surf representation.",
+            'Check "Use MSMS for Surfaces" if',
+            'you have installed the MSMS',
+            'renderer.'
+        ]
+        for line in lines:
+            self.add_instruction_line(instruction_box.row(), line)
 
         self.add_instruction_line(instruction_box.row(), "", 0.01)
 
-        self.add_instruction_line(instruction_box.row(), "It can take some time to create")
-        self.add_instruction_line(instruction_box.row(), "and load the meshes.")
-
+        lines = [
+            "It can take some time to create",
+            "and load the meshes."
+        ]
+        for line in lines:
+            self.add_instruction_line(instruction_box.row(), line)
 
     def execute(self, context):
         """
-        Code to run when the user pressed the import button.
-    
+        Code to run when the user presses the import button. This gets the
+        import process started.
+
         :param ??? context: The context.
         """
 
@@ -401,10 +429,6 @@ class ImportVMD(Operator, ImportHelper):
             vmd.run_external_program(vmd_exec_path)
             new_obj_names = vmd.import_all_mesh_files(self)
             vmd.del_tmp_dir()
-
-            # for obj_name in new_obj_names:
-            #     print(obj_name)
-            #     # Here process meshes to make better.
         elif exec_to_use == "PYMOL":
             pymol = PyMol()
 
@@ -419,9 +443,9 @@ class ImportVMD(Operator, ImportHelper):
 
         return {'FINISHED'}
 
-def menu_func_import(self, context):
+def add_menu_func_import(self, context):
     """
-    The entry into the menu 'file -> import'
+    Add BlendMol to the 'file -> import' menu.
 
     :param ??? context: The context.
     """
@@ -437,7 +461,7 @@ def register():
     """
 
     bpy.utils.register_module(__name__)
-    bpy.types.INFO_MT_file_import.append(menu_func_import)
+    bpy.types.INFO_MT_file_import.append(add_menu_func_import)
     Preferences.register()
 
 def unregister():
@@ -446,7 +470,7 @@ def unregister():
     """
 
     bpy.utils.unregister_module(__name__)
-    bpy.types.INFO_MT_file_import.remove(menu_func_import)
+    bpy.types.INFO_MT_file_import.remove(add_menu_func_import)
     Preferences.unregister()
 
 if __name__ == "__main__":

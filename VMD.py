@@ -63,13 +63,15 @@ class VMD(ExternalInterface):
 
         if ext == ".PDB":
             # Set the selections
-            nuc_sel_raw = "(nucleic and not resname ATP UTP TTP CTP GTP AMP UMP TMP CMP GMP ADP UDP TDP CDP GDP)"
+            nuc_sel_raw = ("(nucleic and not resname ATP UTP TTP CTP GTP AMP "
+                           "UMP TMP CMP GMP ADP UDP TDP CDP GDP)")
 
-            lig_sel_raw = (
-                '((chain $chain) and (not protein and not ' + nuc_sel_raw + ' and not water) and not ' +
-                '((not element N C O P S Se Cl Br F) and mass > 16) and ' +
-                '(not resname MSE))'
-            )
+            lig_sel_raw = ("((chain $chain) and (not protein and not " + 
+                           nuc_sel_raw +
+                           " and not water) and not " +
+                           "((not element N C O P S Se Cl Br F) " +
+                           "and mass > 16) and " +
+                           "(not resname MSE))")
 
             ligand_sel_str = '"' + lig_sel_raw + '"'
             
@@ -80,8 +82,8 @@ class VMD(ExternalInterface):
             # )
 
             protein_near_lig_sel_str = (
-                '"(protein or ' + nuc_sel_raw + ') and (same residue as (all within 8 of ' +
-                lig_sel_raw + '))"'
+                '"(protein or ' + nuc_sel_raw + ') and (same residue as ' + 
+                '(all within 8 of ' + lig_sel_raw + '))"'
             )
 
             metals_sel_str = (
@@ -89,7 +91,10 @@ class VMD(ExternalInterface):
                 'and (mass > 16) and (not resname MET CYS MSE)"'
             )
 
-            protein_nuc_sel_str = '"chain $chain and (protein or ' + nuc_sel_raw + ' or resname MSE)"'
+            protein_nuc_sel_str = (
+                '"chain $chain and (protein or ' + nuc_sel_raw + 
+                ' or resname MSE)"'
+            )
 
             # Load the PDB
             tcl_script = tcl_script + """
@@ -114,50 +119,50 @@ class VMD(ExternalInterface):
                 foreach chain $uniq_chains {
             """
 
-            # Let's deal with ligands
+            # Consider ligands
             if my_operator.ligand_surface == True:
                 if my_operator.vmd_msms_repr == True:
                     tcl_script = (
                         tcl_script +
-                        self.msms_code("ligand_msms", ligand_sel_str)
+                        self.get_msms_code("ligand_msms", ligand_sel_str)
                     )
                 else:
                     tcl_script = (
                         tcl_script +
-                        self.surf_code("ligand_surf", ligand_sel_str)
+                        self.get_surf_code("ligand_surf", ligand_sel_str)
                     )
 
             if my_operator.ligand_sticks == True:
                 tcl_script = (
                     tcl_script +
-                    self.stick_code("ligand_sticks", ligand_sel_str)
+                    self.get_stick_code("ligand_sticks", ligand_sel_str)
                 )
 
             if my_operator.ligand_balls == True:
                 tcl_script = (
                     tcl_script +
-                    self.balls_code("ligand_balls", ligand_sel_str)
+                    self.get_balls_code("ligand_balls", ligand_sel_str)
                 )
 
             if my_operator.ligand_vdw == True:
                 tcl_script = (
                     tcl_script +
-                    self.balls_code("ligand_vdw", ligand_sel_str)
+                    self.get_balls_code("ligand_vdw", ligand_sel_str)
                 )
 
-            # Let's deal with interacting residues
+            # Consider interacting residues
             if my_operator.near_ligand_surface == True:
                 if my_operator.vmd_msms_repr == True:
                     tcl_script = (
                         tcl_script +
-                        self.msms_code(
+                        self.get_msms_code(
                             "interacting_msms", protein_near_lig_sel_str
                         )
                     )
                 else:
                     tcl_script = (
                         tcl_script +
-                        self.surf_code(
+                        self.get_surf_code(
                             "interacting_surf", protein_near_lig_sel_str
                         )
                     )
@@ -165,7 +170,7 @@ class VMD(ExternalInterface):
             if my_operator.near_ligand_sticks == True:
                 tcl_script = (
                     tcl_script +
-                    self.stick_code(
+                    self.get_stick_code(
                         "interacting_sticks", protein_near_lig_sel_str
                     )
                 )
@@ -173,7 +178,7 @@ class VMD(ExternalInterface):
             if my_operator.near_ligand_balls == True:
                 tcl_script = (
                     tcl_script +
-                    self.balls_code(
+                    self.get_balls_code(
                         "interacting_balls", protein_near_lig_sel_str
                     )
                 )
@@ -181,52 +186,70 @@ class VMD(ExternalInterface):
             if my_operator.near_ligand_vdw == True:
                 tcl_script = (
                     tcl_script +
-                    self.vdw_code(
+                    self.get_vdw_code(
                         "interacting_vdw", protein_near_lig_sel_str
                     )
                 )
             
-            # Now deal with proteins
+            # Consider proteins
             if my_operator.protein_surface == True:
                 if my_operator.vmd_msms_repr == True:
                     tcl_script = (
                         tcl_script +
-                        self.msms_code("protein_nucleic_msms", protein_nuc_sel_str)
+                        self.get_msms_code(
+                            "protein_nucleic_msms", 
+                            protein_nuc_sel_str
+                        )
                     )
                 else:
                     tcl_script = (
                         tcl_script +
-                        self.surf_code("protein_nucleic_surf", protein_nuc_sel_str)
+                        self.get_surf_code(
+                            "protein_nucleic_surf", 
+                            protein_nuc_sel_str
+                        )
                     )
 
             if my_operator.protein_sticks == True:
                 tcl_script = (
                     tcl_script +
-                    self.stick_code("protein_nucleic_sticks", protein_nuc_sel_str)
+                    self.get_stick_code(
+                        "protein_nucleic_sticks", 
+                        protein_nuc_sel_str
+                    )
                 )
 
             if my_operator.protein_balls == True:
                 tcl_script = (
                     tcl_script +
-                    self.balls_code("protein_nucleic_balls", protein_nuc_sel_str)
+                    self.get_balls_code(
+                        "protein_nucleic_balls", 
+                        protein_nuc_sel_str
+                    )
                 )
 
             if my_operator.protein_vdw == True:
                 tcl_script = (
-                    tcl_script + self.vdw_code("protein_nucleic_vdw", protein_nuc_sel_str)
+                    tcl_script + self.get_vdw_code(
+                        "protein_nucleic_vdw", 
+                        protein_nuc_sel_str
+                    )
                 )
 
             if my_operator.protein_ribbon == True:
                 tcl_script = (
                     tcl_script +
-                    self.ribbon_code("protein_nucleic_ribbon", protein_nuc_sel_str)
+                    self.get_ribbon_code(
+                        "protein_nucleic_ribbon", 
+                        protein_nuc_sel_str
+                    )
                 )
 
-            # Metals
+            # Consider metals
             if my_operator.metals_vdw == True:
                 tcl_script = (
                     tcl_script +
-                    self.vdw_code("metals", metals_sel_str)
+                    self.get_vdw_code("metals", metals_sel_str)
                 )
 
             tcl_script = tcl_script + """
@@ -249,9 +272,10 @@ class VMD(ExternalInterface):
             quit
         """
 
+        # Save the VMD TCL script.
         open(self.tmp_dir + "vmd.vmd", 'w').write(tcl_script)
         
-    def code_start(self, selection):
+    def get_code_start(self, selection):
         """
         TCL code to run before rendering a representation.
     
@@ -269,7 +293,7 @@ class VMD(ExternalInterface):
                 mol selection ''' + selection + '''
         '''
     
-    def code_end(self, filename_id):
+    def get_code_end(self, filename_id):
         """
         TCL code to render a representation.
     
@@ -285,7 +309,7 @@ class VMD(ExternalInterface):
             }
         '''
 
-    def msms_code(self, filename_id, selection):
+    def get_msms_code(self, filename_id, selection):
         """
         TCL code to render a MSMS representation and save it as an OBJ file.
     
@@ -297,11 +321,11 @@ class VMD(ExternalInterface):
         :rtype: :class:`str`
         """
 
-        return self.code_start(selection) + """
+        return self.get_code_start(selection) + """
             mol representation MSMS 1.500000 5.000000 0.000000 0.000000
-        """ + self.code_end(filename_id)
+        """ + self.get_code_end(filename_id)
 
-    def surf_code(self, filename_id, selection):
+    def get_surf_code(self, filename_id, selection):
         """
         TCL code to render a surf representation and save it as an OBJ file.
     
@@ -313,11 +337,11 @@ class VMD(ExternalInterface):
         :rtype: :class:`str`
         """
 
-        return self.code_start(selection) + """
+        return self.get_code_start(selection) + """
             mol representation Surf 1.400000 0.000000
-        """ + self.code_end(filename_id)
+        """ + self.get_code_end(filename_id)
 
-    def stick_code(self, filename_id, selection):
+    def get_stick_code(self, filename_id, selection):
         """
         TCL code to render a stick representation  and save it as an OBJ file.
     
@@ -329,11 +353,11 @@ class VMD(ExternalInterface):
         :rtype: :class:`str`
         """
 
-        return self.code_start(selection) + """
+        return self.get_code_start(selection) + """
             mol representation Licorice 0.300000 20.000000 20.000000
-        """ + self.code_end(filename_id)
+        """ + self.get_code_end(filename_id)
     
-    def balls_code(self, filename_id, selection):
+    def get_balls_code(self, filename_id, selection):
         """
         TCL code to render a balls representation and save it as an OBJ file.
     
@@ -345,11 +369,11 @@ class VMD(ExternalInterface):
         :rtype: :class:`str`
         """
 
-        return self.code_start(selection) + """
+        return self.get_code_start(selection) + """
             mol representation VDW 0.2000000 12.000000
-        """ + self.code_end(filename_id)
+        """ + self.get_code_end(filename_id)
 
-    def vdw_code(self, filename_id, selection):
+    def get_vdw_code(self, filename_id, selection):
         """
         TCL code to render a VDW representation and save it as an OBJ file.
     
@@ -361,11 +385,11 @@ class VMD(ExternalInterface):
         :rtype: :class:`str`
         """
 
-        return self.code_start(selection) + """
+        return self.get_code_start(selection) + """
             mol representation VDW 1.0000000 12.000000
-        """ + self.code_end(filename_id)
+        """ + self.get_code_end(filename_id)
 
-    def ribbon_code(self, filename_id, selection):
+    def get_ribbon_code(self, filename_id, selection):
         """
         TCL code to render a ribbon representation and save it as an OBJ file.
     
@@ -377,13 +401,13 @@ class VMD(ExternalInterface):
         :rtype: :class:`str`
         """
 
-        return self.code_start(selection) + """
+        return self.get_code_start(selection) + """
             mol representation NewCartoon 0.300000 10.000000 4.100000 0
-        """ + self.code_end(filename_id)
+        """ + self.get_code_end(filename_id)
 
     def run_external_program(self, exec_path):
         """
-        Runs the VMD executable.
+        Runs the VMD executable with the generated script.
 
         :param str exec_path: The path to the executable.
         """

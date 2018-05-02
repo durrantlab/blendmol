@@ -105,7 +105,7 @@ class PyMol(ExternalInterface):
                     metals_sel = "(chain " + chain + ") and (" + all_metals_sel + ")"
             """
 
-            # Let's deal with ligands
+            # Consider ligands
             if my_operator.ligand_surface == True:
                 python_script = python_script + """
                     # Save the ligand of this chain using surface
@@ -122,7 +122,7 @@ class PyMol(ExternalInterface):
 
             # PyMol doesn't support this.
             # if my_operator.ligand_balls == True:
-            #     python_script = python_script + self.balls_code("ligand_balls", ligand_sel_str)
+            #     python_script = python_script + self.get_balls_code("ligand_balls", ligand_sel_str)
 
             if my_operator.ligand_vdw == True:
                 python_script = python_script + """
@@ -131,7 +131,7 @@ class PyMol(ExternalInterface):
                     render_vdw(ligand_sel, "ligand_vdw_" + chain + ".wrl")
                 """
 
-            # Let's deal with interacting residues
+            # Consider interacting residues
             if my_operator.near_ligand_surface == True:
                 python_script = python_script + """
                     # Save the surrounding residues of this chain using
@@ -147,7 +147,7 @@ class PyMol(ExternalInterface):
 
             # PyMol doesn't support this.
             # if my_operator.near_ligand_balls == True:
-            #     python_script = python_script + self.balls_code("interacting_balls", protein_near_lig_sel_str)
+            #     python_script = python_script + self.get_balls_code("interacting_balls", protein_near_lig_sel_str)
 
             if my_operator.near_ligand_vdw == True:
                 python_script = python_script + """
@@ -156,7 +156,7 @@ class PyMol(ExternalInterface):
                     render_vdw(nearby_resi_sel, "interacting_vdw_" + chain + ".wrl")
                 """
             
-            # Now deal with proteins
+            # Consider proteins
             if my_operator.protein_surface == True:
                 python_script = python_script + """
                     # Save the protein of this chain using surface representation
@@ -171,7 +171,7 @@ class PyMol(ExternalInterface):
 
             # PyMol doesn't support this.
             # if my_operator.protein_balls == True:
-            #     python_script = python_script + self.balls_code("protein_nucleic_balls", protein_nuc_sel_str)
+            #     python_script = python_script + self.get_balls_code("protein_nucleic_balls", protein_nuc_sel_str)
 
             if my_operator.protein_vdw == True:
                 python_script = python_script + """
@@ -187,7 +187,7 @@ class PyMol(ExternalInterface):
                     render_cartoon(protein_nuc_sel, "protein_nucleic_ribbon_" + chain + ".wrl")
                 """
 
-            # Metals
+            # Consider metals
             if my_operator.metals_vdw == True:
                 python_script = python_script + """
                     # Save the protein of this chain using VDW representation
@@ -195,7 +195,7 @@ class PyMol(ExternalInterface):
                     render_vdw(metals_sel, "metals_" + chain + ".wrl")
                 """ 
         else:
-            # Must be a VMD or TCL file
+            # Must be a PSE  file
             python_script = python_script + '''
                 # Switch to the first frame
                 cmd.frame(0)
@@ -220,11 +220,12 @@ class PyMol(ExternalInterface):
         lines = [l[len(tabs):] for l in lines]
         python_script = "\n".join(lines)
 
+        # Save the PyMol script.
         open(self.tmp_dir + "render.py", 'w').write(python_script)
 
     def run_external_program(self, exec_path):
         """
-        Runs the VMD executable.
+        Runs the PyMol executable with the generated script.
 
         :param str exec_path: The path to the executable.
         """

@@ -24,7 +24,7 @@ class ExternalInterface:
 
     def get_ext(self, filename):
         """
-        Given a filename, get the extension.
+        Given a filename, get its extension.
     
         :param str filename: The filename.
 
@@ -38,7 +38,8 @@ class ExternalInterface:
 
     def run_external_program(self, exec_path):
         """
-        Runs the executable. This will be overwritten by child classes.
+        Runs an executable. This will be overwritten by child classes that
+        inherit this one.
 
         :param str exec_path: The path to the executable.
         """
@@ -140,7 +141,6 @@ class ExternalInterface:
 
         # Make sure origins of all new meshes is 0, 0, 0
         # See https://blender.stackexchange.com/questions/35825/changing-object-origin-to-arbitrary-point-without-origin-set
-        # new_origin = mathutils.Vector((0, 0, 0))
         for obj in bpy.data.objects:
             if obj.name.startswith("MIB__"):
                 loc = obj.location
@@ -176,11 +176,7 @@ class ExternalInterface:
                     bpy.context.scene.objects.active = obj
                     obj.select = True
 
-                    # try:
                     bpy.ops.object.mode_set(mode = 'EDIT')
-                    # except:
-                        # Must already be in EDIT mode.
-                        # pass
 
                     bpy.ops.mesh.select_all(action = 'SELECT')
                     
@@ -207,7 +203,7 @@ class ExternalInterface:
         """
         Make the visualization script to pass to the executable program, and
         save it to the temporary directory. The definition will be overwritten
-        in the child classes.
+        in the child classes that inherit this one.
 
         :param ??? my_operator: The operator, used to access user-parameter
                     variables.

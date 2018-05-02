@@ -20,9 +20,11 @@ class VMDAddonPreferences(AddonPreferences):
     The plugin preference panel in the User Preferences window.
     """
 
-    # This must match the addon name, use '__package__'
-    # When defining this in a submodule of a python package.
+    # This must match the addon name, use '__package__' when defining this in
+    # a submodule of a python package.
     bl_idname = __package__
+
+    # Define preferences variables
 
     vmd_exec_path = StringProperty(
         name = "VMD executable path",
@@ -60,7 +62,7 @@ class VMDAddonPreferences(AddonPreferences):
         options={'HIDDEN'}
     )
 
-    def current_prefs_as_string(self):
+    def get_current_prefs_as_string(self):
         """
         The user preferences as a string.
 
@@ -80,9 +82,10 @@ class VMDAddonPreferences(AddonPreferences):
         :param ??? context: The context.
         """
 
+        # If the preferences have never been set, set them now.
         if self.last_prefs == "":
             FileBasedPreferences.load_preferences_from_file()
-            self.last_prefs = self.current_prefs_as_string()
+            self.last_prefs = self.get_current_prefs_as_string()
         
         layout = self.layout
 
@@ -103,8 +106,9 @@ class VMDAddonPreferences(AddonPreferences):
         second_row = exec_box.row()
         second_row.prop(self, "pymol_exec_path")
 
-        new_prefs = self.current_prefs_as_string()
+        new_prefs = self.get_current_prefs_as_string()
 
+        # If the preferences have changed, save them to the disk.
         if new_prefs != self.last_prefs:
             # Prefs have changed
             FileBasedPreferences.save_preferences_to_file()
