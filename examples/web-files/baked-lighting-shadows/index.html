@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv=Content-Type content="text/html" charset=utf-8 />
+        <title>Light/Shadow Baking -- Molecules in Blender</title>
+        <style>
+            html,body{
+                overflow:hidden;
+                width:100%;
+                height:100%;
+                margin:0;
+                padding:0
+            }
+
+            #renderCanvas{
+                width:100%;
+                height:100%;
+                touch-action:none
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="renderCanvas"></canvas>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/2.5.0/babylon.max.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin=anonymous></script>
+        <script>
+            var canvas;
+            var engine;
+
+            jQuery(document).ready(function () {
+                // The DOM ready... Check if BABYLON is supported.
+                if (BABYLON.Engine.isSupported()) {
+                    // Create the canvas
+                    var canvas = jQuery("#renderCanvas").get(0);
+
+                    // Create the engine
+                    var engine = new BABYLON.Engine(canvas, true);
+
+                    // Load the babylon file
+                    BABYLON.SceneLoader.Load("/", "scene.babylon", engine, function (scene) {
+
+                        // Wait for textures and shaders to be ready
+                        scene.executeWhenReady(function () {
+
+                            window.scene = scene;
+
+                            // Create a camera and attach it to the canvas
+                            var camera = new BABYLON.ArcRotateCamera(
+                                "ArcRotateCamera", -0.79, 1.57, 10.0, 
+                                new BABYLON.Vector3(0.0, 0.0, 0.0), 
+                                scene);
+                            camera.wheelPrecision = 50;
+                            scene.activeCamera = camera;
+                            scene.activeCamera.attachControl(canvas);
+
+                            // Run the render loop
+                            engine.runRenderLoop(function () {
+                                // Adjust the visibility of the surface mesh
+                                // based on distance to pivot point.
+                                let surf = scene.getMeshByID("5G38_surf_A");
+                                let radius = scene.activeCamera.radius;
+                                if (radius > 6.0) {
+                                    // At large distances, the surface is
+                                    // fully visible.
+                                    surf.visibility = 1.0;
+                                } else if (radius > 5.5) {
+                                    // At intermediate distances it's fading
+                                    // to fully transparent.
+                                    surf.visibility = 2.0 * (radius - 5.5);
+                                } else {
+                                    // At close distances, it is fully
+                                    // transparent.
+                                    surf.visibility = 0.0;
+                                } 
+                                
+                                // Make sure the user can't zoom in too much.
+                                if (radius < 3.0) {
+                                    scene.activeCamera.radius = 3.0;
+                                }
+
+                                // Render the scene.
+                                scene.render();
+                            });
+
+                            // Set the resize event handler
+                            window.addEventListener('resize', function () {
+                                engine.resize();
+                            });
+                        });
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
