@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <meta http-equiv=Content-Type content="text/html" charset=utf-8 />
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
         <title>Light/Shadow Baking</title>
         <style>
             html,body{
@@ -27,7 +27,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/2.5.0/babylon.max.js"></script>
 
         <!-- Load the jQuery library -->
-        <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin=anonymous></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
         
         <script>
             // Check if BABYLON is supported.
@@ -37,61 +37,66 @@
                 var engine = new BABYLON.Engine(canvas, true);
 
                 // Wait until the DOM is ready.
-                jQuery(document).ready(function () {
+                jQuery(document).ready(() => {
 
                     // Load the babylon file
-                    BABYLON.SceneLoader.Load("/", "scene.babylon", engine, function (scene) {
+                    BABYLON.SceneLoader.Load(
+                        "/", "scene.babylon", 
+                        engine, 
+                        function (scene) {
 
-                        // Wait for textures and shaders to be ready
-                        scene.executeWhenReady(function () {
+                            // Wait for textures and shaders to be ready
+                            scene.executeWhenReady(() => {
 
-                            window.scene = scene;
+                                window.scene = scene;
 
-                            // Create a camera and attach it to the canvas
-                            var camera = new BABYLON.ArcRotateCamera(
-                                "ArcRotateCamera", -0.79, 1.57, 10.0, 
-                                new BABYLON.Vector3(0.0, 0.0, 0.0), 
-                                scene);
-                            camera.wheelPrecision = 50;
-                            scene.activeCamera = camera;
-                            scene.activeCamera.attachControl(canvas);
+                                // Create a camera and attach it to the canvas
+                                var camera = new BABYLON.ArcRotateCamera(
+                                    "ArcRotateCamera", -0.79, 1.57, 10.0, 
+                                    new BABYLON.Vector3(0.0, 0.0, 0.0), 
+                                    scene);
+                                camera.wheelPrecision = 50;
+                                scene.activeCamera = camera;
+                                scene.activeCamera.attachControl(canvas);
 
-                                // Start the render loop. The goal is to achieve 60
-                                // fps.
-                                engine.runRenderLoop(function () {
-                                // Adjust the visibility of the surface mesh
-                                // based on distance to pivot point.
-                                let surf = scene.getMeshByID("5G38_surf_A");
-                                let radius = scene.activeCamera.radius;
-                                if (radius > 6.0) {
-                                    // At large distances, the surface is
-                                    // fully visible.
-                                    surf.visibility = 1.0;
-                                } else if (radius > 5.5) {
-                                    // At intermediate distances it's fading
-                                    // to fully transparent.
-                                    surf.visibility = 2.0 * (radius - 5.5);
-                                } else {
-                                    // At close distances, it is fully
-                                    // transparent.
-                                    surf.visibility = 0.0;
-                                } 
-                                
-                                // Make sure the user can't zoom in too much.
-                                if (radius < 3.0) {
-                                    scene.activeCamera.radius = 3.0;
-                                }
+                                // Start the render loop. The goal is to
+                                // achieve 60 fps.
+                                engine.runRenderLoop(() => {
+                                    // Adjust the visibility of the surface
+                                    // mesh based on distance to pivot point.
+                                    let surf = scene.getMeshByID("5G38_surf_A");
+                                    let radius = scene.activeCamera.radius;
+                                    if (radius > 6.0) {
+                                        // At large distances, the surface is
+                                        // fully visible.
+                                        surf.visibility = 1.0;
+                                    } else if (radius > 5.5) {
+                                        // At intermediate distances it's
+                                        // fading to fully transparent.
+                                        surf.visibility = 2.0 * (radius - 5.5);
+                                    } else {
+                                        // At close distances, it is fully
+                                        // transparent.
+                                        surf.visibility = 0.0;
+                                    } 
+                                    
+                                    // Make sure the user can't zoom in too
+                                    // much.
+                                    if (radius < 3.0) {
+                                        scene.activeCamera.radius = 3.0;
+                                    }
 
-                                // Render the scene.
-                                scene.render();
+                                    // Render the scene.
+                                    scene.render();
+                                });
+
+                                // Set the resize event handler.
+                                window.addEventListener('resize', () => {
+                                    engine.resize();
+                                });
                             });
-
-                            // Set the resize event handler.
-                            window.addEventListener('resize', function () {
-                                engine.resize();
-                            });
-                        });
-                    });
+                        }
+                    );
                 });
             }
         </script>

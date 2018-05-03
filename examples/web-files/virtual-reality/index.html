@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <meta http-equiv=Content-Type content="text/html" charset=utf-8 />
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
         <title>Michelangelo's Molecule</title>
         <style>
             html, body {
@@ -28,12 +28,12 @@
         <script src="babylon.custom.js"></script>
 
         <!-- Load the jQuery library -->
-        <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin=anonymous></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
 
         <script>
             // Keep track of when the VR camera last moved. This is to prevent
             // rapid movements in VR mode, which can make people sick.
-            var VRMovedLastTimestamp = 0;
+            var VRMovedLastTime = 0;
 
             // Keep track of the camera name. When the user switches to a VR
             // headset, for example, this name will change. 
@@ -80,7 +80,7 @@
             * @param {BABYLON.Scene} scene - The scene where the vector
             *     resides.
             */
-            function moveCameraToLocWhereStaring(scene) {
+            function moveCameraToStareLoc(scene) {
                 // Determine the point on the floor where the user is staring.
                 var newLoc = starePointOnTheFloor(scene);
                 if (newLoc !== null) {
@@ -164,7 +164,7 @@
                     // Load the babylon file.
                     BABYLON.SceneLoader.Load(
                         "", "scene.babylon", engine, 
-                        function (newScene) {
+                        (newScene) => {
                             window.scene = newScene;  // for debugging
 
                             // Wait for the new scene to be ready.
@@ -179,65 +179,69 @@
                                 marbleTex.vScale = 5;
                                 newScene.getMeshByID("floor").material.ambientTexture = marbleTex;
 
-                                // Set up the VR helper, so the user can easily enter
-                                // VR mode.
+                                // Set up the VR helper, so the user can
+                                // easily enter VR mode.
                                 VRHelper = newScene.createDefaultVRExperience();
 
-                                // Check if the user has triggered the controller.
+                                // Check if the user has triggered the
+                                // controller.
                                 VRHelper.onControllerMeshLoaded.add((cntrl) => {
                                     cntrl.onTriggerStateChangedObservable.add(() => {
-                                        // The controller has been triggered. Check if
-                                        // enough time has passed since it was last
-                                        // triggered.
-                                        let currentTime = new Date().getTime();
-                                        if (currentTime - VRMovedLastTimestamp > 500) {
-                                            // Enough time has passed for a new
-                                            // trigger. Update the timestamp.
-                                            VRMovedLastTimestamp = currentTime;
+                                        // The controller has been triggered.
+                                        // Check if enough time has passed
+                                        // since it was last triggered.
+                                        let curTime = new Date().getTime();
+                                        if (curTime - VRMovedLastTime > 500) {
+                                            // Enough time has passed for a
+                                            // new trigger. Update the
+                                            // timestamp.
+                                            VRMovedLastTime = curTime;
 
-                                            // Move to where the user is staring.
-                                            moveCameraToLocWhereStaring(newScene);
+                                            // Move to where the user is
+                                            // staring.
+                                            moveCameraToStareLoc(newScene);
                                         }
                                     });
                                 });
 
-                                // If the user presses the spacebar, move to the
-                                // location where he or she is staring.
+                                // If the user presses the spacebar, move to
+                                // the location where he or she is staring.
                                 jQuery(document).keydown((event) => {
                                     if (event.which === 32) {
-                                        moveCameraToLocWhereStaring(newScene);
+                                        moveCameraToStareLoc(newScene);
                                     }
                                 });
 
-                                // Create a sphere to indicate where the user is
-                                // staring.
-                                var staresphere = BABYLON.MeshBuilder.CreateSphere(
-                                    "staresphere", {diameter: 0.1}, newScene
+                                // Create a sphere to indicate where the user
+                                // is staring.
+                                var stareSphere = BABYLON.MeshBuilder.CreateSphere(
+                                    "stareSphere", {diameter: 0.1}, newScene
                                 );
                                 
-                                // Start the render loop. The goal is to achieve 60
-                                // fps.
+                                // Start the render loop. The goal is to
+                                // achieve 60 fps.
                                 engine.runRenderLoop(() => {
-                                    // Setup the camera if needed. Checks, too, for a
-                                    // camera change (e.g., if the webVR camera was
-                                    // activated).
+                                    // Setup the camera if needed. Checks,
+                                    // too, for a camera change (e.g., if the
+                                    // webVR camera was activated).
                                     setupCameraIfNeeded(newScene);
 
-                                    // Move the camera position to the floor, so the
-                                    // user cannot walk up into the sky.
+                                    // Move the camera position to the floor,
+                                    // so the user cannot walk up into the
+                                    // sky.
                                     newScene.activeCamera.position = vecProjectToFloor(
                                         newScene.activeCamera.position, newScene
                                     );
                                     
-                                    // Determine where the user is staring. Move the
-                                    // stare sphere to that location.
+                                    // Determine where the user is staring.
+                                    // Move the stare sphere to that location.
                                     var stareLoc = starePointOnTheFloor(newScene);
-                                    var staresphere = newScene.getMeshByID("staresphere");
+                                    var stareSphere = newScene.getMeshByID("stareSphere");
                                     if (stareLoc !== null) { 
-                                        staresphere.position = stareLoc; 
-                                        staresphere.isVisible = true;
+                                        stareSphere.position = stareLoc; 
+                                        stareSphere.isVisible = true;
                                     } else {
-                                        staresphere.isVisible = false;
+                                        stareSphere.isVisible = false;
                                     }
 
                                     // Render the scene.
@@ -245,7 +249,7 @@
                                 });
 
                                 // Set the resize event handler.
-                                window.addEventListener('resize', function () {
+                                window.addEventListener('resize', () => {
                                     engine.resize();
                                 });
 
