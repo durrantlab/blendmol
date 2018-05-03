@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv=Content-Type content="text/html" charset=utf-8 />
-        <title>Light/Shadow Baking -- Molecules in Blender</title>
+        <title>Light/Shadow Baking</title>
         <style>
             html,body{
                 overflow:hidden;
@@ -20,21 +20,24 @@
         </style>
     </head>
     <body>
+        <!-- Create a canvas where the 3D scene will be drawn. -->
         <canvas id="renderCanvas"></canvas>
+
+        <!-- Load the babylon library. -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/2.5.0/babylon.max.js"></script>
+
+        <!-- Load the jQuery library -->
         <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin=anonymous></script>
+        
         <script>
-            var canvas;
-            var engine;
+            // Check if BABYLON is supported.
+            if (BABYLON.Engine.isSupported()) {
+                // Initialize BabylonJS variables
+                var canvas = jQuery("#renderCanvas").get(0);
+                var engine = new BABYLON.Engine(canvas, true);
 
-            jQuery(document).ready(function () {
-                // The DOM ready... Check if BABYLON is supported.
-                if (BABYLON.Engine.isSupported()) {
-                    // Create the canvas
-                    var canvas = jQuery("#renderCanvas").get(0);
-
-                    // Create the engine
-                    var engine = new BABYLON.Engine(canvas, true);
+                // Wait until the DOM is ready.
+                jQuery(document).ready(function () {
 
                     // Load the babylon file
                     BABYLON.SceneLoader.Load("/", "scene.babylon", engine, function (scene) {
@@ -53,8 +56,9 @@
                             scene.activeCamera = camera;
                             scene.activeCamera.attachControl(canvas);
 
-                            // Run the render loop
-                            engine.runRenderLoop(function () {
+                                // Start the render loop. The goal is to achieve 60
+                                // fps.
+                                engine.runRenderLoop(function () {
                                 // Adjust the visibility of the surface mesh
                                 // based on distance to pivot point.
                                 let surf = scene.getMeshByID("5G38_surf_A");
@@ -82,14 +86,14 @@
                                 scene.render();
                             });
 
-                            // Set the resize event handler
+                            // Set the resize event handler.
                             window.addEventListener('resize', function () {
                                 engine.resize();
                             });
                         });
                     });
-                }
-            });
+                });
+            }
         </script>
     </body>
 </html>

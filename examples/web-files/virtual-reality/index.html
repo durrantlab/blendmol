@@ -1,38 +1,36 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Michelangelo's Molecule</title>
-    <style>
-        html, body {
-            width: 100%;
-            height: 100%;
-            padding: 0;
-            margin: 0;
-            overflow: hidden;
-        }
+    <head>
+        <meta http-equiv=Content-Type content="text/html" charset=utf-8 />
+        <title>Michelangelo's Molecule</title>
+        <style>
+            html, body {
+                width: 100%;
+                height: 100%;
+                padding: 0;
+                margin: 0;
+                overflow: hidden;
+            }
 
-        #renderCanvas {
-            width: 100%;
-            height: 100%;
-        }
-    </style>
-</head>
-<body>
-    <!-- Create a canvas where the 3D scene will be drawn. -->
-    <canvas id="renderCanvas"></canvas>
+            #renderCanvas {
+                width: 100%;
+                height: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Create a canvas where the 3D scene will be drawn. -->
+        <canvas id="renderCanvas"></canvas>
 
-    <!-- Load the babylon library. -->
-    <script src="js/babylon.custom.js"></script>
+        <!-- Load the babylon library. Using a custom build of version 3.1
+        stable that includes collisions using web workers, as well as wood and
+        marble procedural textures. -->
+        <script src="babylon.custom.js"></script>
 
-    <!-- Load the jQuery library -->
-    <script src="js/jquery-3.3.1.min.js"></script>
+        <!-- Load the jQuery library -->
+        <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin=anonymous></script>
 
-    <script>
-        if (BABYLON.Engine.isSupported()) {
-            // Initialize BabylonJS variables
-            var canvas = document.getElementById("renderCanvas");
-            var engine = new BABYLON.Engine(canvas, true);
-
+        <script>
             // Keep track of when the VR camera last moved. This is to prevent
             // rapid movements in VR mode, which can make people sick.
             var VRMovedLastTimestamp = 0;
@@ -42,15 +40,15 @@
             var lastCameraName = "";
 
             /**
-             * Projects a vector onto the floor directly beneath it.
-             *
-             * @param {BABYLON.Vector3} pos - The vector to project onto the
-             *     floor.
-             * @param {BABYLON.Scene} scene - The scene where the vector
-             *     resides.
-             * @return {BABYLON.Vector3} A vector on the floor, directly
-             *     beneath pos.
-             */
+            * Projects a vector onto the floor directly beneath it.
+            *
+            * @param {BABYLON.Vector3} pos - The vector to project onto the
+            *     floor.
+            * @param {BABYLON.Scene} scene - The scene where the vector
+            *     resides.
+            * @return {BABYLON.Vector3} A vector on the floor, directly
+            *     beneath pos.
+            */
             function vecProjectToFloor(pos, scene) {
                 // Create a ray pointing downward.
                 var rayOrigin = new BABYLON.Vector3(pos.x, 10, pos.z);
@@ -76,12 +74,12 @@
             }
 
             /**
-             * Determines where the user is staring in the 3D world and moves
-             * the camera to that location.
-             *
-             * @param {BABYLON.Scene} scene - The scene where the vector
-             *     resides.
-             */
+            * Determines where the user is staring in the 3D world and moves
+            * the camera to that location.
+            *
+            * @param {BABYLON.Scene} scene - The scene where the vector
+            *     resides.
+            */
             function moveCameraToLocWhereStaring(scene) {
                 // Determine the point on the floor where the user is staring.
                 var newLoc = starePointOnTheFloor(scene);
@@ -93,13 +91,13 @@
             }
 
             /**
-             * Determines where the user is staring in the 3D world.
-             *
-             * @param {BABYLON.Scene} scene - The scene where the vector
-             *     resides.
-             * @return {BABYLON.Vector3} A vector on the floor, where the user
-             *     is staring.
-             */
+            * Determines where the user is staring in the 3D world.
+            *
+            * @param {BABYLON.Scene} scene - The scene where the vector
+            *     resides.
+            * @return {BABYLON.Vector3} A vector on the floor, where the user
+            *     is staring.
+            */
             function starePointOnTheFloor(scene) {
                 // Get a ray extending out in the direction of the stare.
                 var ray = scene.activeCamera.getForwardRay();
@@ -118,11 +116,11 @@
             }
 
             /**
-             * If the camera name has recently changed, sets up the camera.
-             *
-             * @param {BABYLON.Scene} scene - The scene where the vector
-             *     resides.
-             */
+            * If the camera name has recently changed, sets up the camera.
+            *
+            * @param {BABYLON.Scene} scene - The scene where the vector
+            *     resides.
+            */
             function setupCameraIfNeeded(scene) {
                 // Get the active camera.
                 var camera = scene.activeCamera;
@@ -153,93 +151,109 @@
                 // Slow the camera.
                 camera.speed = 0.1;
             }
-    
-            // Load the .babylon file.
-            BABYLON.SceneLoader.Load(
-                "", "scene.babylon", engine, 
-                function (newScene) {
-                    window.scene = newScene;  // for debugging
 
-                    // Wait for the new scene to be ready.
-                    newScene.executeWhenReady(() => {
-                        // Apply a marble texture to the floor.
-                        var marbleTex = new BABYLON.MarbleProceduralTexture(
-                            "marble", 512, newScene
-                        );
-                        marbleTex.numberOfTilesHeight = 3;
-                        marbleTex.numberOfTilesWidth = 3;
-                        marbleTex.uScale = 5;
-                        marbleTex.vScale = 5;
-                        newScene.getMeshByID("floor").material.ambientTexture = marbleTex;
+            // Check if BABYLON is supported.
+            if (BABYLON.Engine.isSupported()) {
+                // Initialize BabylonJS variables
+                var canvas = jQuery("#renderCanvas").get(0);
+                var engine = new BABYLON.Engine(canvas, true);
 
-                        // Set up the VR helper, so the user can easily enter
-                        // VR mode.
-                        VRHelper = newScene.createDefaultVRExperience();
+                // Wait until the DOM is ready.
+                jQuery(document).ready(() => {
+            
+                    // Load the babylon file.
+                    BABYLON.SceneLoader.Load(
+                        "", "scene.babylon", engine, 
+                        function (newScene) {
+                            window.scene = newScene;  // for debugging
 
-                        // Check if the user has triggered the controller.
-                        VRHelper.onControllerMeshLoaded.add((cntrl) => {
-                            cntrl.onTriggerStateChangedObservable.add(() => {
-                                // The controller has been triggered. Check if
-                                // enough time has passed since it was last
-                                // triggered.
-                                let currentTime = new Date().getTime();
-                                if (currentTime - VRMovedLastTimestamp > 500) {
-                                    // Enough time has passed for a new
-                                    // trigger. Update the timestamp.
-                                    VRMovedLastTimestamp = currentTime;
+                            // Wait for the new scene to be ready.
+                            newScene.executeWhenReady(() => {
+                                // Apply a marble texture to the floor.
+                                var marbleTex = new BABYLON.MarbleProceduralTexture(
+                                    "marble", 512, newScene
+                                );
+                                marbleTex.numberOfTilesHeight = 3;
+                                marbleTex.numberOfTilesWidth = 3;
+                                marbleTex.uScale = 5;
+                                marbleTex.vScale = 5;
+                                newScene.getMeshByID("floor").material.ambientTexture = marbleTex;
 
-                                    // Move to where the user is staring.
-                                    moveCameraToLocWhereStaring(newScene);
-                                }
+                                // Set up the VR helper, so the user can easily enter
+                                // VR mode.
+                                VRHelper = newScene.createDefaultVRExperience();
+
+                                // Check if the user has triggered the controller.
+                                VRHelper.onControllerMeshLoaded.add((cntrl) => {
+                                    cntrl.onTriggerStateChangedObservable.add(() => {
+                                        // The controller has been triggered. Check if
+                                        // enough time has passed since it was last
+                                        // triggered.
+                                        let currentTime = new Date().getTime();
+                                        if (currentTime - VRMovedLastTimestamp > 500) {
+                                            // Enough time has passed for a new
+                                            // trigger. Update the timestamp.
+                                            VRMovedLastTimestamp = currentTime;
+
+                                            // Move to where the user is staring.
+                                            moveCameraToLocWhereStaring(newScene);
+                                        }
+                                    });
+                                });
+
+                                // If the user presses the spacebar, move to the
+                                // location where he or she is staring.
+                                jQuery(document).keydown((event) => {
+                                    if (event.which === 32) {
+                                        moveCameraToLocWhereStaring(newScene);
+                                    }
+                                });
+
+                                // Create a sphere to indicate where the user is
+                                // staring.
+                                var staresphere = BABYLON.MeshBuilder.CreateSphere(
+                                    "staresphere", {diameter: 0.1}, newScene
+                                );
+                                
+                                // Start the render loop. The goal is to achieve 60
+                                // fps.
+                                engine.runRenderLoop(() => {
+                                    // Setup the camera if needed. Checks, too, for a
+                                    // camera change (e.g., if the webVR camera was
+                                    // activated).
+                                    setupCameraIfNeeded(newScene);
+
+                                    // Move the camera position to the floor, so the
+                                    // user cannot walk up into the sky.
+                                    newScene.activeCamera.position = vecProjectToFloor(
+                                        newScene.activeCamera.position, newScene
+                                    );
+                                    
+                                    // Determine where the user is staring. Move the
+                                    // stare sphere to that location.
+                                    var stareLoc = starePointOnTheFloor(newScene);
+                                    var staresphere = newScene.getMeshByID("staresphere");
+                                    if (stareLoc !== null) { 
+                                        staresphere.position = stareLoc; 
+                                        staresphere.isVisible = true;
+                                    } else {
+                                        staresphere.isVisible = false;
+                                    }
+
+                                    // Render the scene.
+                                    newScene.render();
+                                });
+
+                                // Set the resize event handler.
+                                window.addEventListener('resize', function () {
+                                    engine.resize();
+                                });
+
                             });
-                        });
-
-                        // If the user presses the spacebar, move to the
-                        // location where he or she is staring.
-                        jQuery(document).keydown((event) => {
-                            if (event.which === 32) {
-                                moveCameraToLocWhereStaring(newScene);
-                            }
-                        });
-
-                        // Create a sphere to indicate where the user is
-                        // staring.
-                        var staresphere = BABYLON.MeshBuilder.CreateSphere(
-                            "staresphere", {diameter: 0.1}, newScene
-                        );
-                        
-                        // Start the render loop. The goal is to achieve 60
-                        // fps.
-                        engine.runRenderLoop(() => {
-                            // Setup the camera if needed. Checks, too, for a
-                            // camera change (e.g., if the webVR camera was
-                            // activated).
-                            setupCameraIfNeeded(newScene);
-
-                            // Move the camera position to the floor, so the
-                            // user cannot walk up into the sky.
-                            newScene.activeCamera.position = vecProjectToFloor(
-                                newScene.activeCamera.position, newScene
-                            );
-                            
-                            // Determine where the user is staring. Move the
-                            // stare sphere to that location.
-                            var stareLoc = starePointOnTheFloor(newScene);
-                            var staresphere = newScene.getMeshByID("staresphere");
-                            if (stareLoc !== null) { 
-                                staresphere.position = stareLoc; 
-                                staresphere.isVisible = true;
-                            } else {
-                                staresphere.isVisible = false;
-                            }
-
-                            // Render the scene.
-                            newScene.render();
-                        });
-                    });
-                }, function (progress) {}
-            );
-        }
-    </script>
-</body>
+                        }, function (progress) {}
+                    );
+                });
+            }
+        </script>
+    </body>
 </html>
