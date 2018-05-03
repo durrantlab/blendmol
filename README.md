@@ -37,8 +37,20 @@ BlendMol installation within Blender is the same as with any Blender plugin:
 7. Critical plugin preferences can be set from the Add-ons panel by clicking 
    the expanding carat. See the BlendMol manuscript for full details.
 
+Example Files
+=============
+
+Example files can be found in `./examples/`.
+
+* `./examples/vmd-files/` includes a PDB and VMD state file.
+* `./examples/pymol-files/` includes a PyMOL session file.
+* `./examples/web-files/baked-lighting-shadows/` demonstrates browser-based
+  molecular visualization with advanced lighting and shadows.
+* `./examples/web-files/virtual-reality/` demonstrates browser-based
+  virtual-reality molecular visualization.
+
 Authors and Contacts
 ====================
 
-Pyrite was created by Jacob Durrant
+BlendMol was created by Jacob Durrant
 ([durrantj@pitt.edu](mailto:durrantj@pitt.edu)).
