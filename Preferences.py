@@ -15,7 +15,7 @@ from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty, IntProperty, BoolProperty
 from . import FileBasedPreferences
 
-class VMDAddonPreferences(AddonPreferences):
+class ExternalProgramPreferences(AddonPreferences):
     """
     The plugin preference panel in the User Preferences window.
     """
@@ -119,7 +119,7 @@ def register():
     Register the plugin.
     """
 
-    try: bpy.utils.register_class(VMDAddonPreferences)
+    try: bpy.utils.register_class(ExternalProgramPreferences)
     except: pass
 
 def unregister():
@@ -127,4 +127,5 @@ def unregister():
     Unregister the plugin.
     """
 
-    bpy.utils.unregister_class(VMDAddonPreferences)
+    try: bpy.utils.unregister_class(ExternalProgramPreferences)
+    except: pass
