@@ -9,6 +9,22 @@ class VMD(ExternalInterface):
     A class to get 3D models using VMD.
     """
 
+    def fix_path_for_tcl(path):
+        """
+        Even in windows, TCL paths must use /.
+
+        :param string path: The path, as appropriate for the operating
+                      system.
+
+        :returns: The TCL-appropriate path.
+        :rtype: :class:`str`
+        """
+
+        if os.sep != "/":
+            # Windows, so switch to /
+            path = path.replace("\\", "/")    
+        return path
+
     def make_vis_script(self, my_operator):
         """
         Make the visualization script to pass to VMD, and save it to the
@@ -61,7 +77,7 @@ class VMD(ExternalInterface):
         filename = os.path.abspath(my_operator.filepath)
         _, ext = os.path.splitext(filename)
         ext = ext.upper()
-        filename = str(Path(filename))  # Make path os-specific
+        filename = fix_path_for_tcl(filename)  # Make path os-specific
 
         if ext == ".PDB":
             # Set the selections
@@ -260,14 +276,14 @@ class VMD(ExternalInterface):
         else:
             # Must be a VMD or TCL file
             tcl_script = tcl_script + '''
-                cd ''' + str(Path(os.path.dirname(filename))) + '''
+                cd ''' + fix_path_for_tcl(os.path.dirname(filename)) + '''
                 ''' + open(filename, 'r').read() + '''
 
                 # Go to first frame
                 animate goto 0
 
                 ''' + reset_viewport_tcl + '''
-                render Wavefront "''' + str(Path(self.tmp_dir)) + os.sep + '''user_defined.obj"
+                render Wavefront "''' + fix_path_for_tcl(self.tmp_dir) + os.sep + '''user_defined.obj"
             '''
 
         tcl_script = tcl_script + """
@@ -307,7 +323,7 @@ class VMD(ExternalInterface):
 
         return '''
                 mol addrep top
-                render Wavefront "''' + str(Path(self.tmp_dir)) + os.sep + filename_id + '''_${chain}.obj"
+                render Wavefront "''' + fix_path_for_tcl(self.tmp_dir) + os.sep + filename_id + '''_${chain}.obj"
             }
         '''
 
@@ -416,6 +432,6 @@ class VMD(ExternalInterface):
 
         # Execute VMD to generate the obj files
         os.system(
-            '"' + str(Path(exec_path)) + '"' + " -dispdev text -e " +
-            str(Path(self.tmp_dir + "vmd.vmd"))
+            '"' + fix_path_for_tcl(exec_path) + '"' + " -dispdev text -e " +
+            fix_path_for_tcl(self.tmp_dir + "vmd.vmd")
         )
