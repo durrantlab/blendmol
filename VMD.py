@@ -9,7 +9,7 @@ class VMD(ExternalInterface):
     A class to get 3D models using VMD.
     """
 
-    def fix_path_for_tcl(path):
+    def fix_path_for_tcl(self, path):
         """
         Even in windows, TCL paths must use /.
 
@@ -77,7 +77,7 @@ class VMD(ExternalInterface):
         filename = os.path.abspath(my_operator.filepath)
         _, ext = os.path.splitext(filename)
         ext = ext.upper()
-        filename = fix_path_for_tcl(filename)  # Make path os-specific
+        filename = self.fix_path_for_tcl(filename)  # Make path os-specific
 
         if ext == ".PDB":
             # Set the selections
@@ -276,14 +276,14 @@ class VMD(ExternalInterface):
         else:
             # Must be a VMD or TCL file
             tcl_script = tcl_script + '''
-                cd ''' + fix_path_for_tcl(os.path.dirname(filename)) + '''
+                cd ''' + self.fix_path_for_tcl(os.path.dirname(filename)) + '''
                 ''' + open(filename, 'r').read() + '''
 
                 # Go to first frame
                 animate goto 0
 
                 ''' + reset_viewport_tcl + '''
-                render Wavefront "''' + fix_path_for_tcl(self.tmp_dir) + os.sep + '''user_defined.obj"
+                render Wavefront "''' + self.fix_path_for_tcl(self.tmp_dir) + os.sep + '''user_defined.obj"
             '''
 
         tcl_script = tcl_script + """
@@ -323,7 +323,7 @@ class VMD(ExternalInterface):
 
         return '''
                 mol addrep top
-                render Wavefront "''' + fix_path_for_tcl(self.tmp_dir) + os.sep + filename_id + '''_${chain}.obj"
+                render Wavefront "''' + self.fix_path_for_tcl(self.tmp_dir) + os.sep + filename_id + '''_${chain}.obj"
             }
         '''
 
@@ -432,6 +432,6 @@ class VMD(ExternalInterface):
 
         # Execute VMD to generate the obj files
         os.system(
-            '"' + fix_path_for_tcl(exec_path) + '"' + " -dispdev text -e " +
-            fix_path_for_tcl(self.tmp_dir + "vmd.vmd")
+            '"' + self.fix_path_for_tcl(exec_path) + '"' + " -dispdev text -e " +
+            self.fix_path_for_tcl(self.tmp_dir + "vmd.vmd")
         )
