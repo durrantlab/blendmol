@@ -2,6 +2,7 @@ from .ExternalInterface import ExternalInterface
 import os
 import re
 import glob
+from pathlib import Path
 
 class VMD(ExternalInterface):
     """
@@ -60,6 +61,7 @@ class VMD(ExternalInterface):
         filename = os.path.abspath(my_operator.filepath)
         _, ext = os.path.splitext(filename)
         ext = ext.upper()
+        filename = str(Path(filename))  # Make path os-specific
 
         if ext == ".PDB":
             # Set the selections
@@ -258,14 +260,14 @@ class VMD(ExternalInterface):
         else:
             # Must be a VMD or TCL file
             tcl_script = tcl_script + '''
-                cd ''' + os.path.dirname(filename) + '''
+                cd ''' + str(Path(os.path.dirname(filename))) + '''
                 ''' + open(filename, 'r').read() + '''
 
                 # Go to first frame
                 animate goto 0
 
                 ''' + reset_viewport_tcl + '''
-                render Wavefront "''' + self.tmp_dir + os.sep + '''user_defined.obj"
+                render Wavefront "''' + str(Path(self.tmp_dir)) + os.sep + '''user_defined.obj"
             '''
 
         tcl_script = tcl_script + """
@@ -273,7 +275,7 @@ class VMD(ExternalInterface):
         """
 
         # Save the VMD TCL script.
-        open(self.tmp_dir + "vmd.vmd", 'w').write(tcl_script)
+        open(str(Path(self.tmp_dir + "vmd.vmd")), 'w').write(tcl_script)
         
     def get_code_start(self, selection):
         """
@@ -305,7 +307,7 @@ class VMD(ExternalInterface):
 
         return '''
                 mol addrep top
-                render Wavefront "''' + self.tmp_dir + os.sep + filename_id + '''_${chain}.obj"
+                render Wavefront "''' + str(Path(self.tmp_dir)) + os.sep + filename_id + '''_${chain}.obj"
             }
         '''
 
@@ -414,6 +416,6 @@ class VMD(ExternalInterface):
 
         # Execute VMD to generate the obj files
         os.system(
-            '"' + exec_path + '"' + " -dispdev text -e " +
-            self.tmp_dir + "vmd.vmd"
+            '"' + str(Path(exec_path)) + '"' + " -dispdev text -e " +
+            str(Path(self.tmp_dir + "vmd.vmd"))
         )

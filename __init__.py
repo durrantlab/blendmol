@@ -38,6 +38,7 @@ bl_info = {
 import tempfile
 import os
 import urllib.request
+from pathlib import Path
 import bpy
 from bpy.types import Operator
 from bpy_extras.io_utils import ImportHelper, ExportHelper
@@ -129,12 +130,12 @@ class ImportVMD(Operator, ImportHelper):
 
     vmd_exec_path = StringProperty(
         name = "VMD",
-        default = "/PATH/TO/VMD/EXECUTABLE", 
+        default = str(Path("/PATH/TO/VMD/EXECUTABLE")), 
         description = "The full path to the VMD executable file.",
     )
     pymol_exec_path = StringProperty(
         name = "PyMol",
-        default = "/PATH/TO/PYMOL/EXECUTABLE", 
+        default = str(Path("/PATH/TO/PYMOL/EXECUTABLE")), 
         description = "The full path to the PyMol executable file.",
     )
 
