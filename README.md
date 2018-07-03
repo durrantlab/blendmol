@@ -17,6 +17,21 @@ visualization and industry-standard rendering techniques. The plugin works
 seamlessly with popular analysis programs (i.e., VMD/PyMOL). Users import into
 Blender the very molecular representations they set up in VMD/PyMOL.
 
+The Latest Version
+==================
+
+To view the source code of the latest version, visit
+[http://git.durrantlab.com/jdurrant/blendmol](http://git.durrantlab.com/jdurrant/blendmol).
+The same code is mirrored on GitHub.
+
+Visit [http://durrantlab.com/blendmol/](httphttp://durrantlab.com/blendmol/) to:
+
+* read the documenation
+* suggest an improvement
+* point out a bug
+* ask a question about usage
+
+
 Installation
 ============
 
