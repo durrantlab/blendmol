@@ -24,7 +24,7 @@ To view the source code of the latest version, visit
 [http://git.durrantlab.com/jdurrant/blendmol](http://git.durrantlab.com/jdurrant/blendmol).
 The same code is mirrored on GitHub.
 
-Visit [http://durrantlab.com/blendmol/](httphttp://durrantlab.com/blendmol/) to:
+Visit [http://durrantlab.com/blendmol/](http://durrantlab.com/blendmol/) to:
 
 * read the documenation
 * suggest an improvement
