@@ -38,7 +38,7 @@ bl_info = {
 import tempfile
 import os
 import urllib.request
-from pathlib import Path
+from pathlib import Path  # For Windows Paths: Converts / to \.
 import bpy
 from bpy.types import Operator
 from bpy_extras.io_utils import ImportHelper, ExportHelper

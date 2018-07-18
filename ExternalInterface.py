@@ -35,6 +35,7 @@ class ExternalInterface:
         """
 
         self.tmp_dir = tempfile.mkdtemp() + os.sep
+        self.tmp_dir_escaped_slashes = self.tmp_dir.replace("\\", "\\\\")  # Because you're also writing it to external scripts.
         self.script_dir = (
             os.path.dirname(os.path.realpath(__file__)) + os.sep +
             "scripts" + os.sep
