@@ -21,6 +21,8 @@ import os
 import re
 import glob
 import subprocess
+import time
+from pathlib import Path
 
 class PyMol(ExternalInterface):
     """
@@ -70,7 +72,7 @@ class PyMol(ExternalInterface):
             # Load the PDB
             python_script = python_script + """
                 # Load the PDB file
-                cmd.load('""" + filename + """', "system")
+                cmd.load('""" + filename.replace("\\", "\\\\") + """', "system")
                 
                 # Switch to the first frame
                 cmd.frame(0)
@@ -102,19 +104,19 @@ class PyMol(ExternalInterface):
 
                 def render_surf(selection, filename):
                     render_setup(selection, "surface")
-                    cmd.save('""" + self.tmp_dir + """' + filename)
+                    cmd.save('""" + self.tmp_dir_escaped_slashes + """' + filename)
 
                 def render_sticks(selection, filename):
                     render_setup(selection, "sticks")
-                    cmd.save('""" + self.tmp_dir + """' + filename)
+                    cmd.save('""" + self.tmp_dir_escaped_slashes + """' + filename)
 
                 def render_vdw(selection, filename):
                     render_setup(selection, "spheres")
-                    cmd.save('""" + self.tmp_dir + """' + filename)
+                    cmd.save('""" + self.tmp_dir_escaped_slashes + """' + filename)
 
                 def render_cartoon(selection, filename):
                     render_setup(selection, "cartoon")
-                    cmd.save('""" + self.tmp_dir + """' + filename)
+                    cmd.save('""" + self.tmp_dir_escaped_slashes + """' + filename)
                     
                 # For each chain, separate meshes
                 for chain in [c for c in chains if c != ""]:
@@ -225,13 +227,21 @@ class PyMol(ExternalInterface):
                 # Reset the camera
                 reset_camera()
 
+                # Quick debug
+                import glob
+                print(glob.glob("''' + self.tmp_dir_escaped_slashes+ '''*"))
+
                 # Save scene
-                cmd.save("''' + self.tmp_dir + '''user_defined.wrl")
+                cmd.save("''' + self.tmp_dir_escaped_slashes + '''user_defined.wrl")
             '''
 
-        python_script = python_script + """
+        python_script = python_script + '''
+                # Save a file to emphasize that we are done.
+                open("''' + self.tmp_dir_escaped_slashes + '''DONE", "w")
+
+                # Quit
                 cmd.quit()
-        """
+        '''
 
         # Remove some tabs to make it work in python.
         lines = [l for l in python_script.split("\n") if l != ""]
@@ -249,7 +259,32 @@ class PyMol(ExternalInterface):
         :param str exec_path: The path to the executable.
         """
 
+        # This is particularly challenging. On Windows, it seems PyMol spawns
+        # a new process. This leads this script to think the PyMol script has
+        # terminated when it hasn't. So instead I'm going to have the PyMol
+        # script write a file, "DONE", to the temp directory when it
+        # completes. I'll keep this alive until it sees "DONE".
+
         # cmd = [exec_path, "-c", self.tmp_dir + "render.py"]
+
+        # Run the program
         cmd = [exec_path, self.tmp_dir + "render.py"]
         print(cmd)
         subprocess.check_call(cmd)
+
+        # Check if done. If it doesn't finish in two minutes, give up. Note
+        # that some PyMol versions don't spawn threads, so this won't stop
+        # them from running longer (and with success).
+        max_wait_time = 120
+        time_now = time.time()
+        while True:
+            if os.path.exists(self.tmp_dir + "DONE"):
+                break
+            else:
+                print("PyMol not done yet...")
+            
+            # It's been too long. Give up.
+            if time.time() - time_now > max_wait_time:
+                break
+            time.sleep(1)
+
