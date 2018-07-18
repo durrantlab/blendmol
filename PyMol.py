@@ -260,31 +260,38 @@ class PyMol(ExternalInterface):
         """
 
         # This is particularly challenging. On Windows, it seems PyMol spawns
-        # a new process. This leads this script to think the PyMol script has
+        # a new process. This leads this plugin to think the PyMol script has
         # terminated when it hasn't. So instead I'm going to have the PyMol
         # script write a file, "DONE", to the temp directory when it
         # completes. I'll keep this alive until it sees "DONE".
 
-        # cmd = [exec_path, "-c", self.tmp_dir + "render.py"]
-
-        # Run the program
-        cmd = [exec_path, self.tmp_dir + "render.py"]
+        # Run the program. First try with the -c option. That's nice because
+        # it doesn't open the GUI, and doesn't seem to span a separate thread.
+        cmd = [exec_path, "-c", self.tmp_dir + "render.py"]
         print(cmd)
         subprocess.check_call(cmd)
 
-        # Check if done. If it doesn't finish in two minutes, give up. Note
-        # that some PyMol versions don't spawn threads, so this won't stop
-        # them from running longer (and with success).
-        max_wait_time = 120
-        time_now = time.time()
-        while True:
-            if os.path.exists(self.tmp_dir + "DONE"):
-                break
-            else:
-                print("PyMol not done yet...")
-            
-            # It's been too long. Give up.
-            if time.time() - time_now > max_wait_time:
-                break
-            time.sleep(1)
+        if not os.path.exists(self.tmp_dir + "DONE"):
+            # There's no DONE file, so try without -c.
+            cmd = [exec_path, self.tmp_dir + "render.py"]
+            print(cmd)
+            subprocess.check_call(cmd)
+
+            # Check if done. If it doesn't finish in two minutes, give up. Note
+            # that some PyMol versions don't spawn threads, so this won't stop
+            # them from running longer (and with success).
+            max_wait_time = 120 
+            time_now = time.time() 
+            while True: 
+                if os.path.exists(self.tmp_dir + "DONE"): 
+                    break 
+                else: 
+                    print("PyMol not done yet...")
+
+                # It's been too long. Give up.
+                if time.time() - time_now > max_wait_time:
+                    break
+
+                # Wait a little.
+                time.sleep(1)
 
