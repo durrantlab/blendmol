@@ -451,11 +451,6 @@ class VMD(ExternalInterface):
         """
 
         # Execute VMD to generate the obj files
-        # os.system(
-        #     '"' + self.fix_path_for_tcl(exec_path) + '"' + " -dispdev text -e " +
-        #     self.fix_path_for_tcl(self.tmp_dir + "vmd.vmd")
-        # )
-
         cmd = [self.fix_path_for_tcl(exec_path), "-dispdev", "text",
                "-e", self.fix_path_for_tcl(self.tmp_dir + "vmd.vmd")]
         print(cmd)
