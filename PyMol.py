@@ -20,6 +20,7 @@ from .ExternalInterface import ExternalInterface
 import os
 import re
 import glob
+import subprocess
 
 class PyMol(ExternalInterface):
     """
