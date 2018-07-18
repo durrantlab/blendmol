@@ -20,7 +20,8 @@ from .ExternalInterface import ExternalInterface
 import os
 import re
 import glob
-from pathlib import Path
+# from pathlib import Path
+import subprocess
 
 class VMD(ExternalInterface):
     """
@@ -309,7 +310,8 @@ class VMD(ExternalInterface):
         """
 
         # Save the VMD TCL script.
-        open(str(Path(self.tmp_dir + "vmd.vmd")), 'w').write(tcl_script)
+        # open(str(Path(self.tmp_dir + "vmd.vmd")), 'w').write(tcl_script)
+        open(self.tmp_dir + "vmd.vmd", 'w').write(tcl_script)
         
     def get_code_start(self, selection):
         """
@@ -449,7 +451,12 @@ class VMD(ExternalInterface):
         """
 
         # Execute VMD to generate the obj files
-        os.system(
-            '"' + self.fix_path_for_tcl(exec_path) + '"' + " -dispdev text -e " +
-            self.fix_path_for_tcl(self.tmp_dir + "vmd.vmd")
-        )
+        # os.system(
+        #     '"' + self.fix_path_for_tcl(exec_path) + '"' + " -dispdev text -e " +
+        #     self.fix_path_for_tcl(self.tmp_dir + "vmd.vmd")
+        # )
+
+        cmd = [self.fix_path_for_tcl(exec_path), "-dispdev", "text",
+               "-e", self.fix_path_for_tcl(self.tmp_dir + "vmd.vmd")]
+        print(cmd)
+        subprocess.check_call(cmd)
