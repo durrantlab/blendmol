@@ -249,6 +249,7 @@ class PyMol(ExternalInterface):
         :param str exec_path: The path to the executable.
         """
 
-        cmd = [exec_path, "-c", self.tmp_dir + "render.py"]
+        # cmd = [exec_path, "-c", self.tmp_dir + "render.py"]
+        cmd = [exec_path, self.tmp_dir + "render.py"]
         print(cmd)
         subprocess.check_call(cmd)
