@@ -250,6 +250,9 @@ class PyMol(ExternalInterface):
 
         # Execute PyMol to generate the obj files
         print(open(self.tmp_dir + "render.py", 'r').read())
-        cmd = '"' + exec_path + '"' + " -c \"" + self.tmp_dir + "render.py\""
-        print(cmd)
-        os.system(cmd)
+        # cmd = '"' + exec_path + '"' + " -c \"" + self.tmp_dir + "render.py\""
+        # print(cmd)
+        # os.system(cmd)
+
+        cmd = [exec_path, "-c", self.tmp_dir + "render.py"]
+        subprocess.check_call(cmd)
