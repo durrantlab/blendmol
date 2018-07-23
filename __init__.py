@@ -119,7 +119,7 @@ class ImportVMD(Operator, ImportHelper):
         description = "Metals van-der-Waals representation?")
 
     remove_doubles = BoolProperty(
-        name = "Remove Doubles", default=True,
+        name = "Remove Doubles", default=False,
         description = "Remove duplicate vertices from the meshes?")
     nanometers = BoolProperty(
         name = "Use nm, not Å?", default=True,
