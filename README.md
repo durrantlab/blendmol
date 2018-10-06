@@ -79,4 +79,5 @@ Tutorial
 Installation
 ------------
 
-1. [Download the plugin](http://durrantlab.com/blendmol/).
+1. [Download the BlendMol plugin](http://durrantlab.com/blendmol/).
+2. ![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig1.jpg)
