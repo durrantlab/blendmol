@@ -83,26 +83,26 @@ Installation
 
 Click `File -> User Preferences...` to install the plugin.
 
-![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig1.jpg)
+![File -> User Preferences...](http://durrantlab.com/apps/blendmol/docs/fig1.jpg)
 
 Click the `Install Add-on from File...` button.
 
-![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig2.jpg)
+![Install Add-on from File...](http://durrantlab.com/apps/blendmol/docs/fig2.jpg)
 
 Select the BlendMol ZIP file and click the `Install Add-on from File...` button.
 
-![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig3.jpg)
+![Install Add-on from File...](http://durrantlab.com/apps/blendmol/docs/fig3.jpg)
 
 Tick the checkbox (yellow) to activate the plugin. Then click the down caret
 button (red) to show the plugin options. Specify the location of the VMD and
 PyMol executables using the appropriate buttons (green).
 
-![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig4.jpg)
+![VMD and PyMol Executables](http://durrantlab.com/apps/blendmol/docs/fig4.jpg)
 
 If you would like BlendMol to auto load when you restart Blender, click the
 `Save User Settings` button.
 
-![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig45.jpg)
+![Save User Settings](http://durrantlab.com/apps/blendmol/docs/fig45.jpg)
 
 Plugin Usage
 ------------
