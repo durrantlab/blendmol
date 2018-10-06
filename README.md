@@ -26,7 +26,7 @@ The same code is mirrored on GitHub.
 
 Visit [http://durrantlab.com/blendmol/](http://durrantlab.com/blendmol/) to:
 
-* read the documenation
+* read the documentation
 * suggest an improvement
 * point out a bug
 * ask a question about usage
