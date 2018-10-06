@@ -92,7 +92,9 @@ Click `File -> Import -> PDB/VMD/PyMol (.pdb, .vmd, .tcl, .pse)`.
 
 ![File -> Import -> PDB/VMD/PyMol (.pdb, .vmd, .tcl, .pse)](http://durrantlab.com/apps/blendmol/docs/fig5.jpg)
 
-To load a PDB file, select the file and press the `Import PDB/VMD/TCL/PSE` button.
+To load a PDB file, select the filename. Additional options (not shown) are
+given in a panel to the left. When ready, press the `Import PDB/VMD/TCL/PSE`
+button.
 
 ![Import PDB/VMD/TCL/PSE](http://durrantlab.com/apps/blendmol/docs/fig6.jpg)
 
@@ -102,9 +104,10 @@ PyMol session files and VMD state files can be similarly loaded.
 
 ![Import PDB/VMD/TCL/PSE](http://durrantlab.com/apps/blendmol/docs/fig8.jpg)
 
+You can also type a PDB ID into the filename field (in red). BlendMol will
+download the PDB model directly from the Protein Data Bank.
 
-
-
+![Import PDB/VMD/TCL/PSE](http://durrantlab.com/apps/blendmol/docs/fig9.jpg)
 
 Example Files
 =============
