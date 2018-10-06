@@ -80,4 +80,5 @@ Installation
 ------------
 
 1. [Download the BlendMol plugin](http://durrantlab.com/blendmol/).
-2. ![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig1.jpg)
+2. Click on File -> User Preferences... to install the plugin.
+   ![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig1.jpg)
