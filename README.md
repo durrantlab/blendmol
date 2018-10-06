@@ -104,7 +104,7 @@ PyMol session files and VMD state files can be similarly loaded.
 
 ![Import PDB/VMD/TCL/PSE](http://durrantlab.com/apps/blendmol/docs/fig8.jpg)
 
-You can also type a PDB ID into the filename field (in red). BlendMol will
+You can also type a PDB ID into the filename field (boxed in red). BlendMol will
 download the PDB model directly from the Protein Data Bank.
 
 ![Import PDB/VMD/TCL/PSE](http://durrantlab.com/apps/blendmol/docs/fig9.jpg)
