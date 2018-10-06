@@ -64,14 +64,19 @@ Example files can be found in `./examples/`.
 * `./examples/web-files/virtual-reality/` demonstrates browser-based
   virtual-reality molecular visualization.
 
-Video Tutorial
-==============
-
-![Video Tutorial](https://durrantlab.pitt.edu/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
-
-
 Authors and Contacts
 ====================
 
 BlendMol was created by Jacob Durrant
 ([durrantj@pitt.edu](mailto:durrantj@pitt.edu)).
+
+Tutorial
+========
+
+![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
+
+
+Installation
+------------
+
+1. [Download the plugin](http://durrantlab.com/blendmol/).
