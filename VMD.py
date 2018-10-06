@@ -302,7 +302,7 @@ class VMD(ExternalInterface):
                 animate goto 0
 
                 ''' + reset_viewport_tcl + '''
-                render Wavefront "''' + self.fix_path_for_tcl(self.tmp_dir) + os.sep + '''user_defined.obj"
+                render Wavefront "''' + self.fix_path_for_tcl(self.tmp_dir) + os.sep + '''using_vmd.obj"
             '''
 
         tcl_script = tcl_script + """

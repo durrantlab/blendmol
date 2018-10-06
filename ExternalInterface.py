@@ -150,9 +150,8 @@ class ExternalInterface:
                     obj.select = True
                 bpy.context.scene.objects.active = objs_to_merge[0]
                 bpy.ops.object.join()
-            
             if len(objs_to_merge) > 0:
-                objs_to_merge[0].name = "MIB__" + os.path.basename(filename)[:-4]
+                objs_to_merge[0].name = "BlndMol__" + os.path.basename(filename)[:-4]
             else:
                 # Sometimes PyMol (at least) doesn't save a file at all,
                 # perhaps because the selection was empty?
@@ -161,7 +160,7 @@ class ExternalInterface:
         # Make sure origins of all new meshes is 0, 0, 0
         # See https://blender.stackexchange.com/questions/35825/changing-object-origin-to-arbitrary-point-without-origin-set
         for obj in bpy.data.objects:
-            if obj.name.startswith("MIB__"):
+            if obj.name.startswith("BlndMol__"):
                 loc = obj.location
                 obj.data.transform(mathutils.Matrix.Translation(loc))
                 obj.matrix_world.translation -= loc
@@ -184,13 +183,13 @@ class ExternalInterface:
         # Scale to nanometers if necessary.
         if my_operator.nanometers == True:
             for obj in bpy.data.objects:
-                if obj.name.startswith("MIB__"):
+                if obj.name.startswith("BlndMol__"):
                     obj.scale = [0.1, 0.1, 0.1]
 
         # Also go through and remove doubles
         if my_operator.remove_doubles == True:
             for obj in bpy.data.objects:
-                if obj.name.startswith("MIB__"):
+                if obj.name.startswith("BlndMol__"):
                     bpy.ops.object.select_all(action='DESELECT')
                     bpy.context.scene.objects.active = obj
                     obj.select = True
@@ -201,13 +200,15 @@ class ExternalInterface:
                     
                     # Remove doubles. Note that doesn't always fully work with
                     # PyMol sticks.
-                    bpy.ops.mesh.remove_doubles(threshold=0.000001)
+                    # bpy.ops.mesh.remove_doubles(threshold=0.000001)
+                    bpy.ops.mesh.remove_doubles(threshold=0.0001)
 
                     # Recalculate normals
                     bpy.ops.mesh.normals_make_consistent()
 
                     bpy.ops.object.mode_set(mode = 'OBJECT')
-                    obj.name = obj.name[5:]
+
+                    # obj.name = obj.name[5:]
 
         return new_obj_names
 

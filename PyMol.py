@@ -232,7 +232,7 @@ class PyMol(ExternalInterface):
                 print(glob.glob("''' + self.tmp_dir_escaped_slashes+ '''*"))
 
                 # Save scene
-                cmd.save("''' + self.tmp_dir_escaped_slashes + '''user_defined.wrl")
+                cmd.save("''' + self.tmp_dir_escaped_slashes + '''using_pymol.wrl")
             '''
 
         python_script = python_script + '''
