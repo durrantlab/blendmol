@@ -67,7 +67,7 @@ Example files can be found in `./examples/`.
 Video Tutorial
 ==============
 
-![Video Tutorial](VideoS1.BlendMol-Tutorial.mp4)
+![Video Tutorial](https://durrantlab.pitt.edu/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
 
 
 Authors and Contacts
