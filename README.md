@@ -97,3 +97,7 @@ Click the down caret button (red) to show the plugin options. Then specify the
 location of the VMD and PyMol executables using the appropriate buttons (green).
 
 ![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig4.jpg)
+
+Plugin Usage
+------------
+
