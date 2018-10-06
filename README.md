@@ -83,3 +83,5 @@ Installation
 2. Click on `File -> User Preferences...` to install the plugin.
 
    ![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig1.jpg)
+3. Click the `Install Add-on from File...` button.
+   ![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig2.jpg)
