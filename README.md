@@ -64,6 +64,12 @@ Example files can be found in `./examples/`.
 * `./examples/web-files/virtual-reality/` demonstrates browser-based
   virtual-reality molecular visualization.
 
+Video Tutorial
+==============
+
+![Video Tutorial](VideoS1.BlendMol-Tutorial.mp4)
+
+
 Authors and Contacts
 ====================
 
