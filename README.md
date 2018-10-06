@@ -89,3 +89,11 @@ Click the `Install Add-on from File...` button.
 
 ![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig2.jpg)
 
+Select the BlendMol ZIP file and click the `Install Add-on from File...` button.
+
+![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig3.jpg)
+
+Click the down caret button (red) to show the plugin options. Then specify the 
+location of the VMD and PyMol executables using the appropriate buttons (green).
+
+![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/fig4.jpg)
