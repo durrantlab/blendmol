@@ -83,6 +83,29 @@ If you would like BlendMol to auto load when you restart Blender, click the
 
 ![Save User Settings](http://durrantlab.com/apps/blendmol/docs/fig45.jpg)
 
+BlendMol Usage
+==============
+
+![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
+
+Click `File -> Import -> PDB/VMD/PyMol (.pdb, .vmd, .tcl, .pse)`.
+
+![File -> Import -> PDB/VMD/PyMol (.pdb, .vmd, .tcl, .pse)](http://durrantlab.com/apps/blendmol/docs/fig5.jpg)
+
+To load a PDB file, select the file and press the `Import PDB/VMD/TCL/PSE` button.
+
+![Import PDB/VMD/TCL/PSE](http://durrantlab.com/apps/blendmol/docs/fig6.jpg)
+
+PyMol session files and VMD state files can be similarly loaded.
+
+![Import PDB/VMD/TCL/PSE](http://durrantlab.com/apps/blendmol/docs/fig7.jpg)
+
+![Import PDB/VMD/TCL/PSE](http://durrantlab.com/apps/blendmol/docs/fig8.jpg)
+
+
+
+
+
 Example Files
 =============
 
@@ -100,9 +123,4 @@ Authors and Contacts
 
 BlendMol was created by Jacob Durrant
 ([durrantj@pitt.edu](mailto:durrantj@pitt.edu)).
-
-BlendMol Usage
-==============
-
-![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
 
