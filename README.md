@@ -35,6 +35,9 @@ Visit [http://durrantlab.com/blendmol/](http://durrantlab.com/blendmol/) to:
 Installation
 ============
 
+Quick Start
+-----------
+
 BlendMol installation within Blender is the same as with any Blender plugin:
 
 1. Visit [http://durrantlab.com/blendmol/](http://durrantlab.com/blendmol/) to
@@ -52,32 +55,8 @@ BlendMol installation within Blender is the same as with any Blender plugin:
 7. Critical plugin preferences can be set from the Add-ons panel by clicking 
    the expanding carat. See the BlendMol manuscript for full details.
 
-Example Files
-=============
-
-Example files can be found in `./examples/`.
-
-* `./examples/vmd-files/` includes a PDB and VMD state file.
-* `./examples/pymol-files/` includes a PyMOL session file.
-* `./examples/web-files/baked-lighting-shadows/` demonstrates browser-based
-  molecular visualization with advanced lighting and shadows.
-* `./examples/web-files/virtual-reality/` demonstrates browser-based
-  virtual-reality molecular visualization.
-
-Authors and Contacts
-====================
-
-BlendMol was created by Jacob Durrant
-([durrantj@pitt.edu](mailto:durrantj@pitt.edu)).
-
-Tutorial
-========
-
-![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
-
-
-Installation
-------------
+Detailed Instructions
+---------------------
 
 [Download the BlendMol plugin](http://durrantlab.com/blendmol/).
 
@@ -104,6 +83,26 @@ If you would like BlendMol to auto load when you restart Blender, click the
 
 ![Save User Settings](http://durrantlab.com/apps/blendmol/docs/fig45.jpg)
 
-Plugin Usage
-------------
+Example Files
+=============
+
+Example files can be found in `./examples/`.
+
+* `./examples/vmd-files/` includes a PDB and VMD state file.
+* `./examples/pymol-files/` includes a PyMOL session file.
+* `./examples/web-files/baked-lighting-shadows/` demonstrates browser-based
+  molecular visualization with advanced lighting and shadows.
+* `./examples/web-files/virtual-reality/` demonstrates browser-based
+  virtual-reality molecular visualization.
+
+Authors and Contacts
+====================
+
+BlendMol was created by Jacob Durrant
+([durrantj@pitt.edu](mailto:durrantj@pitt.edu)).
+
+BlendMol Usage
+==============
+
+![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
 
