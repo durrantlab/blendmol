@@ -161,30 +161,30 @@ class VMD(ExternalInterface):
                 if my_operator.vmd_msms_repr == True:
                     tcl_script = (
                         tcl_script +
-                        self.get_msms_code("ligand_msms", ligand_sel_str)
+                        self.get_msms_code("lig_msms", ligand_sel_str)
                     )
                 else:
                     tcl_script = (
                         tcl_script +
-                        self.get_surf_code("ligand_surf", ligand_sel_str)
+                        self.get_surf_code("lig_surf", ligand_sel_str)
                     )
 
             if my_operator.ligand_sticks == True:
                 tcl_script = (
                     tcl_script +
-                    self.get_stick_code("ligand_sticks", ligand_sel_str)
+                    self.get_stick_code("lig_stks", ligand_sel_str)
                 )
 
             if my_operator.ligand_balls == True:
                 tcl_script = (
                     tcl_script +
-                    self.get_balls_code("ligand_balls", ligand_sel_str)
+                    self.get_balls_code("lig_blls", ligand_sel_str)
                 )
 
             if my_operator.ligand_vdw == True:
                 tcl_script = (
                     tcl_script +
-                    self.get_balls_code("ligand_vdw", ligand_sel_str)
+                    self.get_balls_code("lig_vdw", ligand_sel_str)
                 )
 
             # Consider interacting residues
@@ -193,14 +193,14 @@ class VMD(ExternalInterface):
                     tcl_script = (
                         tcl_script +
                         self.get_msms_code(
-                            "interacting_msms", protein_near_lig_sel_str
+                            "intract_msms", protein_near_lig_sel_str
                         )
                     )
                 else:
                     tcl_script = (
                         tcl_script +
                         self.get_surf_code(
-                            "interacting_surf", protein_near_lig_sel_str
+                            "intract_surf", protein_near_lig_sel_str
                         )
                     )
 
@@ -208,7 +208,7 @@ class VMD(ExternalInterface):
                 tcl_script = (
                     tcl_script +
                     self.get_stick_code(
-                        "interacting_sticks", protein_near_lig_sel_str
+                        "intract_stks", protein_near_lig_sel_str
                     )
                 )
 
@@ -216,7 +216,7 @@ class VMD(ExternalInterface):
                 tcl_script = (
                     tcl_script +
                     self.get_balls_code(
-                        "interacting_balls", protein_near_lig_sel_str
+                        "intract_blls", protein_near_lig_sel_str
                     )
                 )
 
@@ -224,7 +224,7 @@ class VMD(ExternalInterface):
                 tcl_script = (
                     tcl_script +
                     self.get_vdw_code(
-                        "interacting_vdw", protein_near_lig_sel_str
+                        "intract_vdw", protein_near_lig_sel_str
                     )
                 )
             
@@ -234,7 +234,7 @@ class VMD(ExternalInterface):
                     tcl_script = (
                         tcl_script +
                         self.get_msms_code(
-                            "protein_nucleic_msms", 
+                            "prot_nuc_msms", 
                             protein_nuc_sel_str
                         )
                     )
@@ -242,7 +242,7 @@ class VMD(ExternalInterface):
                     tcl_script = (
                         tcl_script +
                         self.get_surf_code(
-                            "protein_nucleic_surf", 
+                            "prot_nuc_surf", 
                             protein_nuc_sel_str
                         )
                     )
@@ -251,7 +251,7 @@ class VMD(ExternalInterface):
                 tcl_script = (
                     tcl_script +
                     self.get_stick_code(
-                        "protein_nucleic_sticks", 
+                        "prot_nuc_stks", 
                         protein_nuc_sel_str
                     )
                 )
@@ -260,7 +260,7 @@ class VMD(ExternalInterface):
                 tcl_script = (
                     tcl_script +
                     self.get_balls_code(
-                        "protein_nucleic_balls", 
+                        "prot_nuc_blls", 
                         protein_nuc_sel_str
                     )
                 )
@@ -268,7 +268,7 @@ class VMD(ExternalInterface):
             if my_operator.protein_vdw == True:
                 tcl_script = (
                     tcl_script + self.get_vdw_code(
-                        "protein_nucleic_vdw", 
+                        "prot_nuc_vdw", 
                         protein_nuc_sel_str
                     )
                 )
@@ -277,7 +277,7 @@ class VMD(ExternalInterface):
                 tcl_script = (
                     tcl_script +
                     self.get_ribbon_code(
-                        "protein_nucleic_ribbon", 
+                        "prot_nuc_ribb", 
                         protein_nuc_sel_str
                     )
                 )

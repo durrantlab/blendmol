@@ -131,25 +131,25 @@ class PyMol(ExternalInterface):
                 python_script = python_script + """
                     # Save the ligand of this chain using surface
                     # representation
-                    render_surf(ligand_sel, "ligand_surf_" + chain + ".wrl")
+                    render_surf(ligand_sel, "lig_surf_" + chain + ".wrl")
                 """
 
             if my_operator.ligand_sticks == True:
                 python_script = python_script + """
                     # Save the ligand of this chain using sticks
                     # representation
-                    render_sticks(ligand_sel, "ligand_sticks_" + chain + ".wrl")
+                    render_sticks(ligand_sel, "lig_stks_" + chain + ".wrl")
                 """
 
             # PyMol doesn't support this.
             # if my_operator.ligand_balls == True:
-            #     python_script = python_script + self.get_balls_code("ligand_balls", ligand_sel_str)
+            #     python_script = python_script + self.get_balls_code("lig_blls", ligand_sel_str)
 
             if my_operator.ligand_vdw == True:
                 python_script = python_script + """
                     # Save the ligand of this chain using VDW representation
                     # (1.0 * van der waals radius)
-                    render_vdw(ligand_sel, "ligand_vdw_" + chain + ".wrl")
+                    render_vdw(ligand_sel, "lig_vdw_" + chain + ".wrl")
                 """
 
             # Consider interacting residues
@@ -157,55 +157,55 @@ class PyMol(ExternalInterface):
                 python_script = python_script + """
                     # Save the surrounding residues of this chain using
                     # surface representation
-                    render_surf(nearby_resi_sel, "interacting_surf_" + chain + ".wrl")
+                    render_surf(nearby_resi_sel, "intract_surf_" + chain + ".wrl")
                 """
 
             if my_operator.near_ligand_sticks == True:
                 python_script = python_script + """
                     # Save the surrounding residues of this chain using sticks representation
-                    render_sticks(nearby_resi_sel, "interacting_sticks_" + chain + ".wrl")
+                    render_sticks(nearby_resi_sel, "intract_stks_" + chain + ".wrl")
                 """
 
             # PyMol doesn't support this.
             # if my_operator.near_ligand_balls == True:
-            #     python_script = python_script + self.get_balls_code("interacting_balls", protein_near_lig_sel_str)
+            #     python_script = python_script + self.get_balls_code("intract_blls", protein_near_lig_sel_str)
 
             if my_operator.near_ligand_vdw == True:
                 python_script = python_script + """
                     # Save the surrounding residues of this chain using VDW
                     # representation (1.0 * van der waals radius)
-                    render_vdw(nearby_resi_sel, "interacting_vdw_" + chain + ".wrl")
+                    render_vdw(nearby_resi_sel, "intract_vdw_" + chain + ".wrl")
                 """
             
             # Consider proteins
             if my_operator.protein_surface == True:
                 python_script = python_script + """
                     # Save the protein of this chain using surface representation
-                    render_surf(protein_nuc_sel, "protein_nucleic_surf_" + chain + ".wrl")
+                    render_surf(protein_nuc_sel, "prot_nuc_surf_" + chain + ".wrl")
                 """
 
             if my_operator.protein_sticks == True:
                 python_script = python_script + """
                     # Save the protein of this chain using sticks representation
-                    render_sticks(protein_nuc_sel, "protein_nucleic_sticks_" + chain + ".wrl")
+                    render_sticks(protein_nuc_sel, "prot_nuc_stks_" + chain + ".wrl")
                 """
 
             # PyMol doesn't support this.
             # if my_operator.protein_balls == True:
-            #     python_script = python_script + self.get_balls_code("protein_nucleic_balls", protein_nuc_sel_str)
+            #     python_script = python_script + self.get_balls_code("prot_nuc_blls", protein_nuc_sel_str)
 
             if my_operator.protein_vdw == True:
                 python_script = python_script + """
                     # Save the protein of this chain using VDW representation
                     # (1.0 * van der waals radius)
-                    render_vdw(protein_nuc_sel, "protein_nucleic_vdw_" + chain + ".wrl")
+                    render_vdw(protein_nuc_sel, "prot_nuc_vdw_" + chain + ".wrl")
                 """
 
             if my_operator.protein_ribbon == True:
                 python_script = python_script + """
                     # Save the protein of this chain using ribbon
                     # representation
-                    render_cartoon(protein_nuc_sel, "protein_nucleic_ribbon_" + chain + ".wrl")
+                    render_cartoon(protein_nuc_sel, "prot_nuc_ribb_" + chain + ".wrl")
                 """
 
             # Consider metals
