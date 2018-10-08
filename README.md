@@ -94,7 +94,7 @@ BlendMol Usage
 Basic Usage
 -----------
 
-![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
+![Basic Usage Video Tutorial](http://durrantlab.com/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
 
 Click `File -> Import -> PDB/VMD/PyMol (.pdb, .vmd, .tcl, .pse)`.
 
@@ -122,7 +122,7 @@ Advanced Usage
 
 ### Video S2: Neuraminidase ###
 
-[Video S2: Neuraminidase](http://durrantlab.com/apps/blendmol/docs/VideoS2.Neuraminidase.mp4)
+![Video S2: Neuraminidase](http://durrantlab.com/apps/blendmol/docs/VideoS2.Neuraminidase.mp4)
 
 Creating Video S2: Neuraminidase
 
