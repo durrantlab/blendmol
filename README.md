@@ -138,7 +138,11 @@ Advanced Usage
 
 ![Video S2: Neuraminidase](http://durrantlab.com/apps/blendmol/docs/VideoS2.Neuraminidase.mp4)
 
-Creating Video S2: Neuraminidase
+Creating Video S2 required many advanced Blender features that are not related
+to BlendMol's core functionality. A full detail is beyond the score of this
+document, but interested users may benefit from the 
+[Blender Guru](https://www.youtube.com/user/AndrewPPrice) channel on YouTube,
+which provides many useful tutorials.
 
 Example Files
 =============
