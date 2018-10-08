@@ -31,6 +31,11 @@ Visit [http://durrantlab.com/blendmol/](http://durrantlab.com/blendmol/) to:
 * point out a bug
 * ask a question about usage
 
+Authors and Contacts
+====================
+
+BlendMol was created by Jacob Durrant
+([durrantj@pitt.edu](mailto:durrantj@pitt.edu)).
 
 Installation
 ============
@@ -55,8 +60,8 @@ BlendMol installation within Blender is the same as with any Blender plugin:
 7. Critical plugin preferences can be set from the Add-ons panel by clicking 
    the expanding carat. See the BlendMol manuscript for full details.
 
-Detailed Instructions
----------------------
+Detailed Installation Instructions
+----------------------------------
 
 [Download the BlendMol plugin](http://durrantlab.com/blendmol/).
 
@@ -86,6 +91,9 @@ If you would like BlendMol to auto load when you restart Blender, click the
 BlendMol Usage
 ==============
 
+Basic Usage
+-----------
+
 ![Video Tutorial](http://durrantlab.com/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
 
 Click `File -> Import -> PDB/VMD/PyMol (.pdb, .vmd, .tcl, .pse)`.
@@ -109,6 +117,15 @@ download the PDB model directly from the Protein Data Bank.
 
 ![Import PDB/VMD/TCL/PSE](http://durrantlab.com/apps/blendmol/docs/fig9.jpg)
 
+Advanced Usage
+--------------
+
+### Video S2: Neuraminidase ###
+
+[Video S2: Neuraminidase](http://durrantlab.com/apps/blendmol/docs/VideoS2.Neuraminidase.mp4)
+
+Creating Video S2: Neuraminidase
+
 Example Files
 =============
 
@@ -120,10 +137,4 @@ Example files can be found in `./examples/`.
   molecular visualization with advanced lighting and shadows.
 * `./examples/web-files/virtual-reality/` demonstrates browser-based
   virtual-reality molecular visualization.
-
-Authors and Contacts
-====================
-
-BlendMol was created by Jacob Durrant
-([durrantj@pitt.edu](mailto:durrantj@pitt.edu)).
 
