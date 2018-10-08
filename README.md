@@ -1,7 +1,19 @@
-BlendMol 1.0
-============
+- [BlendMol 1.0.0](#blendmol-10)
+- [The Latest Version](#the-latest-version)
+- [Authors and Contacts](#authors-and-contacts)
+- [Installation](#installation)
+  * [Quick Start](#quick-start)
+  * [Detailed Installation Instructions](#detailed-installation-instructions)
+- [BlendMol Usage](#blendmol-usage)
+  * [Basic Usage](#basic-usage)
+  * [Advanced Usage](#advanced-usage)
+    + [Video S2: Neuraminidase](#video-s2-neuraminidase)
+- [Example Files](#example-files)
 
-BlendMol 1.0 is a Blender plugin that can easily import VMD "Visualization
+BlendMol 1.0.0
+==============
+
+BlendMol 1.0.0 is a Blender plugin that can easily import VMD "Visualization
 State" and PyMOL "Session" files. It interfaces directly with the VMD or PyMOL
 executable to 1) normalize the VMD/PyMOL camera position, 2) render molecular
 meshes to Blender-compatible files, 3) import those files into Blender, and 4)
