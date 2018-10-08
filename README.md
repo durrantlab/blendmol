@@ -1,3 +1,17 @@
+Table of Contents
+=================
+- [BlendMol 1.0](#blendmol-10)
+- [The Latest Version](#the-latest-version)
+- [Authors and Contacts](#authors-and-contacts)
+- [Installation](#installation)
+  * [Quick Start](#quick-start)
+  * [Detailed Installation Instructions](#detailed-installation-instructions)
+- [BlendMol Usage](#blendmol-usage)
+  * [Basic Usage](#basic-usage)
+  * [Advanced Usage](#advanced-usage)
+    + [Video S2: Neuraminidase](#video-s2-neuraminidase)
+- [Example Files](#example-files)
+
 BlendMol 1.0
 ============
 
