@@ -144,6 +144,16 @@ scope of this document, but interested users may benefit from the
 [Blender Guru](https://www.youtube.com/user/AndrewPPrice) channel on YouTube,
 which provides many useful tutorials.
 
+### Video S3: BlendMol/Pyrite ###
+
+Coupling BlendMol and [Pyrite](https://durrantlab.pitt.edu/pyrite/), another
+Durrant-lab plugin, simplifies the Blender-based visualization of molecular
+dynamics simulations. Here's an example:
+
+![Video S3: Pyrite Demo](http://durrantlab.com/apps/blendmol/docs/VideoS3.Pyrite-Demo.mp4)
+
+![Video S4: BlendMol/Pyrite Tutorial](http://durrantlab.com/apps/blendmol/docs/VideoS4.BlendMol-Pyrite-Tutorial.mp4)
+
 Example Files
 =============
 
