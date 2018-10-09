@@ -148,7 +148,7 @@ which provides many useful tutorials.
 
 Coupling BlendMol and [Pyrite](https://durrantlab.pitt.edu/pyrite/), another
 Durrant-lab plugin, simplifies the Blender-based visualization of molecular
-dynamics simulations. Here's an example:
+dynamics simulations.
 
 ![Video S3: Pyrite Demo](http://durrantlab.com/apps/blendmol/docs/VideoS3.Pyrite-Demo.mp4)
 
