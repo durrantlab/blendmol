@@ -10,6 +10,7 @@ Table of Contents
   * [Basic Usage](#basic-usage)
   * [Advanced Usage](#advanced-usage)
     + [Video S2: Neuraminidase](#video-s2-neuraminidase)
+    + [Video S3: BlendMol/Pyrite](#video-s3-blendmolpyrite)
 - [Example Files](#example-files)
 
 BlendMol 1.0
@@ -36,7 +37,6 @@ The Latest Version
 
 To view the source code of the latest version, visit
 [http://git.durrantlab.com/jdurrant/blendmol](http://git.durrantlab.com/jdurrant/blendmol).
-The same code is mirrored on GitHub.
 
 Visit [http://durrantlab.com/blendmol/](http://durrantlab.com/blendmol/) to:
 
