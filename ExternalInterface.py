@@ -128,15 +128,16 @@ class ExternalInterface:
             obj = bpy.data.objects[obj_name]
             if obj.type != "MESH":
                 bpy.ops.object.select_all(action='DESELECT')
-                obj.select = True
+                obj.select_set(state = True)
                 bpy.ops.object.delete()
         new_obj_names = [o.name for o in new_objs]
 
         # Apply the rotations of all meshes
         for obj in new_objs:
             bpy.ops.object.select_all(action='DESELECT')
-            bpy.context.scene.objects.active = obj
-            obj.select = True
+            #bpy.context.scene.objects.active = obj
+            bpy.context.view_layer.objects.active = obj
+            obj.select_set(state=True)
             bpy.ops.object.transform_apply(
                 location=False, scale=False, rotation=True
             )
@@ -147,8 +148,8 @@ class ExternalInterface:
             if len(objs_to_merge) > 1:
                 bpy.ops.object.select_all(action='DESELECT')
                 for obj in objs_to_merge:
-                    obj.select = True
-                bpy.context.scene.objects.active = objs_to_merge[0]
+                    obj.select_set(state = True)
+                bpy.context.view_layer.objects.active = objs_to_merge[0]
                 bpy.ops.object.join()
             if len(objs_to_merge) > 0:
                 objs_to_merge[0].name = "BldMl__" + os.path.basename(filename)[:-4]
@@ -173,8 +174,8 @@ class ExternalInterface:
                     obj.rotation_euler[i] - initial_rotation[i] / 180 * 3.1416
                 )
             bpy.ops.object.select_all(action='DESELECT')
-            bpy.context.scene.objects.active = obj
-            obj.select = True
+            bpy.context.view_layer.objects.active = obj
+            obj.select_set(state = True)
             bpy.ops.object.transform_apply(
                 location=False, scale=False, rotation=True
             )
@@ -191,8 +192,8 @@ class ExternalInterface:
             for obj in bpy.data.objects:
                 if obj.name.startswith("BldMl__"):
                     bpy.ops.object.select_all(action='DESELECT')
-                    bpy.context.scene.objects.active = obj
-                    obj.select = True
+                    bpy.context.view_layer.objects.active = obj
+                    obj.select_set(state = True)
 
                     bpy.ops.object.mode_set(mode = 'EDIT')
 

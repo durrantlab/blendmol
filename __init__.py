@@ -27,7 +27,7 @@ bl_info = {
     "description": "Import PDB (.pdb), VMD state files (.vmd), and PyMol session files (.pse)",
     "author": "Jacob Durrant",
     "version": (1, 0, 0),
-    "blender": (2, 79, 0),
+    "blender": (2, 80, 0),
     "location": ("File -> Import -> PDB/VMD/PyMol (.pdb, .vmd, .tcl, "
                  ".pse)"),
     "warning": "",
@@ -67,79 +67,80 @@ class ImportVMD(Operator, ImportHelper):
     # Define plugin variables
 
     filename_ext = ".pdb"
-    filter_glob  = StringProperty(
+    filter_glob: StringProperty(
         default="*.pdb;*.vmd;*.tcl;*.pse", 
         options={'HIDDEN'},
     )
 
-    protein_surface = BoolProperty(
+    protein_surface: BoolProperty(
         name = "Surface", default=True,
         description = "Protein surface representation?")
-    protein_ribbon = BoolProperty(
+    protein_ribbon: BoolProperty(
         name = "Ribbon", default=True,
         description = "Protein ribbon representation?")
-    protein_sticks = BoolProperty(
+    protein_sticks: BoolProperty(
         name = "Sticks", default=False,
         description = "Protein stick representation?")
-    protein_balls = BoolProperty(
+    protein_balls: BoolProperty(
         name = "Balls", default=False,
         description = "Protein ball representation?")
-    protein_vdw = BoolProperty(
+    protein_vdw: BoolProperty(
         name = "VDW Spheres", default=False,
         description = "Protein van-der-Waals representation?")
 
-    ligand_surface = BoolProperty(
+    ligand_surface: BoolProperty(
         name = "Surface", default=False,
         description = "Small-Molecule surface representation?")
-    ligand_sticks = BoolProperty(
+    ligand_sticks: BoolProperty(
         name = "Sticks", default=True,
         description = "Small-Molecule stick representation?")
-    ligand_balls = BoolProperty(
+    ligand_balls: BoolProperty(
         name = "Balls", default=False,
         description = "Small-Molecule ball representation?")
-    ligand_vdw = BoolProperty(
+    ligand_vdw: BoolProperty(
         name = "VDW Spheres", default=False,
         description = "Small-Molecule van-der-Waals representation?")
 
-    near_ligand_surface = BoolProperty(
+    near_ligand_surface: BoolProperty(
         name = "Surface", default=False,
         description = "Interacting-residues surface representation?")
-    near_ligand_sticks = BoolProperty(
+    near_ligand_sticks: BoolProperty(
         name = "Sticks", default=True,
         description = "Interacting-residues stick representation?")
-    near_ligand_balls = BoolProperty(
+    near_ligand_balls: BoolProperty(
         name = "Balls", default=False,
         description = "Interacting-residues ball representation?")
-    near_ligand_vdw = BoolProperty(
+    near_ligand_vdw: BoolProperty(
         name = "VDW Spheres", default=False,
         description = "Interacting-residues van-der-Waals representation?")
 
-    metals_vdw = BoolProperty(
+    metals_vdw: BoolProperty(
         name = "VDW Spheres", default=True,
         description = "Metals van-der-Waals representation?")
 
-    remove_doubles = BoolProperty(
+    remove_doubles: BoolProperty(
         name = "Remove Doubles", default=False,
         description = "Remove duplicate vertices from the meshes?")
-    nanometers = BoolProperty(
+    nanometers: BoolProperty(
         name = "Use nm, not Å?", default=True,
         
         description = ("Use units of nanometers instead of the default "
                        "Angstroms?")
     )
 
-    vmd_exec_path = StringProperty(
+    vmd_exec_path: StringProperty(
         name = "VMD",
-        default = str(Path("/PATH/TO/VMD/EXECUTABLE")), 
+        #default = str(Path("/PATH/TO/VMD/EXECUTABLE")), 
+        default = str(Path("/usr/local/bin/vmd")),
         description = "The full path to the VMD executable file.",
     )
-    pymol_exec_path = StringProperty(
+    pymol_exec_path: StringProperty(
         name = "PyMol",
-        default = str(Path("/PATH/TO/PYMOL/EXECUTABLE")), 
+        default = str(Path("/usr/bin/pymol")), 
         description = "The full path to the PyMol executable file.",
     )
 
-    prefer_vmd = BoolProperty(
+    prefer_vmd: BoolProperty(
         name = "Prefer VMD Over PyMol for PDB", 
         default=True,
         description = ("Use VMD when loading PDB files, not PyMol. For other "
@@ -147,7 +148,7 @@ class ImportVMD(Operator, ImportHelper):
                        "extension.")
     )
 
-    vmd_msms_repr = BoolProperty(
+    vmd_msms_repr: BoolProperty(
         name = "Use MSMS for Surfaces", 
         default=False,
         description = ("Use MSMS to render surfaces in VMD. Note that VMD "
@@ -161,14 +162,20 @@ class ImportVMD(Operator, ImportHelper):
         Sets initial user preferences, loading from a file if necessary.
         """
 
-        prefs = FileBasedPreferences.load_preferences_from_file()
+        #prefs = FileBasedPreferences.load_preferences_from_file()
 
-        # Set the preferences 
-        addon_prefs = bpy.context.user_preferences.addons[__name__].preferences
-        self.vmd_exec_path = addon_prefs.vmd_exec_path
-        self.pymol_exec_path = addon_prefs.pymol_exec_path
-        self.prefer_vmd = addon_prefs.prefer_vmd
-        self.vmd_msms_repr = addon_prefs.vmd_msms_repr
+        # Set the preferences
+        addon_prefs = bpy.context.preferences.addons[__package__].preferences
+        if addon_prefs:
+            self.vmd_exec_path = addon_prefs.vmd_exec_path
+            self.vmd_exec_path = "/usr/local/bin/vmd"
+            self.pymol_exec_path = addon_prefs.pymol_exec_path
+            self.prefer_vmd = addon_prefs.prefer_vmd
+            self.vmd_msms_repr = addon_prefs.vmd_msms_repr
+        #self.vmd_exec_path = prefs["vmd_exec_path"]
+        #self.pymol_exec_path = prefs["pymol_exec_path"]
+        #self.prefer_vmd = prefs["prefer_vmd"]
+        #self.vmd_msms_repr = prefs["vmd_msms_repr"]
 
     def add_instruction_line(self, row, text, height=0.6):
         """
@@ -338,7 +345,8 @@ class ImportVMD(Operator, ImportHelper):
         """
 
         # Save changes to user preferences
-        user_prefs = bpy.context.user_preferences.addons[__name__].preferences
+        user_prefs = bpy.context.preferences.addons[__package__].preferences
+        
         user_prefs.vmd_exec_path = self.vmd_exec_path
         user_prefs.pymol_exec_path = self.pymol_exec_path
         user_prefs.prefer_vmd = self.prefer_vmd
@@ -456,22 +464,32 @@ def add_menu_func_import(self, context):
         text="PDB/VMD/PyMol (.pdb, .vmd, .tcl, .pse)"
     )
 
+classes = (
+    ImportVMD,
+)
+
 def register():
     """
     Register the plugin.
     """
 
-    bpy.utils.register_module(__name__)
-    bpy.types.INFO_MT_file_import.append(add_menu_func_import)
+    from bpy.utils import register_class
+    for cls in classes:
+        register_class(cls)
+    bpy.types.TOPBAR_MT_file_import.append(add_menu_func_import)
     Preferences.register()
+
 
 def unregister():
     """
     Unregister the plugin.
     """
 
-    bpy.utils.unregister_module(__name__)
-    bpy.types.INFO_MT_file_import.remove(add_menu_func_import)
+    #bpy.utils.unregister_module(__name__)
+    from bpy.utils import unregister_class
+    for cls in classes:
+        unregister_class(cls)
+    bpy.types.TOPBAR_MT_file_import.remove(add_menu_func_import)
     Preferences.unregister()
 
 if __name__ == "__main__":
