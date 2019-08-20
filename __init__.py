@@ -130,8 +130,7 @@ class ImportVMD(Operator, ImportHelper):
 
     vmd_exec_path: StringProperty(
         name = "VMD",
-        #default = str(Path("/PATH/TO/VMD/EXECUTABLE")), 
-        default = str(Path("/usr/local/bin/vmd")),
+        default = str(Path("/PATH/TO/VMD/EXECUTABLE")),
         description = "The full path to the VMD executable file.",
     )
     pymol_exec_path: StringProperty(
