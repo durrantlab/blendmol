@@ -26,7 +26,7 @@ bl_info = {
     "name": "BlendMol 1.1 - PDB/VMD/PyMol",
     "description": "Import PDB (.pdb), VMD state files (.vmd), and PyMol session files (.pse)",
     "author": "Jacob Durrant",
-    "version": (1, 0, 0),
+    "version": (1, 1, 0),
     "blender": (2, 80, 0),
     "location": ("File -> Import -> PDB/VMD/PyMol (.pdb, .vmd, .tcl, "
                  ".pse)"),
