@@ -1,6 +1,6 @@
 """
-BlendMol 1.0.0: Advanced Molecular Visualization in Blender. Copyright (C)
-2018 Jacob D. Durrant
+BlendMol 1.1: Advanced Molecular Visualization in Blender. Copyright (C)
+2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -23,7 +23,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
 bl_info = {
-    "name": "BlendMol 1.0.0 - PDB/VMD/PyMol",
+    "name": "BlendMol 1.1 - PDB/VMD/PyMol",
     "description": "Import PDB (.pdb), VMD state files (.vmd), and PyMol session files (.pse)",
     "author": "Jacob Durrant",
     "version": (1, 0, 0),
@@ -68,7 +68,7 @@ class ImportVMD(Operator, ImportHelper):
 
     filename_ext = ".pdb"
     filter_glob: StringProperty(
-        default="*.pdb;*.vmd;*.tcl;*.pse", 
+        default="*.pdb;*.vmd;*.tcl;*.pse",
         options={'HIDDEN'},
     )
 
@@ -123,7 +123,7 @@ class ImportVMD(Operator, ImportHelper):
         description = "Remove duplicate vertices from the meshes?")
     nanometers: BoolProperty(
         name = "Use nm, not Å?", default=True,
-        
+
         description = ("Use units of nanometers instead of the default "
                        "Angstroms?")
     )
@@ -135,12 +135,12 @@ class ImportVMD(Operator, ImportHelper):
     )
     pymol_exec_path: StringProperty(
         name = "PyMol",
-        default = str(Path("/usr/bin/pymol")), 
+        default = str(Path("/usr/bin/pymol")),
         description = "The full path to the PyMol executable file.",
     )
 
     prefer_vmd: BoolProperty(
-        name = "Prefer VMD Over PyMol for PDB", 
+        name = "Prefer VMD Over PyMol for PDB",
         default=True,
         description = ("Use VMD when loading PDB files, not PyMol. For other "
                        "files, the program will be determined by the file "
@@ -148,7 +148,7 @@ class ImportVMD(Operator, ImportHelper):
     )
 
     vmd_msms_repr: BoolProperty(
-        name = "Use MSMS for Surfaces", 
+        name = "Use MSMS for Surfaces",
         default=False,
         description = ("Use MSMS to render surfaces in VMD. Note that VMD "
                        "doesn't include MSMS by default.")
@@ -179,7 +179,7 @@ class ImportVMD(Operator, ImportHelper):
     def add_instruction_line(self, row, text, height=0.6):
         """
         Adds a line to the instruction paragraph (user interface, UI).
-    
+
         :param ??? row: The UI row.
         :param str text: The text to add.
         :param float height: The line height. Defaults to 0.6.
@@ -206,7 +206,7 @@ class ImportVMD(Operator, ImportHelper):
         intro_box = layout.box()
         first_row = intro_box.row()
         first_row.label(text="Notes on usage below...")
-        
+
         # How to represent proteins
         protein_box = layout.box()
         first_row = protein_box.row()
@@ -345,7 +345,7 @@ class ImportVMD(Operator, ImportHelper):
 
         # Save changes to user preferences
         user_prefs = bpy.context.preferences.addons[__package__].preferences
-        
+
         user_prefs.vmd_exec_path = self.vmd_exec_path
         user_prefs.pymol_exec_path = self.pymol_exec_path
         user_prefs.prefer_vmd = self.prefer_vmd
@@ -369,7 +369,7 @@ class ImportVMD(Operator, ImportHelper):
         # First, verify that file exists
         if not os.path.exists(self.filepath):
             self.report(
-                {"ERROR"}, 
+                {"ERROR"},
                 os.path.basename(self.filepath) + " does not exist!"
             )
             return {'CANCELLED'}
@@ -382,7 +382,7 @@ class ImportVMD(Operator, ImportHelper):
         pymol_path_exists = os.path.exists(pymol_exec_path)
         if not vmd_path_exists and not pymol_path_exists:
             self.report(
-                {"ERROR"}, 
+                {"ERROR"},
                 "Neither the VMD nor the PyMol executable paths exist!"
             )
             return {'CANCELLED'}
@@ -404,14 +404,14 @@ class ImportVMD(Operator, ImportHelper):
                 exec_to_use = "VMD"
             else:
                 self.report(
-                    {"ERROR"}, 
+                    {"ERROR"},
                     (
                         'Only VMD can load files of type "' + ext.lower() +
                         '", but the specified VMD path does not exist.'
                     )
                 )
                 return {'CANCELLED'}
-        else: 
+        else:
             # PyMol files
             if pymol_path_exists:
                 exec_to_use = "PYMOL"
@@ -459,7 +459,7 @@ def add_menu_func_import(self, context):
     """
 
     self.layout.operator(
-        ImportVMD.bl_idname, 
+        ImportVMD.bl_idname,
         text="PDB/VMD/PyMol (.pdb, .vmd, .tcl, .pse)"
     )
 

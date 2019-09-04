@@ -1,6 +1,6 @@
 """
-BlendMol 1.0.0: Advanced Molecular Visualization in Blender. Copyright (C)
-2018 Jacob D. Durrant
+BlendMol 1.1: Advanced Molecular Visualization in Blender. Copyright (C)
+2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -81,6 +81,3 @@ def save_preferences_to_file():
         "vmd_msms_repr": addon_prefs.vmd_msms_repr
     }
     json.dump(prefs, open(prefs_path, 'w'))
-    
-
-

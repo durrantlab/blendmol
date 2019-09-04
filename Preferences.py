@@ -1,6 +1,6 @@
 """
-BlendMol 1.0.0: Advanced Molecular Visualization in Blender. Copyright (C)
-2018 Jacob D. Durrant
+BlendMol 1.1: Advanced Molecular Visualization in Blender. Copyright (C)
+2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -17,7 +17,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 bl_info = {
-    "name": "BlendMol 1.0.0 Preferences",
+    "name": "BlendMol 1.1 Preferences",
     "author": "Jacob Durrant",
     "version": (1, 0),
     "blender": (2, 80, 0),
@@ -149,7 +149,7 @@ def unregister():
     Unregister the plugin.
     """
     from bpy.utils import unregister_class
-    try: 
+    try:
         for cls in reversed(classes):
             unregister_class(cls)
     except: pass

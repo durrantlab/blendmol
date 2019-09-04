@@ -1,6 +1,6 @@
 """
-BlendMol 1.0.0: Advanced Molecular Visualization in Blender. Copyright (C)
-2018 Jacob D. Durrant
+BlendMol 1.1: Advanced Molecular Visualization in Blender. Copyright (C)
+2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -44,7 +44,7 @@ class ExternalInterface:
     def get_ext(self, filename):
         """
         Given a filename, get its extension.
-    
+
         :param str filename: The filename.
 
         :returns: The extension.
@@ -107,8 +107,8 @@ class ExternalInterface:
                 obj.name for obj in bpy.data.objects
             ]) - exist_obj_names_tmp
 
-            new_objs_tmp = [bpy.data.objects[obj_name] 
-                            for obj_name in new_obj_names_tmp 
+            new_objs_tmp = [bpy.data.objects[obj_name]
+                            for obj_name in new_obj_names_tmp
                             if bpy.data.objects[obj_name].type == "MESH"]
             meshes_to_join[filename] = new_objs_tmp
 
@@ -118,8 +118,8 @@ class ExternalInterface:
         ]) - orig_existing_obj_names
 
         # Keep the ones that are meshes
-        new_objs = [bpy.data.objects[obj_name] 
-                    for obj_name in new_obj_names 
+        new_objs = [bpy.data.objects[obj_name]
+                    for obj_name in new_obj_names
                     if bpy.data.objects[obj_name].type == "MESH"]
 
         # Delete the ones that aren't meshes
@@ -165,7 +165,7 @@ class ExternalInterface:
                 loc = obj.location
                 obj.data.transform(mathutils.Matrix.Translation(loc))
                 obj.matrix_world.translation -= loc
-        
+
         # Now rotate appropriately and apply
         # Reset rotation. Weird that this is imported wrong...
         for obj in new_objs:
@@ -198,7 +198,7 @@ class ExternalInterface:
                     bpy.ops.object.mode_set(mode = 'EDIT')
 
                     bpy.ops.mesh.select_all(action = 'SELECT')
-                    
+
                     # Remove doubles. Note that doesn't always fully work with
                     # PyMol sticks.
                     # bpy.ops.mesh.remove_doubles(threshold=0.000001)
@@ -231,4 +231,3 @@ class ExternalInterface:
         """
 
         pass
-

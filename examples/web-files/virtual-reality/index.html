@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-BlendMol 1.0.0: Advanced Molecular Visualization in Blender. Copyright (C)
-2018 Jacob D. Durrant
+BlendMol 1.1: Advanced Molecular Visualization in Blender. Copyright (C)
+2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -53,7 +53,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
             var VRMovedLastTime = 0;
 
             // Keep track of the camera name. When the user switches to a VR
-            // headset, for example, this name will change. 
+            // headset, for example, this name will change.
             var lastCameraName = "";
 
             /**
@@ -177,10 +177,10 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
                 // Wait until the DOM is ready.
                 jQuery(document).ready(() => {
-            
+
                     // Load the babylon file.
                     BABYLON.SceneLoader.Load(
-                        "", "scene.babylon", engine, 
+                        "", "scene.babylon", engine,
                         (newScene) => {
                             window.scene = newScene;  // for debugging
 
@@ -234,7 +234,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
                                 var stareSphere = BABYLON.MeshBuilder.CreateSphere(
                                     "stareSphere", {diameter: 0.1}, newScene
                                 );
-                                
+
                                 // Start the render loop. The goal is to
                                 // achieve 60 fps.
                                 engine.runRenderLoop(() => {
@@ -249,13 +249,13 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
                                     newScene.activeCamera.position = vecProjectToFloor(
                                         newScene.activeCamera.position, newScene
                                     );
-                                    
+
                                     // Determine where the user is staring.
                                     // Move the stare sphere to that location.
                                     var stareLoc = starePointOnTheFloor(newScene);
                                     var stareSphere = newScene.getMeshByID("stareSphere");
-                                    if (stareLoc !== null) { 
-                                        stareSphere.position = stareLoc; 
+                                    if (stareLoc !== null) {
+                                        stareSphere.position = stareLoc;
                                         stareSphere.isVisible = true;
                                     } else {
                                         stareSphere.isVisible = false;

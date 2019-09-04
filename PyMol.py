@@ -1,6 +1,6 @@
 """
-BlendMol 1.0.0: Advanced Molecular Visualization in Blender. Copyright (C)
-2018 Jacob D. Durrant
+BlendMol 1.1: Advanced Molecular Visualization in Blender. Copyright (C)
+2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -43,7 +43,7 @@ class PyMol(ExternalInterface):
                 from pymol import cmd
                 import os
 
-                # Useful page: 
+                # Useful page:
                 #    https://pymol.org/dokuwiki/doku.php?id=api:cmd:alpha
                 # https://pymolwiki.org/index.php/Selection_Algebra
 
@@ -73,7 +73,7 @@ class PyMol(ExternalInterface):
             python_script = python_script + """
                 # Load the PDB file
                 cmd.load('""" + filename.replace("\\", "\\\\") + """', "system")
-                
+
                 # Switch to the first frame
                 cmd.frame(0)
 
@@ -117,7 +117,7 @@ class PyMol(ExternalInterface):
                 def render_cartoon(selection, filename):
                     render_setup(selection, "cartoon")
                     cmd.save('""" + self.tmp_dir_escaped_slashes + """' + filename)
-                    
+
                 # For each chain, separate meshes
                 for chain in [c for c in chains if c != ""]:
                     ligand_sel = "(chain " + chain + ") and (not " + all_protein_nuc_sel + " and not " + water_sel + ") and not (not symbol h+he+li+be+b+c+n+o+f+ne+na+mg+al+si+p+s+se+cl+br+f) and (not resn mse)"
@@ -176,7 +176,7 @@ class PyMol(ExternalInterface):
                     # representation (1.0 * van der waals radius)
                     render_vdw(nearby_resi_sel, "intract_vdw_" + chain + ".wrl")
                 """
-            
+
             # Consider proteins
             if my_operator.protein_surface == True:
                 python_script = python_script + """
@@ -214,7 +214,7 @@ class PyMol(ExternalInterface):
                     # Save the protein of this chain using VDW representation
                     # (1.0 * van der waals radius)
                     render_vdw(metals_sel, "metals_" + chain + ".wrl")
-                """ 
+                """
         else:
             # Must be a PSE  file
             python_script = python_script + '''
@@ -280,12 +280,12 @@ class PyMol(ExternalInterface):
             # Check if done. If it doesn't finish in two minutes, give up. Note
             # that some PyMol versions don't spawn threads, so this won't stop
             # them from running longer (and with success).
-            max_wait_time = 120 
-            time_now = time.time() 
-            while True: 
-                if os.path.exists(self.tmp_dir + "DONE"): 
-                    break 
-                else: 
+            max_wait_time = 120
+            time_now = time.time()
+            while True:
+                if os.path.exists(self.tmp_dir + "DONE"):
+                    break
+                else:
                     print("PyMol not done yet...")
 
                 # It's been too long. Give up.
@@ -294,4 +294,3 @@ class PyMol(ExternalInterface):
 
                 # Wait a little.
                 time.sleep(1)
-
