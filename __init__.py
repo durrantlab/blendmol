@@ -161,20 +161,13 @@ class ImportVMD(Operator, ImportHelper):
         Sets initial user preferences, loading from a file if necessary.
         """
 
-        #prefs = FileBasedPreferences.load_preferences_from_file()
-
         # Set the preferences
         addon_prefs = bpy.context.preferences.addons[__package__].preferences
         if addon_prefs:
             self.vmd_exec_path = addon_prefs.vmd_exec_path
-            self.vmd_exec_path = "/usr/local/bin/vmd"
             self.pymol_exec_path = addon_prefs.pymol_exec_path
             self.prefer_vmd = addon_prefs.prefer_vmd
             self.vmd_msms_repr = addon_prefs.vmd_msms_repr
-        #self.vmd_exec_path = prefs["vmd_exec_path"]
-        #self.pymol_exec_path = prefs["pymol_exec_path"]
-        #self.prefer_vmd = prefs["prefer_vmd"]
-        #self.vmd_msms_repr = prefs["vmd_msms_repr"]
 
     def add_instruction_line(self, row, text, height=0.6):
         """
@@ -357,7 +350,7 @@ class ImportVMD(Operator, ImportHelper):
         orig_path = None
         if len(pdb_id) == 4 and not "." in pdb_id:
             _, pdb_filename = tempfile.mkstemp(suffix='.pdb')
-            url = "https://files.rcsb.org/view/" + pdb_id + ".pdb"
+            url = "http://files.rcsb.org/view/" + pdb_id + ".pdb"
             with urllib.request.urlopen(url) as response:
                 open(pdb_filename, 'wb').write(response.read())
                 orig_path = self.filepath
@@ -379,6 +372,7 @@ class ImportVMD(Operator, ImportHelper):
         pymol_exec_path = self.pymol_exec_path
 
         vmd_path_exists = os.path.exists(vmd_exec_path)
+        print(vmd_exec_path)
         pymol_path_exists = os.path.exists(pymol_exec_path)
         if not vmd_path_exists and not pymol_path_exists:
             self.report(

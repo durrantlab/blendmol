@@ -136,7 +136,7 @@ class VMD(ExternalInterface):
             # Load the PDB
             tcl_script = tcl_script + """
                 # Load the pdb file
-                mol new """ + filename + """ type pdb first 0 last -1 step 1 filebonds 1 autobonds 1 waitfor all
+                mol new [concat """ + filename + """] type pdb first 0 last -1 step 1 filebonds 1 autobonds 1 waitfor all
 
                 # Go to first frame
                 animate goto 0
