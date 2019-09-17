@@ -1,8 +1,21 @@
 Frequently Asked Questions
 ==========================
 
-"Remove Doubles" and Blender 2.79b
-----------------------------------
+Why doesn't BlendMol work with Blender 2.79 or older?
+-----------------------------------------------------
+
+The latest version of BlendMol (1.1) works with Blender 2.8. Use BlendMol 1.0
+if you run Blender 2.79. Older versions of Blender are not supported.
+
+Why can't I import via PyMol on Blender 2.8/BlendMol 1.1?
+---------------------------------------------------------
+
+There is a bug in the Blender 2.8 X3D (WRL) importer that breaks PyMol import.
+Preliminary tests using Blender 2.81 alpha suggest this bug will be addressed
+in the next version of Blender.
+
+Why does "Remove Doubles" produce mesh holes in Blender 2.79b/BlendMol 1.0?
+---------------------------------------------------------------------------
 
 When using Blender 2.79b, BlendMol's "Remove Doubles" inappropriately removes
 some faces, leaving holes in the mesh. This does not happen when using older

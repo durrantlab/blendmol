@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
-BlendMol 1.0.0: Advanced Molecular Visualization in Blender. Copyright (C)
-2018 Jacob D. Durrant
+BlendMol 1.1: Advanced Molecular Visualization in Blender. Copyright (C)
+2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -45,7 +45,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
         <!-- Load the jQuery library -->
         <script src="https://code.jquery.com/jquery-3.2.1.js" integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE=" crossorigin="anonymous"></script>
-        
+
         <script>
             // Check if BABYLON is supported.
             if (BABYLON.Engine.isSupported()) {
@@ -58,8 +58,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
                     // Load the babylon file
                     BABYLON.SceneLoader.Load(
-                        "", "scene.babylon", 
-                        engine, 
+                        "", "scene.babylon",
+                        engine,
                         function (scene) {
 
                             // Wait for textures and shaders to be ready
@@ -69,8 +69,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 
                                 // Create a camera and attach it to the canvas
                                 var camera = new BABYLON.ArcRotateCamera(
-                                    "ArcRotateCamera", -0.79, 1.57, 10.0, 
-                                    new BABYLON.Vector3(0.0, 0.0, 0.0), 
+                                    "ArcRotateCamera", -0.79, 1.57, 10.0,
+                                    new BABYLON.Vector3(0.0, 0.0, 0.0),
                                     scene);
                                 camera.wheelPrecision = 50;
                                 scene.activeCamera = camera;
@@ -95,8 +95,8 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
                                         // At close distances, it is fully
                                         // transparent.
                                         surf.visibility = 0.0;
-                                    } 
-                                    
+                                    }
+
                                     // Make sure the user can't zoom in too
                                     // much.
                                     if (radius < 3.0) {

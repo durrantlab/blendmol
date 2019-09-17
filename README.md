@@ -1,6 +1,6 @@
 Table of Contents
 =================
-- [BlendMol 1.0](#blendmol-10)
+- [BlendMol 1.1](#blendmol-10)
 - [The Latest Version](#the-latest-version)
 - [Authors and Contacts](#authors-and-contacts)
 - [Installation](#installation)
@@ -13,14 +13,14 @@ Table of Contents
     + [Video S3: BlendMol/Pyrite](#video-s3-blendmolpyrite)
 - [Example Files](#example-files)
 
-BlendMol 1.0
+BlendMol 1.1
 ============
 
-BlendMol 1.0 is a Blender plugin that can easily import VMD "Visualization
+BlendMol 1.1 is a Blender 2.8 plugin that can easily import VMD "Visualization
 State" and PyMOL "Session" files. It interfaces directly with the VMD or PyMOL
 executable to 1) normalize the VMD/PyMOL camera position, 2) render molecular
 meshes to Blender-compatible files, 3) import those files into Blender, and 4)
-optimize mesh geometries as needed. 
+optimize mesh geometries as needed.
 
 One can also work entirely within Blender, without ever opening a dedicated
 molecular-visualization program. If the user provides a PDB ID or a PDB file,
@@ -60,18 +60,18 @@ Quick Start
 BlendMol installation within Blender is the same as with any Blender plugin:
 
 1. Visit [http://durrantlab.com/blendmol/](http://durrantlab.com/blendmol/) to
-   download the BlendMol ZIP file. 
+   download the BlendMol ZIP file.
 2. Within Blender, click on the ```File > User Preferences...``` menu item to
-   open the ```Blender User Preferences``` window. 
+   open the ```Blender User Preferences``` window.
 3. Click the ```Add-ons``` button at the top of that window to open the
-   add-ons panel. 
+   add-ons panel.
 4. Specify the location of the downloaded ZIP file by clicking on the
-   ```Install Add-on from File...``` button at the bottom of the window. 
+   ```Install Add-on from File...``` button at the bottom of the window.
 5. Once installed, click the ```Import-Export: BlendMol - PDB/VMD/PyMOL```
-   checkbox to activate the plugin. 
+   checkbox to activate the plugin.
 6. To keep the plugin active after Blender restarts, click the ```Save User
    Settings``` button at the bottom of the window.
-7. Critical plugin preferences can be set from the Add-ons panel by clicking 
+7. Critical plugin preferences can be set from the Add-ons panel by clicking
    the expanding carat. See the BlendMol manuscript for full details.
 
 Detailed Installation Instructions
@@ -139,8 +139,8 @@ Advanced Usage
 ![Video S2: Neuraminidase](http://durrantlab.com/apps/blendmol/docs/VideoS2.Neuraminidase.mp4)
 
 Creating Video S2 required the use of many advanced Blender features that are
-unrelated to BlendMol's core functionality. A detailed tutorial is beyond the 
-scope of this document, but interested users may benefit from the 
+unrelated to BlendMol's core functionality. A detailed tutorial is beyond the
+scope of this document, but interested users may benefit from the
 [Blender Guru](https://www.youtube.com/user/AndrewPPrice) channel on YouTube,
 which provides many useful tutorials.
 
@@ -165,4 +165,3 @@ Example files can be found in `./examples/`.
   molecular visualization with advanced lighting and shadows.
 * `./examples/web-files/virtual-reality/` demonstrates browser-based
   virtual-reality molecular visualization.
-

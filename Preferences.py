@@ -1,6 +1,6 @@
 """
-BlendMol 1.0.0: Advanced Molecular Visualization in Blender. Copyright (C)
-2018 Jacob D. Durrant
+BlendMol 1.1: Advanced Molecular Visualization in Blender. Copyright (C)
+2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -17,10 +17,10 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 bl_info = {
-    "name": "BlendMol 1.0.0 Preferences",
+    "name": "BlendMol 1.1 Preferences",
     "author": "Jacob Durrant",
     "version": (1, 0),
-    "blender": (2, 79, 0),
+    "blender": (2, 80, 0),
     "location": "SpaceBar Search -> BlendMol Preferences",
     "description": "Preferences for the BlendMol Plugin",
     "warning": "",
@@ -44,28 +44,28 @@ class ExternalProgramPreferences(AddonPreferences):
 
     # Define preferences variables
 
-    vmd_exec_path = StringProperty(
+    vmd_exec_path: StringProperty(
         name = "VMD executable path",
-        default = "/FULL/PATH/TO/VMD/EXECUTABLE", 
+        default = "/FULL/PATH/TO/VMD/EXECUTABLE",
         description = "The full path to the VMD executable file.",
         subtype="FILE_PATH"
     )
 
-    pymol_exec_path = StringProperty(
+    pymol_exec_path: StringProperty(
         name = "PyMol executable path",
-        default = "/FULL/PATH/TO/PYMOL/EXECUTABLE", 
+        default = "/FULL/PATH/TO/PYMOL/EXECUTABLE",
         description = "The full path to the PyMol executable file.",
         subtype="FILE_PATH"
     )
 
-    prefer_vmd = BoolProperty(
+    prefer_vmd: BoolProperty(
         name = "Prefer VMD Over PyMol for PDB", default = True,
         description = ("Use VMD when loading PDB files, not PyMol. For other "
                        "files, the program will be determined by the file "
                        "extension.")
     )
 
-    vmd_msms_repr = BoolProperty(
+    vmd_msms_repr: BoolProperty(
         name = "Use MSMS for Surfaces", default = False,
 
         description = (
@@ -74,7 +74,7 @@ class ExternalProgramPreferences(AddonPreferences):
         )
     )
 
-    last_prefs = StringProperty(
+    last_prefs: StringProperty(
         name = "last_prefs",
         default = "",
         options={'HIDDEN'}
@@ -96,15 +96,14 @@ class ExternalProgramPreferences(AddonPreferences):
     def draw(self, context):
         """
         Draw the user interface in the User Preferences window.
- 
+
         :param ??? context: The context.
         """
-
         # If the preferences have never been set, set them now.
         if self.last_prefs == "":
             FileBasedPreferences.load_preferences_from_file()
             self.last_prefs = self.get_current_prefs_as_string()
-        
+
         layout = self.layout
 
         # Note that below can be identical to what's in __init__.py.
@@ -132,18 +131,25 @@ class ExternalProgramPreferences(AddonPreferences):
             FileBasedPreferences.save_preferences_to_file()
             self.last_prefs = new_prefs
 
+classes=(
+    ExternalProgramPreferences,
+)
 def register():
     """
     Register the plugin.
     """
-
-    try: bpy.utils.register_class(ExternalProgramPreferences)
+    from bpy.utils import register_class
+    try:
+        for cls in classes:
+            register_class(cls)
     except: pass
 
 def unregister():
     """
     Unregister the plugin.
     """
-
-    try: bpy.utils.unregister_class(ExternalProgramPreferences)
+    from bpy.utils import unregister_class
+    try:
+        for cls in reversed(classes):
+            unregister_class(cls)
     except: pass

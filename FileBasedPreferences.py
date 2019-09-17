@@ -1,6 +1,6 @@
 """
-BlendMol 1.0.0: Advanced Molecular Visualization in Blender. Copyright (C)
-2018 Jacob D. Durrant
+BlendMol 1.1: Advanced Molecular Visualization in Blender. Copyright (C)
+2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -37,7 +37,6 @@ def load_preferences_from_file():
     :returns: The loaded user preferences.
     :rtype: :class:`???`
     """
-    
     # Get the preferences
     if not os.path.exists(prefs_path):
         # Never saved before, so go with defaults.
@@ -51,7 +50,6 @@ def load_preferences_from_file():
     else:
         # Load previously saved values
         prefs = json.load(open(prefs_path, 'r'))
-
         if not "vmd_exec_path" in prefs.keys():
             prefs["vmd_exec_path"] = "/PATH/TO/VMD/EXECUTABLE"
         if not "pymol_exec_path" in prefs.keys():
@@ -62,7 +60,7 @@ def load_preferences_from_file():
             prefs["vmd_msms_repr"] = False
 
     # Set user preferences according to those defaults.
-    addon_prefs = bpy.context.user_preferences.addons[__package__].preferences
+    addon_prefs = bpy.context.preferences.addons[__package__].preferences
     addon_prefs.vmd_exec_path = prefs["vmd_exec_path"]
     addon_prefs.pymol_exec_path = prefs["pymol_exec_path"]
     addon_prefs.prefer_vmd = prefs["prefer_vmd"]
@@ -75,7 +73,7 @@ def save_preferences_to_file():
     Save the user preferences to the disk.
     """
 
-    addon_prefs = bpy.context.user_preferences.addons[__package__].preferences
+    addon_prefs = bpy.context.preferences.addons[__package__].preferences
     prefs = {
         "vmd_exec_path": addon_prefs.vmd_exec_path,
         "pymol_exec_path": addon_prefs.pymol_exec_path,
@@ -83,6 +81,3 @@ def save_preferences_to_file():
         "vmd_msms_repr": addon_prefs.vmd_msms_repr
     }
     json.dump(prefs, open(prefs_path, 'w'))
-    
-
-

@@ -1,6 +1,6 @@
 """
-BlendMol 1.0.0: Advanced Molecular Visualization in Blender. Copyright (C)
-2018 Jacob D. Durrant
+BlendMol 1.1: Advanced Molecular Visualization in Blender. Copyright (C)
+2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
@@ -41,7 +41,7 @@ class VMD(ExternalInterface):
 
         if os.sep != "/":
             # Windows, so switch to /
-            path = path.replace("\\", "/")    
+            path = path.replace("\\", "/")
         return path
 
     def make_vis_script(self, my_operator):
@@ -52,7 +52,7 @@ class VMD(ExternalInterface):
         :param ??? my_operator: The operator, used to access user-parameter
                     variables.
         """
-        
+
         tcl_script = """
             #!/usr/local/bin/vmd
             # Jacob Durrant
@@ -65,7 +65,7 @@ class VMD(ExternalInterface):
             # Remove all translation and rotation
 
             ##
-            ## Set transformation matrices to identity so that exported 
+            ## Set transformation matrices to identity so that exported
             ## geometry is written in the original model coordinates rather
             ## than world or eye coordinates.
             ## Code provided by John Stone, personal communication.
@@ -103,7 +103,7 @@ class VMD(ExternalInterface):
             nuc_sel_raw = ("(nucleic and not resname ATP UTP TTP CTP GTP AMP "
                            "UMP TMP CMP GMP ADP UDP TDP CDP GDP)")
 
-            lig_sel_raw = ("((chain $chain) and (not protein and not " + 
+            lig_sel_raw = ("((chain $chain) and (not protein and not " +
                            nuc_sel_raw +
                            " and not water) and not " +
                            "((not element N C O P S Se Cl Br F) " +
@@ -111,7 +111,7 @@ class VMD(ExternalInterface):
                            "(not resname MSE))")
 
             ligand_sel_str = '"' + lig_sel_raw + '"'
-            
+
             # protein_near_lig_sel_str = (
             #     '"(same residue as (protein within 8 of ((chain $chain) ' +
             #     'and (not protein and not nucleic and not water) and not ((not element N C ' +
@@ -119,7 +119,7 @@ class VMD(ExternalInterface):
             # )
 
             protein_near_lig_sel_str = (
-                '"(protein or ' + nuc_sel_raw + ') and (same residue as ' + 
+                '"(protein or ' + nuc_sel_raw + ') and (same residue as ' +
                 '(all within 8 of ' + lig_sel_raw + '))"'
             )
 
@@ -129,15 +129,15 @@ class VMD(ExternalInterface):
             )
 
             protein_nuc_sel_str = (
-                '"chain $chain and (protein or ' + nuc_sel_raw + 
+                '"chain $chain and (protein or ' + nuc_sel_raw +
                 ' or resname MSE)"'
             )
 
             # Load the PDB
             tcl_script = tcl_script + """
                 # Load the pdb file
-                mol new """ + filename + """ type pdb first 0 last -1 step 1 filebonds 1 autobonds 1 waitfor all
-                
+                mol new [concat """ + filename + """] type pdb first 0 last -1 step 1 filebonds 1 autobonds 1 waitfor all
+
                 # Go to first frame
                 animate goto 0
             """
@@ -227,14 +227,14 @@ class VMD(ExternalInterface):
                         "intract_vdw", protein_near_lig_sel_str
                     )
                 )
-            
+
             # Consider proteins
             if my_operator.protein_surface == True:
                 if my_operator.vmd_msms_repr == True:
                     tcl_script = (
                         tcl_script +
                         self.get_msms_code(
-                            "prot_nuc_msms", 
+                            "prot_nuc_msms",
                             protein_nuc_sel_str
                         )
                     )
@@ -242,7 +242,7 @@ class VMD(ExternalInterface):
                     tcl_script = (
                         tcl_script +
                         self.get_surf_code(
-                            "prot_nuc_surf", 
+                            "prot_nuc_surf",
                             protein_nuc_sel_str
                         )
                     )
@@ -251,7 +251,7 @@ class VMD(ExternalInterface):
                 tcl_script = (
                     tcl_script +
                     self.get_stick_code(
-                        "prot_nuc_stks", 
+                        "prot_nuc_stks",
                         protein_nuc_sel_str
                     )
                 )
@@ -260,7 +260,7 @@ class VMD(ExternalInterface):
                 tcl_script = (
                     tcl_script +
                     self.get_balls_code(
-                        "prot_nuc_blls", 
+                        "prot_nuc_blls",
                         protein_nuc_sel_str
                     )
                 )
@@ -268,7 +268,7 @@ class VMD(ExternalInterface):
             if my_operator.protein_vdw == True:
                 tcl_script = (
                     tcl_script + self.get_vdw_code(
-                        "prot_nuc_vdw", 
+                        "prot_nuc_vdw",
                         protein_nuc_sel_str
                     )
                 )
@@ -277,7 +277,7 @@ class VMD(ExternalInterface):
                 tcl_script = (
                     tcl_script +
                     self.get_ribbon_code(
-                        "prot_nuc_ribb", 
+                        "prot_nuc_ribb",
                         protein_nuc_sel_str
                     )
                 )
@@ -312,11 +312,11 @@ class VMD(ExternalInterface):
         # Save the VMD TCL script.
         # open(str(Path(self.tmp_dir + "vmd.vmd")), 'w').write(tcl_script)
         open(self.tmp_dir + "vmd.vmd", 'w').write(tcl_script)
-        
+
     def get_code_start(self, selection):
         """
         TCL code to run before rendering a representation.
-    
+
         :param str selection: The selection string.
 
         :returns: The TCL code.
@@ -330,11 +330,11 @@ class VMD(ExternalInterface):
                 mol delrep 0 top
                 mol selection ''' + selection + '''
         '''
-    
+
     def get_code_end(self, filename_id):
         """
         TCL code to render a representation.
-    
+
         :param str filename_id: The filename id to use when saving.
 
         :returns: The TCL code.
@@ -350,7 +350,7 @@ class VMD(ExternalInterface):
     def get_msms_code(self, filename_id, selection):
         """
         TCL code to render a MSMS representation and save it as an OBJ file.
-    
+
         :param str filename_id: The filename id to use when saving.
 
         :param str selection: The selection string.
@@ -366,7 +366,7 @@ class VMD(ExternalInterface):
     def get_surf_code(self, filename_id, selection):
         """
         TCL code to render a surf representation and save it as an OBJ file.
-    
+
         :param str filename_id: The filename id to use when saving.
 
         :param str selection: The selection string.
@@ -382,7 +382,7 @@ class VMD(ExternalInterface):
     def get_stick_code(self, filename_id, selection):
         """
         TCL code to render a stick representation  and save it as an OBJ file.
-    
+
         :param str filename_id: The filename id to use when saving.
 
         :param str selection: The selection string.
@@ -394,11 +394,11 @@ class VMD(ExternalInterface):
         return self.get_code_start(selection) + """
             mol representation Licorice 0.300000 20.000000 20.000000
         """ + self.get_code_end(filename_id)
-    
+
     def get_balls_code(self, filename_id, selection):
         """
         TCL code to render a balls representation and save it as an OBJ file.
-    
+
         :param str filename_id: The filename id to use when saving.
 
         :param str selection: The selection string.
@@ -414,7 +414,7 @@ class VMD(ExternalInterface):
     def get_vdw_code(self, filename_id, selection):
         """
         TCL code to render a VDW representation and save it as an OBJ file.
-    
+
         :param str filename_id: The filename id to use when saving.
 
         :param str selection: The selection string.
@@ -430,7 +430,7 @@ class VMD(ExternalInterface):
     def get_ribbon_code(self, filename_id, selection):
         """
         TCL code to render a ribbon representation and save it as an OBJ file.
-    
+
         :param str filename_id: The filename id to use when saving.
 
         :param str selection: The selection string.
