@@ -1,5 +1,5 @@
 """
-BlendMol 1.1: Advanced Molecular Visualization in Blender. Copyright (C)
+BlendMol 1.2: Advanced Molecular Visualization in Blender. Copyright (C)
 2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under

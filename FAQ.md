@@ -4,10 +4,10 @@ Frequently Asked Questions
 Why doesn't BlendMol work with Blender 2.79 or older?
 -----------------------------------------------------
 
-The latest version of BlendMol (1.1) works with Blender 2.8. Use BlendMol 1.0
+The latest version of BlendMol (1.2) works with Blender 2.8. Use BlendMol 1.0
 if you run Blender 2.79. Older versions of Blender are not supported.
 
-Why can't I import via PyMol on Blender 2.8/BlendMol 1.1?
+Why can't I import via PyMol on Blender 2.8/BlendMol 1.2?
 ---------------------------------------------------------
 
 There is a bug in the Blender 2.8 X3D (WRL) importer that breaks PyMol import.

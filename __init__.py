@@ -1,5 +1,5 @@
 """
-BlendMol 1.1: Advanced Molecular Visualization in Blender. Copyright (C)
+BlendMol 1.2: Advanced Molecular Visualization in Blender. Copyright (C)
 2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under
@@ -23,10 +23,10 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
 bl_info = {
-    "name": "BlendMol 1.1 - PDB/VMD/PyMol",
+    "name": "BlendMol 1.2 - PDB/VMD/PyMol",
     "description": "Import PDB (.pdb), VMD state files (.vmd), and PyMol session files (.pse)",
     "author": "Jacob Durrant",
-    "version": (1, 1, 0),
+    "version": (1, 2, 0),
     "blender": (2, 80, 0),
     "location": ("File -> Import -> PDB/VMD/PyMol (.pdb, .vmd, .tcl, "
                  ".pse)"),
