@@ -295,7 +295,7 @@ class VMD(ExternalInterface):
         else:
             # Must be a VMD or TCL file
             tcl_script = tcl_script + '''
-                cd ''' + self.fix_path_for_tcl(os.path.dirname(filename)) + '''
+                cd "''' + self.fix_path_for_tcl(os.path.dirname(filename)) + '''"
                 ''' + open(filename, 'r').read() + '''
 
                 # Go to first frame
@@ -451,6 +451,7 @@ class VMD(ExternalInterface):
         """
 
         # Execute VMD to generate the obj files
+        # print(open(self.tmp_dir + "vmd.vmd", "r").read())  # For debugging
         cmd = [self.fix_path_for_tcl(exec_path), "-dispdev", "text",
                "-e", self.fix_path_for_tcl(self.tmp_dir + "vmd.vmd")]
         print(cmd)

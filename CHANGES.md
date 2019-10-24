@@ -1,6 +1,12 @@
 Changes
 =======
 
+1.2
+---
+
+* Fixed bug so it is now possible to import files with spaces in their names
+  via VMD.
+
 1.1
 ---
 
