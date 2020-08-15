@@ -73,6 +73,9 @@ BlendMol installation within Blender is the same as with any Blender plugin:
 
 ### Detailed Installation Instructions
 
+(Note that some of the details in the pictures below are outdated, but they
+still illustrate the basic steps.)
+
 [Download the BlendMol plugin](http://durrantlab.com/blendmol/).
 
 Click `Edit -> Preferences...` to install the plugin.
