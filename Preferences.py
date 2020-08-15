@@ -1,5 +1,5 @@
 """
-BlendMol 1.2: Advanced Molecular Visualization in Blender. Copyright (C)
+BlendMol 1.3: Advanced Molecular Visualization in Blender. Copyright (C)
 2019 Jacob D. Durrant
 
 This program is free software: you can redistribute it and/or modify it under
@@ -17,7 +17,7 @@ this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
 bl_info = {
-    "name": "BlendMol 1.2 Preferences",
+    "name": "BlendMol 1.3 Preferences",
     "author": "Jacob Durrant",
     "version": (1, 0),
     "blender": (2, 80, 0),
@@ -26,12 +26,14 @@ bl_info = {
     "warning": "",
     "wiki_url": "",
     "tracker_url": "",
-    "category": "Object"}
+    "category": "Object",
+}
 
 import bpy
 from bpy.types import Operator, AddonPreferences
 from bpy.props import StringProperty, IntProperty, BoolProperty
 from . import FileBasedPreferences
+
 
 class ExternalProgramPreferences(AddonPreferences):
     """
@@ -45,40 +47,36 @@ class ExternalProgramPreferences(AddonPreferences):
     # Define preferences variables
 
     vmd_exec_path: StringProperty(
-        name = "VMD executable path",
-        default = "/FULL/PATH/TO/VMD/EXECUTABLE",
-        description = "The full path to the VMD executable file.",
-        subtype="FILE_PATH"
+        name="VMD executable path",
+        default="/FULL/PATH/TO/VMD/EXECUTABLE",
+        description="The full path to the VMD executable file.",
+        subtype="FILE_PATH",
     )
 
-    pymol_exec_path: StringProperty(
-        name = "PyMol executable path",
-        default = "/FULL/PATH/TO/PYMOL/EXECUTABLE",
-        description = "The full path to the PyMol executable file.",
-        subtype="FILE_PATH"
-    )
+    # NO MORE PYMOL: pymol_exec_path: StringProperty(
+    #     name = "PyMol executable path",
+    #     default = "/FULL/PATH/TO/PYMOL/EXECUTABLE",
+    #     description = "The full path to the PyMol executable file.",
+    #     subtype="FILE_PATH"
+    # )
 
-    prefer_vmd: BoolProperty(
-        name = "Prefer VMD Over PyMol for PDB", default = True,
-        description = ("Use VMD when loading PDB files, not PyMol. For other "
-                       "files, the program will be determined by the file "
-                       "extension.")
-    )
+    # NO MORE PYMOL: prefer_vmd: BoolProperty(
+    #     name = "Prefer VMD Over PyMol for PDB", default = True,
+    #     description = ("Use VMD when loading PDB files, not PyMol. For other "
+    #                    "files, the program will be determined by the file "
+    #                    "extension.")
+    # )
 
     vmd_msms_repr: BoolProperty(
-        name = "Use MSMS for Surfaces", default = False,
-
-        description = (
+        name="Use MSMS for Surfaces",
+        default=False,
+        description=(
             "Use MSMS to render surfaces in VMD. Note that VMD doesn't "
             "include MSMS by default."
-        )
+        ),
     )
 
-    last_prefs: StringProperty(
-        name = "last_prefs",
-        default = "",
-        options={'HIDDEN'}
-    )
+    last_prefs: StringProperty(name="last_prefs", default="", options={"HIDDEN"})
 
     def get_current_prefs_as_string(self):
         """
@@ -89,8 +87,11 @@ class ExternalProgramPreferences(AddonPreferences):
         """
 
         return (
-            self.vmd_exec_path + " " + self.pymol_exec_path + " " +
-            str(self.prefer_vmd) + " " + str(self.vmd_msms_repr)
+            self.vmd_exec_path
+            + " "
+            # NO MORE PYMOL: + str(self.prefer_vmd) + " " + self.pymol_exec_path + " "
+            # NO MORE PYMOL: + " "
+            + str(self.vmd_msms_repr)
         )
 
     def draw(self, context):
@@ -109,19 +110,20 @@ class ExternalProgramPreferences(AddonPreferences):
         # Note that below can be identical to what's in __init__.py.
         exec_box = layout.box()
         first_row = exec_box.row()
-        first_row.label(text="VMD-Specific Settings")
+        # NO MORE PYMOL: first_row.label(text="VMD-Specific Settings")
+        first_row.label(text="VMD Settings")
         second_row = exec_box.row()
         second_row.prop(self, "vmd_exec_path")
         third_row = exec_box.row()
         left_col = third_row.column()
-        left_col.prop(self, "prefer_vmd")
+        # NO MORE PYMOL: left_col.prop(self, "prefer_vmd")
         left_col.prop(self, "vmd_msms_repr")
 
-        exec_box = layout.box()
-        first_row = exec_box.row()
-        first_row.label(text="PyMol-Specific Settings")
-        second_row = exec_box.row()
-        second_row.prop(self, "pymol_exec_path")
+        # NO MORE PYMOL: exec_box = layout.box()
+        # first_row = exec_box.row()
+        # first_row.label(text="PyMol-Specific Settings")
+        # second_row = exec_box.row()
+        # second_row.prop(self, "pymol_exec_path")
 
         new_prefs = self.get_current_prefs_as_string()
 
@@ -131,25 +133,31 @@ class ExternalProgramPreferences(AddonPreferences):
             FileBasedPreferences.save_preferences_to_file()
             self.last_prefs = new_prefs
 
-classes=(
-    ExternalProgramPreferences,
-)
+
+classes = (ExternalProgramPreferences,)
+
+
 def register():
     """
     Register the plugin.
     """
     from bpy.utils import register_class
+
     try:
         for cls in classes:
             register_class(cls)
-    except: pass
+    except:
+        pass
+
 
 def unregister():
     """
     Unregister the plugin.
     """
     from bpy.utils import unregister_class
+
     try:
         for cls in reversed(classes):
             unregister_class(cls)
-    except: pass
+    except:
+        pass

@@ -1,6 +1,17 @@
 Changes
 =======
 
+1.3
+---
+
+* PyMOL no longer supported. Unlike VMD, different versions of PyMOL have
+  different command-line interfaces. Accounting for these inconsistent
+  interfaces is impractical. If you'd like to try your luck with PyMOL, please
+  use [BlendMol 1.2](https://git.durrantlab.pitt.edu/jdurrant/blendmol), the
+  latest version with PyMOL support. See `FAQ.md` for more information.
+* Applied [Black formatter](https://github.com/psf/black) to improve code
+  readability.
+
 1.2
 ---
 
