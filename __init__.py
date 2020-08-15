@@ -74,7 +74,8 @@ class ImportVMD(Operator, ImportHelper):
 
     filename_ext = ".pdb"
     filter_glob: StringProperty(
-        default="*.pdb;*.vmd;*.tcl;*.pse", options={"HIDDEN"},
+        # NO MORE PYMOL: default="*.pdb;*.vmd;*.tcl;*.pse", options={"HIDDEN"},
+        default="*.pdb;*.vmd;*.tcl", options={"HIDDEN"},
     )
 
     protein_surface: BoolProperty(

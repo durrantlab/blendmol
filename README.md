@@ -158,7 +158,6 @@ dynamics simulations.
 Example files can be found in `./examples/`.
 
 - `./examples/vmd-files/` includes a PDB and VMD state file.
-- `./examples/pymol-files/` includes a PyMOL session file.
 - `./examples/web-files/baked-lighting-shadows/` demonstrates browser-based
   molecular visualization with advanced lighting and shadows.
 - `./examples/web-files/virtual-reality/` demonstrates browser-based
