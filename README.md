@@ -108,7 +108,7 @@ still illustrate the basic steps.)
 
 ### Basic Usage
 
-![Basic Usage Video Tutorial](https://durrantlab.com/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
+[Basic Usage Video Tutorial](https://durrantlab.com/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
 
 Click `File -> Import -> PDB/VMD (.pdb, .vmd, .tcl)`.
 
@@ -135,7 +135,7 @@ download the PDB model directly from the Protein Data Bank.
 
 #### Video S2: Neuraminidase
 
-![Video S2: Neuraminidase](https://durrantlab.com/apps/blendmol/docs/VideoS2.Neuraminidase.mp4)
+[Video S2: Neuraminidase](https://durrantlab.com/apps/blendmol/docs/VideoS2.Neuraminidase.mp4)
 
 Creating Video S2 required the use of many advanced Blender features that are
 unrelated to BlendMol's core functionality. A detailed tutorial is beyond the
@@ -149,9 +149,9 @@ Coupling BlendMol and [Pyrite](https://durrantlab.pitt.edu/pyrite/), another
 Durrant-lab plugin, simplifies the Blender-based visualization of molecular
 dynamics simulations.
 
-![Video S3: Pyrite Demo](https://durrantlab.com/apps/blendmol/docs/VideoS3.Pyrite-Demo.mp4)
+[Video S3: Pyrite Demo](https://durrantlab.com/apps/blendmol/docs/VideoS3.Pyrite-Demo.mp4)
 
-![Video S4: BlendMol/Pyrite Tutorial](https://durrantlab.com/apps/blendmol/docs/VideoS4.BlendMol-Pyrite-Tutorial.mp4)
+[Video S4: BlendMol/Pyrite Tutorial](https://durrantlab.com/apps/blendmol/docs/VideoS4.BlendMol-Pyrite-Tutorial.mp4)
 
 ## Example Files
 
