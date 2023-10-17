@@ -35,9 +35,9 @@ the very molecular representations they set up in VMD.
 ## The Latest Version
 
 To view the source code of the latest version, visit
-[http://git.durrantlab.com/jdurrant/blendmol](http://git.durrantlab.com/jdurrant/blendmol).
+[https://git.durrantlab.com/jdurrant/blendmol](https://git.durrantlab.com/jdurrant/blendmol).
 
-Visit [http://durrantlab.com/blendmol/](http://durrantlab.com/blendmol/) to:
+Visit [https://durrantlab.com/blendmol/](https://durrantlab.com/blendmol/) to:
 
 - read the documentation
 - suggest an improvement
@@ -55,7 +55,7 @@ BlendMol was created by Jacob Durrant
 
 BlendMol installation within Blender is the same as with any Blender plugin:
 
-1. Visit [http://durrantlab.com/blendmol/](http://durrantlab.com/blendmol/) to
+1. Visit [https://durrantlab.com/blendmol/](https://durrantlab.com/blendmol/) to
    download the BlendMol ZIP file.
 2. Within Blender, click on the ```Edit > Preferences...``` menu item to open
    the ```Blender Preferences``` window.
@@ -76,30 +76,30 @@ BlendMol installation within Blender is the same as with any Blender plugin:
 (Note that some of the details in the pictures below are outdated, but they
 still illustrate the basic steps.)
 
-[Download the BlendMol plugin](http://durrantlab.com/blendmol/).
+[Download the BlendMol plugin](https://durrantlab.com/blendmol/).
 
 Click `Edit -> Preferences...` to install the plugin.
 
-![Edit -> Preferences...](http://durrantlab.com/apps/blendmol/docs/fig1.jpg)
+![Edit -> Preferences...](https://durrantlab.com/apps/blendmol/docs/fig1.jpg)
 
 Click the `Install...` button.
 
-![Install...](http://durrantlab.com/apps/blendmol/docs/fig2.jpg)
+![Install...](https://durrantlab.com/apps/blendmol/docs/fig2.jpg)
 
 Select the BlendMol ZIP file and click the `Install...` button.
 
-![Install...](http://durrantlab.com/apps/blendmol/docs/fig3.jpg)
+![Install...](https://durrantlab.com/apps/blendmol/docs/fig3.jpg)
 
 Tick the checkbox (yellow) to activate the plugin. Then click the down
 caret button (red) to show the plugin options. Specify the location of the
 VMD executable using the appropriate button (green).
 
-![VMD Executables](http://durrantlab.com/apps/blendmol/docs/fig4.jpg)
+![VMD Executables](https://durrantlab.com/apps/blendmol/docs/fig4.jpg)
 
 If you would like BlendMol to auto load when you restart Blender, use the
 `Save Preferences` option.
 
-![Save Preferences](http://durrantlab.com/apps/blendmol/docs/fig45.jpg)
+![Save Preferences](https://durrantlab.com/apps/blendmol/docs/fig45.jpg)
 
 ## BlendMol Usage
 
@@ -108,34 +108,34 @@ still illustrate the basic steps.)
 
 ### Basic Usage
 
-![Basic Usage Video Tutorial](http://durrantlab.com/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
+![Basic Usage Video Tutorial](https://durrantlab.com/apps/blendmol/docs/VideoS1.BlendMol-Tutorial.mp4)
 
 Click `File -> Import -> PDB/VMD (.pdb, .vmd, .tcl)`.
 
-![File -> Import -> PDB/VMD (.pdb, .vmd, .tcl)](http://durrantlab.com/apps/blendmol/docs/fig5.jpg)
+![File -> Import -> PDB/VMD (.pdb, .vmd, .tcl)](https://durrantlab.com/apps/blendmol/docs/fig5.jpg)
 
 To load a PDB file, select the filename. Additional options (not shown) are
 given in a panel to the left. When ready, press the `Import PDB/VMD/TCL`
 button.
 
-![Import PDB/VMD/TCL](http://durrantlab.com/apps/blendmol/docs/fig6.jpg)
+![Import PDB/VMD/TCL](https://durrantlab.com/apps/blendmol/docs/fig6.jpg)
 
 VMD state files can be similarly loaded.
 
-![Import PDB/VMD/TCL](http://durrantlab.com/apps/blendmol/docs/fig7.jpg)
+![Import PDB/VMD/TCL](https://durrantlab.com/apps/blendmol/docs/fig7.jpg)
 
-![Import PDB/VMD/TCL](http://durrantlab.com/apps/blendmol/docs/fig8.jpg)
+![Import PDB/VMD/TCL](https://durrantlab.com/apps/blendmol/docs/fig8.jpg)
 
 You can also type a PDB ID into the filename field (boxed in red). BlendMol will
 download the PDB model directly from the Protein Data Bank.
 
-![Import PDB/VMD/TCL](http://durrantlab.com/apps/blendmol/docs/fig9.jpg)
+![Import PDB/VMD/TCL](https://durrantlab.com/apps/blendmol/docs/fig9.jpg)
 
 ### Advanced Usage
 
 #### Video S2: Neuraminidase
 
-![Video S2: Neuraminidase](http://durrantlab.com/apps/blendmol/docs/VideoS2.Neuraminidase.mp4)
+![Video S2: Neuraminidase](https://durrantlab.com/apps/blendmol/docs/VideoS2.Neuraminidase.mp4)
 
 Creating Video S2 required the use of many advanced Blender features that are
 unrelated to BlendMol's core functionality. A detailed tutorial is beyond the
@@ -149,9 +149,9 @@ Coupling BlendMol and [Pyrite](https://durrantlab.pitt.edu/pyrite/), another
 Durrant-lab plugin, simplifies the Blender-based visualization of molecular
 dynamics simulations.
 
-![Video S3: Pyrite Demo](http://durrantlab.com/apps/blendmol/docs/VideoS3.Pyrite-Demo.mp4)
+![Video S3: Pyrite Demo](https://durrantlab.com/apps/blendmol/docs/VideoS3.Pyrite-Demo.mp4)
 
-![Video S4: BlendMol/Pyrite Tutorial](http://durrantlab.com/apps/blendmol/docs/VideoS4.BlendMol-Pyrite-Tutorial.mp4)
+![Video S4: BlendMol/Pyrite Tutorial](https://durrantlab.com/apps/blendmol/docs/VideoS4.BlendMol-Pyrite-Tutorial.mp4)
 
 ## Example Files
 
